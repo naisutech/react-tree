@@ -1,0 +1,26 @@
+{
+  "name": "react-tree",
+  "version": "0.0.9",
+  "description": "drag-and-drop hierarchical object tree component for React",
+  "main": "build/Tree.js",
+  "repository": "git@github.com:naisutech/react-tree.git",
+  "author": "ortonomy <git@ortonomy.co>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-loader": "^8.0.6",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch",
+    "build": "webpack"
+  }
+}
