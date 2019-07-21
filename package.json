@@ -9,10 +9,10 @@
   "private": false,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.18",
-    "@fortawesome/free-solid-svg-icons": "5.8.2",
     "@fortawesome/react-fontawesome": "0.1.4"
   },
   "devDependencies": {
+    "@fortawesome/free-solid-svg-icons": "5.8.2",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
