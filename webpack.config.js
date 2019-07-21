@@ -41,8 +41,7 @@ module.exports = {
   },
   externals: {
     react: 'react',
-    'react-dom': 'react-dom',
-    '@fortawesome/free-solid-svg-icons': '@fortawesome/free-solid-svg-icons'
+    'react-dom': 'react-dom'
   },
   mode: 'development'
 }
