@@ -33,8 +33,8 @@ const onSelect = selectedNode => {
 
 ## data format
 
-- data should be a flat list of nodes with at least `label`, `id`, `parent_id` fields
-- root nodes have `null` on `parent_id` property
+- data should be a flat list of nodes with at least `label`, `id`, `parentId` fields
+- root nodes have `null` on `parentId` property
 - files should be a flat list of nodes on `items` property inside a node, but can be `null`
 - example:
 
@@ -42,19 +42,19 @@ const onSelect = selectedNode => {
 [
   {
     "id": 12345678,
-    "parent_id": null,
+    "parentId": null,
     "label": "My parent node",
     "items": [
       {
         "id": 87654321,
         "lavel": "My file",
-        "parent_id": 12345678
+        "parentId": 12345678
       }
     ]
   },
   {
     "id": 56789012,
-    "parent_id": 12345678,
+    "parentId": 12345678,
     "label": "My child node",
     "items": null
   }
