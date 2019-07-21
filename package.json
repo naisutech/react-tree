@@ -52,5 +52,15 @@
     "build": "webpack",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
-  }
+  },
+  "files": [
+    "/build"
+  ],
+  "keywords": [
+    "react",
+    "tree",
+    "hierarchy",
+    "folder",
+    "list"
+  ]
 }
