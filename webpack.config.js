@@ -1,10 +1,12 @@
 var path = require('path')
 module.exports = {
   entry: './src/Tree.js',
+  target: 'web',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'Tree.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    globalObject: `(typeof self !== 'undefined' ? self : this)`
   },
   module: {
     rules: [
@@ -15,14 +17,31 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env']
+            presets: ['@babel/preset-react', '@babel/env', '@babel/flow']
           }
         }
+      },
+      {
+        test: /\.(scss|css)$/,
+        include: [path.join(__dirname, 'src')],
+        exclude: /(node_modules|bower_components|build)/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       }
     ]
   },
   externals: {
     react: 'react',
-    'react-dom': 'react-dom' // this line is just to use the React dependency of our parent-testing-project instead of using our own React.
-  }
+    'react-dom': 'react-dom'
+  },
+  mode: 'development'
 }
