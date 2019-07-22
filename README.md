@@ -1,6 +1,8 @@
 # react-tree
 
-a hierarchical object tree component for React
+a hierarchical object tree component for React:
+
+[DEMO here](https://codesandbox.io/s/naisu-techreact-tree-demo-oewiz))
 
 ![demo](./stories/demo/react-tree-demo.gif)
 
