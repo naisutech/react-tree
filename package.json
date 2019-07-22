@@ -44,12 +44,13 @@
     "sass-loader": "^7.1.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
+    "webpack-merge": "^4.2.1",
     "yarn": "^1.16.0"
   },
   "scripts": {
     "test": "jest",
-    "start": "webpack --watch",
-    "build": "webpack",
+    "start": "webpack --watch --config webpack/webpack.dev.js",
+    "build": "webpack --config webpack/webpack.prod.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
