@@ -69,7 +69,7 @@ const onSelect = selectedNode => {
 <Tree
   nodes={Array} // see data format
   onSelect={Function} // fired every click of node or leaf with selected item as argument
-  darkMode={Boolean} // true (default), false
+  darkMode={Boolean} // defaults to false
   size={String} // full (default), half, narrow
 />
 ```

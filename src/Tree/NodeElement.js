@@ -1,8 +1,14 @@
+// @flow
+
 import * as React from 'react'
+import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import LeafElement from './LeafElement'
 import Wrapper from './Wrapper'
+import Icon from './Icon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getSelectedClass } from '../lib/NodeList'
+import { NodeText } from './Text'
 import type { Node, Leaf } from 'react-tree'
 
 type Props = {
@@ -16,7 +22,10 @@ type Props = {
   darkMode: boolean
 }
 
+const _NodeElement = styled.div``
+
 const NodeElement = (props: Props) => {
+  const { data, isOpen, isRoot } = props
   if (props.data === null) {
     return null
   }
@@ -28,26 +37,23 @@ const NodeElement = (props: Props) => {
   )
 
   return (
-    <div
+    <_NodeElement
+      isOpen={isOpen}
+      isRoot={isRoot}
       onClick={() => {
         props.toggle()
-        props.onSelect(props.data)
+        props.onSelect(data)
       }}
-      className={[
-        'T-node',
-        props.isOpen && props.isRoot ? 'T-open-node' : '',
-        selectedClass
-      ].join(' ')}
     >
       <Wrapper level={props.level}>
-        <span className="T-icon">
+        <Icon className="T-icon">
           <FontAwesomeIcon
             icon={props.isOpen ? 'chevron-down' : 'chevron-right'}
           />
-        </span>
-        <span className="T-ntext">{props.data.label}</span>
+        </Icon>
+        <NodeText className="T-ntext">{props.data.label}</NodeText>
       </Wrapper>
-    </div>
+    </_NodeElement>
   )
 }
 

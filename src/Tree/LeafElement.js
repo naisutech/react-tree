@@ -1,7 +1,13 @@
+// @flow
+
 import * as React from 'react'
+import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import Wrapper from './Wrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getSelectedClass } from '../lib/NodeList'
+import Icon from './Icon'
+import { NodeText } from './Text'
 import type { Leaf } from 'react-tree'
 
 type Props = {
@@ -25,10 +31,10 @@ const LeafElement = (props: Props) => {
       className={['T-leaf', selectedClass].join(' ')}
     >
       <Wrapper level={props.level}>
-        <span className="T-icon">
+        <Icon>
           <FontAwesomeIcon icon="paperclip" />
-        </span>
-        <span className="T-ltext">{props.data.label}</span>
+        </Icon>
+        <NodeText className="T-ltext">{props.data.label}</NodeText>
       </Wrapper>
     </div>
   )

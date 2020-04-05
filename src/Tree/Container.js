@@ -1,10 +1,12 @@
 // @flow
 import * as React from 'react'
+import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import NodeElement from './NodeElement'
 import LeafElement from './LeafElement'
 import Wrapper from './Wrapper'
-import type { NodeList, ContainerItems, Node } from 'react-tree'
 import { splitListByParent, toggleIsOpen } from '../lib/NodeList'
+import type { NodeList, ContainerItems } from 'react-tree'
 
 type Props = {
   nodes: NodeList,
@@ -14,6 +16,16 @@ type Props = {
   onSelect: ?any,
   darkMode: boolean
 }
+
+const _Container = styled(motion.div)``
+
+const DropZone = styled(motion.div)``
+
+const Content = styled(motion.div)``
+
+const Children = styled(motion.div)``
+
+const Empty = styled(motion.div)``
 
 const Container = (props: Props) => {
   const [_isOpen, _setIsOpen] = React.useState([]) // keeping track of open folders
@@ -30,17 +42,17 @@ const Container = (props: Props) => {
   }, [containerItems.current.length])
 
   return (
-    <div
+    <_Container
       className={[
         props.parent ? 'T-child-container' : 'T-root-container',
         'T-container'
       ].join(' ')}
     >
-      <div className='T-dropzone'>
+      <DropZone className="T-dropzone">
         {containerItems.current.length &&
           containerItems.current.map((i: Node, k: number) => {
             return (
-              <div
+              <Content
                 className={[
                   'T-content',
                   !props.parent ? 'T-root' : 'T-sub'
@@ -60,7 +72,7 @@ const Container = (props: Props) => {
                   darkMode={props.darkMode}
                 />
                 {_isOpen[k] && (
-                  <div className='T-children'>
+                  <Children className="T-children">
                     {containerItems.other
                       .filter(o => o.parentId === i.id)
                       .map((o, l: number) => {
@@ -91,17 +103,17 @@ const Container = (props: Props) => {
                         )
                       })}
                     {!i.items && (
-                      <div className='T-empty'>
+                      <Empty className="T-empty">
                         <Wrapper level={props.level}>[empty]</Wrapper>
-                      </div>
+                      </Empty>
                     )}
-                  </div>
+                  </Children>
                 )}
-              </div>
+              </Content>
             )
           })}
-      </div>
-    </div>
+      </DropZone>
+    </_Container>
   )
 }
 
