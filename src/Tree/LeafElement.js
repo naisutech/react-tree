@@ -5,38 +5,32 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Wrapper from './Wrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getSelectedClass } from '../lib/NodeList'
 import Icon from './Icon'
 import { NodeText } from './Text'
+import { Element } from './Elements'
 import type { Leaf } from 'react-tree'
 
 type Props = {
   data: Leaf,
   level: number,
-  darkMode: boolean,
-  onSelect: ?any,
-  selected: ?any
+  currentTheme: string,
+  onSelect: Function => void,
+  selected: ?number
 }
 
-const LeafElement = (props: Props) => {
-  const selectedClass = getSelectedClass(
-    props.data,
-    props.selected,
-    props.darkMode
-  )
+const _Leaf = styled(motion.div)``
 
+const LeafElement = (props: Props) => {
+  const { data, level, onSelect, currentTheme } = props
   return (
-    <div
-      onClick={() => props.onSelect(props.data)}
-      className={['T-leaf', selectedClass].join(' ')}
-    >
-      <Wrapper level={props.level}>
+    <Element currentTheme={currentTheme} onClick={() => onSelect(props.data)}>
+      <Wrapper level={level + 1}>
         <Icon>
           <FontAwesomeIcon icon="paperclip" />
         </Icon>
-        <NodeText className="T-ltext">{props.data.label}</NodeText>
+        <NodeText>{data.label}</NodeText>
       </Wrapper>
-    </div>
+    </Element>
   )
 }
 
@@ -47,7 +41,7 @@ LeafElement.defaultProps = {
     parent_id: null
   },
   level: 0,
-  darkMode: true,
+  currentTheme: 'dark',
   onSelect: () => {},
   selected: null
 }

@@ -11,11 +11,14 @@ type Props = {
 
 const _Wrapper = styled(motion.div)`
   padding-left: calc(${props => `20px * ${props.level}`});
+  min-height: 20px;
+  display: flex;
+  align-items: center;
 `
 
 const Wrapper = (props: Props) => {
-  const { level } = props
-  return <_Wrapper level={level}>{props.children}</_Wrapper>
+  const { level, children } = props
+  return <_Wrapper level={level}>{children}</_Wrapper>
 }
 
 Wrapper.defaultProps = {

@@ -4,17 +4,23 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import NodeElement from './NodeElement'
 import LeafElement from './LeafElement'
+import { Empty } from './Elements'
 import Wrapper from './Wrapper'
-import { splitListByParent, toggleIsOpen } from '../lib/NodeList'
-import type { NodeList, ContainerItems } from 'react-tree'
+import {
+  getChildrenByParent,
+  getAllAncestorsForCurrentContainers,
+  getAllChildrenForCurrentContainers
+} from '../lib/NodeList'
+import type { NodeList, ContainerItems, Node } from 'react-tree'
 
 type Props = {
   nodes: NodeList,
-  parent: ?string,
+  parent: ?string | ?number,
   level: number,
   selected: ?any,
-  onSelect: ?any,
-  darkMode: boolean
+  onSelect: Function => void,
+  currentTheme: string,
+  showEmptyItems: boolean
 }
 
 const _Container = styled(motion.div)``
@@ -25,86 +31,86 @@ const Content = styled(motion.div)``
 
 const Children = styled(motion.div)``
 
-const Empty = styled(motion.div)``
 
 const Container = (props: Props) => {
-  const [_isOpen, _setIsOpen] = React.useState([]) // keeping track of open folders
+  // PROPS
+  const { nodes, parent, level, selected, onSelect, currentTheme, showEmptyItems} = props
+
+
+  console.log('nodes', nodes)
 
   // get container items for this level and remainder
-  const containerItems: ContainerItems = splitListByParent(
-    props.nodes,
-    props.parent
+  const _containerItems = getChildrenByParent(nodes, parent)
+  const _containerChildren: Array<NodeList> = getAllChildrenForCurrentContainers(
+    nodes,
+    _containerItems
+  )
+  const _containerAncestors: Array<NodeList> = getAllAncestorsForCurrentContainers(
+    nodes,
+    _containerItems
   )
 
-  // set up isOpen array on mount
-  React.useEffect(() => {
-    _setIsOpen(Array(containerItems.current.length).fill(false))
-  }, [containerItems.current.length])
+   // STATE
+  const [_isOpen, _setIsOpen] = React.useState(Array(_containerItems.length).fill(false)) // keeping track of open folders
+
+  console.log("**** LEVEL "  + level + " *****")
+  console.log({
+    _containerItems,
+    _containerChildren,
+    _containerAncestors
+  })
+
 
   return (
-    <_Container
-      className={[
-        props.parent ? 'T-child-container' : 'T-root-container',
-        'T-container'
-      ].join(' ')}
-    >
-      <DropZone className="T-dropzone">
-        {containerItems.current.length &&
-          containerItems.current.map((i: Node, k: number) => {
+    <_Container parent={parent}>
+      <DropZone>
+        {!!_containerItems.length &&
+          _containerItems.map((item: Node, k: number) => {
             return (
-              <Content
-                className={[
-                  'T-content',
-                  !props.parent ? 'T-root' : 'T-sub'
-                ].join(' ')}
-                key={k}
-              >
+              <Content key={k}>
                 <NodeElement
-                  data={i}
+                  data={item}
                   toggle={() =>
-                    toggleIsOpen(i, containerItems.current, _isOpen, _setIsOpen)
+                    _setIsOpen(o => {
+                      const _o = o.slice()
+                      _o[k] = !_o[k]
+                      return _o
+                    })
                   }
-                  onSelect={props.onSelect}
+                  onSelect={onSelect}
                   isOpen={_isOpen[k]}
-                  isRoot={!props.parent}
-                  level={props.level}
-                  selected={props.selected}
-                  darkMode={props.darkMode}
+                  isRoot={!parent}
+                  level={level}
+                  selected={selected}
+                  currentTheme={currentTheme}
                 />
                 {_isOpen[k] && (
-                  <Children className="T-children">
-                    {containerItems.other
-                      .filter(o => o.parentId === i.id)
-                      .map((o, l: number) => {
-                        return (
-                          <Container
-                            parent={i.id}
-                            nodes={containerItems.other}
-                            level={props.level + 1}
-                            key={l}
-                            onSelect={props.onSelect}
-                            selected={props.selected}
-                            darkMode={props.darkMode}
-                          />
-                        )
-                      })}
-
-                    {i.items &&
-                      i.items.map((child, l) => {
+                  <Children>
+                    <Container
+                      parent={item.id}
+                      nodes={_containerAncestors[k]}
+                      level={level + 1}
+                      onSelect={onSelect}
+                      selected={selected}
+                      currentTheme={currentTheme}
+                      showEmptyItems={showEmptyItems}
+                    />
+                    {item.items &&
+                      item.items.map((child, l) => {
                         return (
                           <LeafElement
                             data={child}
                             key={l}
-                            level={props.level}
-                            onSelect={props.onSelect}
-                            selected={props.selected}
-                            darkMode={props.darkMode}
+                            level={level}
+                            onSelect={onSelect}
+                            selected={selected}
+                            currentTheme={currentTheme}
                           />
                         )
                       })}
-                    {!i.items && (
-                      <Empty className="T-empty">
-                        <Wrapper level={props.level}>[empty]</Wrapper>
+                    {showEmptyItems && !item.items && (
+                      <Empty currentTheme={currentTheme}>
+                        <Wrapper level={level + 1}>[No items]</Wrapper>
                       </Empty>
                     )}
                   </Children>
@@ -121,7 +127,10 @@ Container.defaultProps = {
   nodes: [],
   parent: null,
   level: 0,
-  darkMode: true
+  selected: null,
+  onSelect: () => {},
+  currentTheme: 'dark',
+  showEmptyItems: false
 }
 
 export default Container

@@ -1,7 +1,7 @@
 {
   "name": "@naisutech/react-tree",
   "version": "0.1.7",
-  "description": "drag-and-drop hierarchical object tree component for React",
+  "description": "a hierarchical object tree component for React",
   "main": "build/Tree.js",
   "repository": "git@github.com:naisutech/react-tree.git",
   "author": "ortonomy <git@ortonomy.co>",

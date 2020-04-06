@@ -4,10 +4,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import LeafElement from './LeafElement'
+import { Element } from './Elements'
 import Wrapper from './Wrapper'
 import Icon from './Icon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getSelectedClass } from '../lib/NodeList'
 import { NodeText } from './Text'
 import type { Node, Leaf } from 'react-tree'
 
@@ -18,46 +18,39 @@ type Props = {
   isRoot: boolean,
   level: number,
   selected?: any,
-  onSelect: ?any,
-  darkMode: boolean
+  onSelect: Function => void,
+  currentTheme: string
 }
 
 const _NodeElement = styled.div``
 
 const NodeElement = (props: Props) => {
-  const { data, isOpen, isRoot } = props
+  const { data, isOpen, isRoot, toggle, onSelect, level, currentTheme } = props
   if (props.data === null) {
     return null
   }
 
-  const selectedClass = getSelectedClass(
-    props.data,
-    props.selected,
-    props.darkMode
-  )
-
   return (
-    <_NodeElement
+    <Element
       isOpen={isOpen}
       isRoot={isRoot}
       onClick={() => {
-        props.toggle()
-        props.onSelect(data)
+        toggle()
+        onSelect(data)
       }}
+      currentTheme={currentTheme}
     >
-      <Wrapper level={props.level}>
+      <Wrapper level={level}>
         <Icon className="T-icon">
-          <FontAwesomeIcon
-            icon={props.isOpen ? 'chevron-down' : 'chevron-right'}
-          />
+          <FontAwesomeIcon icon={isOpen ? 'chevron-down' : 'chevron-right'} />
         </Icon>
-        <NodeText className="T-ntext">{props.data.label}</NodeText>
+        <NodeText>{data.label}</NodeText>
       </Wrapper>
-    </_NodeElement>
+    </Element>
   )
 }
 
-Node.defaultProps = {
+NodeElement.defaultProps = {
   data: null,
   toggle: () => {},
   isOpen: false,
@@ -65,7 +58,7 @@ Node.defaultProps = {
   level: 0,
   selected: null,
   onSelect: () => {},
-  darkMode: true
+  currentTheme: 'dark'
 }
 
 export default NodeElement
