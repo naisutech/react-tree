@@ -8,8 +8,7 @@ import { Empty } from './Elements'
 import Wrapper from './Wrapper'
 import {
   getChildrenByParent,
-  getAllAncestorsForCurrentContainers,
-  getAllChildrenForCurrentContainers
+  getAllAncestorsForCurrentContainers
 } from '../lib/NodeList'
 import type { NodeList, ContainerItems, Node } from 'react-tree'
 
@@ -41,10 +40,6 @@ const Container = (props: Props) => {
 
   // get container items for this level and remainder
   const _containerItems = getChildrenByParent(nodes, parent)
-  const _containerChildren: Array<NodeList> = getAllChildrenForCurrentContainers(
-    nodes,
-    _containerItems
-  )
   const _containerAncestors: Array<NodeList> = getAllAncestorsForCurrentContainers(
     nodes,
     _containerItems
@@ -56,7 +51,6 @@ const Container = (props: Props) => {
   console.log("**** LEVEL "  + level + " *****")
   console.log({
     _containerItems,
-    _containerChildren,
     _containerAncestors
   })
 

@@ -38,12 +38,3 @@ export const getChildrenByParent = (
 ): NodeList => {
   return nodes.filter(n => n.parentId === parentId)
 }
-
-export const getAllChildrenForCurrentContainers = (
-  nodeList: NodeList,
-  containerItems: NodeList
-): Array<NodeList> => {
-  return containerItems.map(parent => {
-    return getChildrenByParent(nodeList, parent.id)
-  })
-}
