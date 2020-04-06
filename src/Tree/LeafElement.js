@@ -18,8 +18,6 @@ type Props = {
   selected: ?number
 }
 
-const _Leaf = styled(motion.div)``
-
 const LeafElement = (props: Props) => {
   const { data, level, onSelect, currentTheme } = props
   return (

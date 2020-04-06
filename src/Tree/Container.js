@@ -36,8 +36,6 @@ const Container = (props: Props) => {
   const { nodes, parent, level, selected, onSelect, currentTheme, showEmptyItems} = props
 
 
-  console.log('nodes', nodes)
-
   // get container items for this level and remainder
   const _containerItems = getChildrenByParent(nodes, parent)
   const _containerAncestors: Array<NodeList> = getAllAncestorsForCurrentContainers(
@@ -47,13 +45,6 @@ const Container = (props: Props) => {
 
    // STATE
   const [_isOpen, _setIsOpen] = React.useState(Array(_containerItems.length).fill(false)) // keeping track of open folders
-
-  console.log("**** LEVEL "  + level + " *****")
-  console.log({
-    _containerItems,
-    _containerAncestors
-  })
-
 
   return (
     <_Container parent={parent}>

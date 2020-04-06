@@ -22,8 +22,6 @@ type Props = {
   currentTheme: string
 }
 
-const _NodeElement = styled.div``
-
 const NodeElement = (props: Props) => {
   const { data, isOpen, isRoot, toggle, onSelect, level, currentTheme } = props
   if (props.data === null) {
