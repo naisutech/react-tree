@@ -14,6 +14,8 @@ export const Element = styled(motion.div)`
   &:hover {
     background: ${props => props.theme[props.currentTheme].highlight};
   }
+
+  ${props => props.selected ? `background-color: ${props.theme[props.currentTheme].highlight};` : ''}
 `
 
 export const Empty = styled(Element)`

@@ -16,7 +16,7 @@ type Props = {
   nodes: NodeList,
   parent: ?string | ?number,
   level: number,
-  selected: ?any,
+  selected: ?Node,
   onSelect: Function => void,
   currentTheme: string,
   showEmptyItems: boolean
@@ -36,7 +36,7 @@ const Container = (props: Props) => {
   const { nodes, parent, level, selected, onSelect, currentTheme, showEmptyItems} = props
 
 
-  // get container items for this level and remainder
+  // get container items for this level and ancestors for next container
   const _containerItems = getChildrenByParent(nodes, parent)
   const _containerAncestors: Array<NodeList> = getAllAncestorsForCurrentContainers(
     nodes,
@@ -45,6 +45,7 @@ const Container = (props: Props) => {
 
    // STATE
   const [_isOpen, _setIsOpen] = React.useState(Array(_containerItems.length).fill(false)) // keeping track of open folders
+
 
   return (
     <_Container parent={parent}>

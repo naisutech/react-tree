@@ -8,20 +8,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Icon from './Icon'
 import { NodeText } from './Text'
 import { Element } from './Elements'
-import type { Leaf } from 'react-tree'
+import type { Leaf, Node } from 'react-tree'
 
 type Props = {
   data: Leaf,
   level: number,
   currentTheme: string,
   onSelect: Function => void,
-  selected: ?number
+  selected: ?Node
 }
 
 const LeafElement = (props: Props) => {
-  const { data, level, onSelect, currentTheme } = props
+  const { data, level, onSelect, currentTheme, selected } = props
   return (
-    <Element currentTheme={currentTheme} onClick={() => onSelect(props.data)}>
+    <Element selected={selected && selected.id === data.id } currentTheme={currentTheme} onClick={() => onSelect(props.data)}>
       <Wrapper level={level + 1}>
         <Icon>
           <FontAwesomeIcon icon="paperclip" />

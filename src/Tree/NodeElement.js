@@ -17,13 +17,13 @@ type Props = {
   isOpen: boolean,
   isRoot: boolean,
   level: number,
-  selected?: any,
+  selected: ?Node,
   onSelect: Function => void,
   currentTheme: string
 }
 
 const NodeElement = (props: Props) => {
-  const { data, isOpen, isRoot, toggle, onSelect, level, currentTheme } = props
+  const { data, isOpen, isRoot, toggle, onSelect, selected, level, currentTheme } = props
   if (props.data === null) {
     return null
   }
@@ -37,6 +37,7 @@ const NodeElement = (props: Props) => {
         onSelect(data)
       }}
       currentTheme={currentTheme}
+      selected={selected && selected.id === data.id }
     >
       <Wrapper level={level}>
         <Icon className="T-icon">
