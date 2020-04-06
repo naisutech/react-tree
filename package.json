@@ -1,6 +1,6 @@
 {
   "name": "@naisutech/react-tree",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "a hierarchical object tree component for React",
   "main": "build/Tree.js",
   "repository": "git@github.com:naisutech/react-tree.git",
