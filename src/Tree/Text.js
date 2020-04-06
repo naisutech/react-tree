@@ -4,5 +4,4 @@ export const NodeText = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  min-width: 200px;
 `

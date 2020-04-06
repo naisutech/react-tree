@@ -6,19 +6,23 @@ a hierarchical object tree component for React:
 
 ![demo](./stories/demo/react-tree-demo.gif)
 
-- supports dark (default) and light theme
+- supports dark (default), light theme, and CUSTOM THEMES (see `Themeing` below)
 - supports three sizes: full width, half width and narrow (33%)
+- supports full-height or content-height vertical sizing (flex-box based)
 - optimized UX to clearly indicate open/closed folders, selected items and reactions to user input
 - optimized for long object labels: ellipsis when labels become too large for container
 - optimized for deeply nested structures: container becomes scrollable when nested items might become hidden outside of container
-- stylable: provide override CSS with suitable selectors (see Tree.scss for reference)
-- will show loading progress if data not supplied or not ready
+- empty indicator: if no data is provided, display a message to the user
 
-## add to a project
+## Features:
+- loading indicator: provide an `isLoading` prop to indicate that the component is not ready
+
+
+## Add to a project
 
 `yarn add @naisutech/react-tree` or `npm install @naisutech/react-tree`
 
-## usage
+## Usage
 
 ```jsx
 import Tree from '@naisutech/react-tree'
@@ -33,11 +37,12 @@ const onSelect = selectedNode => {
 <Tree nodes={data} onSelect={onSelect} />
 ```
 
-## data format
+## Data format
 
 - data should be a flat list of nodes with at least `label`, `id`, `parentId` fields
 - root nodes have `null` on `parentId` property
 - files should be a flat list of nodes on `items` property inside a node, but can be `null`
+- files do not require an `items` property (duh)
 - example:
 
 ```json
@@ -49,7 +54,7 @@ const onSelect = selectedNode => {
     "items": [
       {
         "id": 87654321,
-        "lavel": "My file",
+        "label": "My file",
         "parentId": 12345678
       }
     ]
@@ -63,17 +68,44 @@ const onSelect = selectedNode => {
 ]
 ```
 
-## api
+## Api
 
 ```jsx
 <Tree
   nodes={Array} // see data format
   onSelect={Function} // fired every click of node or leaf with selected item as argument
-  darkMode={Boolean} // defaults to false
+  theme={String} // defaults to 'dark'. Choose from ['light', 'dark']
+  customTheme={Object} // see `Themeing`
   size={String} // full (default), half, narrow
+  grow // in a flex box, the tree will grow to fill available space. Best used with `flex-direction: column`
+  showEmptyItems // show the empty items indicator in a folder
+  isLoading //  show the loading spinner
 />
 ```
 
-## contributing
+## Themeing
+`react-tree` supports custom themeing. All values are CSS colours or hexes (.e.g. `#000`). Provide the theme object to the `customTheme` prop  and provide your theme name to the `theme` prop:
+
+```js
+  const myTheme = {
+    'my-theme': {
+      text: '#fff', 
+      bg: '#000',
+      highlight: 'blue', // the colours used for selected and hover items
+      decal: 'hotpink', // the colours used  for open folder indicators and icons
+      accent: '#999' // the colour used for row borders and empty file indicators
+    }
+  }
+```
+
+```jsx
+  <Tree nodes={data} onSelect={onSelect} theme={'my-theme'} customTheme={myTheme} />
+```
+
+> Result
+
+![result](./stories/demo/react-tree-theme.png)
+
+## Contributing
 
 open issues and PRs and we'll work together

@@ -22,13 +22,15 @@ type Props = {
   showEmptyItems: boolean
 }
 
-const _Container = styled(motion.div)``
+const _Container = styled(motion.div)`
+  min-width: 0;
+`
 
-const DropZone = styled(motion.div)``
+const DropZone = styled(_Container)``
 
-const Content = styled(motion.div)``
+const Content = styled(_Container)``
 
-const Children = styled(motion.div)``
+const Children = styled(_Container)``
 
 
 const Container = (props: Props) => {

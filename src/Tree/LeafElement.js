@@ -23,7 +23,7 @@ const LeafElement = (props: Props) => {
   return (
     <Element selected={selected && selected.id === data.id } currentTheme={currentTheme} onClick={() => onSelect(props.data)}>
       <Wrapper level={level + 1}>
-        <Icon>
+        <Icon currentTheme={currentTheme}>
           <FontAwesomeIcon icon="paperclip" />
         </Icon>
         <NodeText>{data.label}</NodeText>

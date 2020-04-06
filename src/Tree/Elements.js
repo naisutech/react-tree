@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 export const Element = styled(motion.div)`
   padding: 8px 15px 8px 4px;
   min-height: 20px;
+  min-width: 0;
   border-bottom: 1px solid ${props => props.theme[props.currentTheme].highlight};
   ${props => props.isOpen ? 
     `

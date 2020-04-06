@@ -40,7 +40,7 @@ const NodeElement = (props: Props) => {
       selected={selected && selected.id === data.id }
     >
       <Wrapper level={level}>
-        <Icon className="T-icon">
+        <Icon currentTheme={currentTheme}>
           <FontAwesomeIcon icon={isOpen ? 'chevron-down' : 'chevron-right'} />
         </Icon>
         <NodeText>{data.label}</NodeText>
