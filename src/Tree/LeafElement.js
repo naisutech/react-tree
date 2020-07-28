@@ -4,7 +4,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import Wrapper from './Wrapper'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Icon from './Icon'
 import { NodeText } from './Text'
 import { Element } from './Elements'
@@ -15,17 +14,36 @@ type Props = {
   level: number,
   currentTheme: string,
   onSelect: Function => void,
-  selected: ?Node
+  selected: ?Node,
+  iconSet: Object | null,
+  noIcons?: boolean
 }
 
 const LeafElement = (props: Props) => {
-  const { data, level, onSelect, currentTheme, selected } = props
+  const {
+    data,
+    level,
+    onSelect,
+    currentTheme,
+    selected,
+    iconSet,
+    noIcons
+  } = props
   return (
-    <Element selected={selected && selected.id === data.id } currentTheme={currentTheme} onClick={() => onSelect(props.data)}>
+    <Element
+      selected={selected && selected.id === data.id}
+      currentTheme={currentTheme}
+      onClick={() => onSelect(props.data)}
+    >
       <Wrapper level={level + 1}>
-        <Icon currentTheme={currentTheme}>
-          <FontAwesomeIcon icon="paperclip" />
-        </Icon>
+        {!noIcons && (
+          <Icon
+            size="large"
+            icon={iconSet && iconSet['file'] ? iconSet['file'] : 'file'}
+            currentTheme={currentTheme}
+          ></Icon>
+        )}
+
         <NodeText>{data.label}</NodeText>
       </Wrapper>
     </Element>
@@ -41,7 +59,9 @@ LeafElement.defaultProps = {
   level: 0,
   currentTheme: 'dark',
   onSelect: () => {},
-  selected: null
+  selected: null,
+  iconSet: null,
+  noIcons: undefined
 }
 
 export default LeafElement

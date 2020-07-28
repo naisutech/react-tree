@@ -6,7 +6,8 @@ module.exports = {
     path: path.resolve(__dirname, '../build'),
     filename: 'Tree.js',
     libraryTarget: 'umd',
-    globalObject: `(typeof self !== 'undefined' ? self : this)`
+    globalObject: `(typeof self !== 'undefined' ? self : this)`,
+    publicPath: '../build'
   },
   module: {
     rules: [
@@ -33,6 +34,12 @@ module.exports = {
             loader: 'css-loader'
           }
         ]
+      },
+      {
+        test: /\.svg$/,
+        include: [path.join(__dirname, '../src')],
+        exclude: /(node_modules|bower_components|build)/,
+        loader: 'svg-inline-loader'
       }
     ]
   },

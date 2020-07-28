@@ -19,7 +19,9 @@ type Props = {
   selected: ?Node,
   onSelect: Function => void,
   currentTheme: string,
-  showEmptyItems: boolean
+  showEmptyItems: boolean,
+  iconSet: Object | null,
+  noIcons?: boolean
 }
 
 const _Container = styled(motion.div)`
@@ -32,11 +34,19 @@ const Content = styled(_Container)``
 
 const Children = styled(_Container)``
 
-
 const Container = (props: Props) => {
   // PROPS
-  const { nodes, parent, level, selected, onSelect, currentTheme, showEmptyItems} = props
-
+  const {
+    nodes,
+    parent,
+    level,
+    selected,
+    onSelect,
+    currentTheme,
+    showEmptyItems,
+    iconSet,
+    noIcons
+  } = props
 
   // get container items for this level and ancestors for next container
   const _containerItems = getChildrenByParent(nodes, parent)
@@ -45,9 +55,10 @@ const Container = (props: Props) => {
     _containerItems
   )
 
-   // STATE
-  const [_isOpen, _setIsOpen] = React.useState(Array(_containerItems.length).fill(false)) // keeping track of open folders
-
+  // STATE
+  const [_isOpen, _setIsOpen] = React.useState(
+    Array(_containerItems.length).fill(false)
+  ) // keeping track of open folders
 
   return (
     <_Container parent={parent}>
@@ -71,6 +82,8 @@ const Container = (props: Props) => {
                   level={level}
                   selected={selected}
                   currentTheme={currentTheme}
+                  noIcons={noIcons}
+                  iconSet={iconSet}
                 />
                 {_isOpen[k] && (
                   <Children>
@@ -82,6 +95,8 @@ const Container = (props: Props) => {
                       selected={selected}
                       currentTheme={currentTheme}
                       showEmptyItems={showEmptyItems}
+                      noIcons={noIcons}
+                      iconSet={iconSet}
                     />
                     {item.items &&
                       item.items.map((child, l) => {
@@ -93,6 +108,8 @@ const Container = (props: Props) => {
                             onSelect={onSelect}
                             selected={selected}
                             currentTheme={currentTheme}
+                            noIcons={noIcons}
+                            iconSet={iconSet}
                           />
                         )
                       })}
@@ -118,7 +135,9 @@ Container.defaultProps = {
   selected: null,
   onSelect: () => {},
   currentTheme: 'dark',
-  showEmptyItems: false
+  showEmptyItems: false,
+  iconSet: null,
+  noIcons: undefined
 }
 
 export default Container

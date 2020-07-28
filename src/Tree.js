@@ -7,9 +7,8 @@ import * as React from 'react'
 import { motion } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
 import Container from './Tree/Container'
-import './lib/FontAwesome.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { NodeList, ThemeSettings } from 'react-tree'
+import Icon from './Tree/Icon'
 
 // TYPES
 type Props = {
@@ -20,7 +19,10 @@ type Props = {
   customTheme: ThemeSettings,
   theme: string,
   grow: boolean,
-  showEmptyItems: boolean
+  showEmptyItems: boolean,
+  iconSet: Object | null,
+  noIcons: boolean,
+  containerStyle?: Object
 }
 
 //STYLES
@@ -28,7 +30,7 @@ import coreTheme from './styles/theme'
 const _Tree = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  ${props => props.grow ? 'flex-grow: 1' : ''};
+  ${props => (props.grow ? 'flex-grow: 1' : '')};
   padding: 5px;
   overflow-y: auto;
   width: ${props => {
@@ -38,7 +40,7 @@ const _Tree = styled(motion.div)`
   }}
     
   color: ${props => props.theme[props.currentTheme].text};
-  background-color: ${props => props.theme[props.currentTheme].bg };
+  background-color: ${props => props.theme[props.currentTheme].bg};
 
   & * {
     user-select: none;
@@ -56,8 +58,23 @@ const Spinner = styled(motion.div)``
 
 const Tree = (props: Props) => {
   // PROPS
-  const { size, nodes, isLoading, onSelect,  customTheme, theme, grow, showEmptyItems } = props
-  const [_theme, setTheme] = React.useState(Object.assign({}, customTheme, coreTheme))
+  const {
+    size,
+    nodes,
+    isLoading,
+    onSelect,
+    customTheme,
+    theme,
+    grow,
+    showEmptyItems,
+    iconSet,
+    noIcons,
+    containerStyle
+  } = props
+
+  const [_theme, setTheme] = React.useState(
+    Object.assign({}, customTheme, coreTheme)
+  )
 
   // STATE
   const _nodeList = React.useRef(nodes).current
@@ -71,7 +88,12 @@ const Tree = (props: Props) => {
 
   return (
     <ThemeProvider theme={_theme}>
-      <_Tree grow={grow} currentTheme={theme || 'dark'} size={size}>
+      <_Tree
+        grow={grow}
+        currentTheme={theme || 'dark'}
+        size={size}
+        style={{ ...containerStyle }}
+      >
         {!!nodes.length && (
           <Container
             selected={_selected}
@@ -79,19 +101,28 @@ const Tree = (props: Props) => {
             parent={null}
             nodes={nodes}
             currentTheme={theme || 'dark'}
+            noIcons={noIcons}
+            iconSet={iconSet}
             showEmptyItems={showEmptyItems}
           />
         )}
-        {!isLoading  && !nodes.length && (
+        {!isLoading && !nodes.length && (
           <Loader>
             <p>No data :(</p>
           </Loader>
         )}
         {isLoading && (
           <Loader>
-            <Spinner>
-              <FontAwesomeIcon icon={'circle-notch'} spin size="lg" />
-            </Spinner>
+            {!noIcons && (
+              <Icon
+                size="xlarge"
+                spin
+                currentTheme={theme || 'dark'}
+                icon={
+                  iconSet && iconSet['loader'] ? iconSet['loader'] : 'loader'
+                }
+              />
+            )}
           </Loader>
         )}
       </_Tree>
@@ -113,7 +144,10 @@ Tree.defaultProps = {
   },
   theme: 'dark',
   grow: false,
-  showEmptyItems: false
+  showEmptyItems: false,
+  iconSet: null,
+  noIcons: false,
+  containerStyle: undefined
 }
 
 export default Tree
