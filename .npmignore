@@ -10,4 +10,4 @@ node_modules
 .gitignore
 pacakge.json
 yarn.lock
-/build/*.svg
+build/*.svg
