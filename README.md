@@ -125,5 +125,10 @@ iconSet={{
 ```
 
 ## Contributing
+- open issues and PRs and we'll work together!
 
-open issues and PRs and we'll work together
+### TODO: 
+- add lazy loading support
+- add drag and drop support
+
+
