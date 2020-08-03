@@ -81,9 +81,9 @@ const Tree = (props: Props) => {
   const [_selected, _setSelected] = React.useState(null)
 
   // select the node and call onSelect callback
-  const selectNode = (selectedNode: any): void => {
+  const selectNode = (selectedNode: any, e: any): void => {
     _setSelected(selectedNode)
-    onSelect(selectedNode)
+    onSelect(selectedNode, e)
   }
 
   return (
