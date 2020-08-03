@@ -33,7 +33,7 @@ const LeafElement = (props: Props) => {
     <Element
       selected={selected && selected.id === data.id}
       currentTheme={currentTheme}
-      onClick={() => onSelect(props.data)}
+      onClick={(e) => onSelect(props.data, e)}
     >
       <Wrapper level={level + 1}>
         {!noIcons && (
