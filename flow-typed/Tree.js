@@ -10,7 +10,8 @@ declare module 'react-tree' {
     id: string | number,
     parentId: string | number,
     label: string,
-    items: ?(Leaf[])
+    items: ?(Leaf[]),
+    expanded: boolean
   }
 
   declare export type NodeList = Node[]

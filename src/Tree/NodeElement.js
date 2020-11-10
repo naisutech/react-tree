@@ -44,6 +44,7 @@ const NodeElement = (props: Props) => {
 
   return (
     <Element
+      //isOpen={isOpen || data.expanded}
       isOpen={isOpen}
       isRoot={isRoot}
       onClick={() => {
