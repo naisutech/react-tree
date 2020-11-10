@@ -77,7 +77,7 @@ const Container = (props: Props) => {
                     })
                   }
                   onSelect={onSelect}
-                  isOpen={_isOpen[k]}
+                  isOpen={_isOpen[k] || item.expanded}
                   isRoot={!parent}
                   level={level}
                   selected={selected}
