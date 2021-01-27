@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import Tree from '../src/Tree'
 import { nodes } from './data/test'
 import { nodes as longNodes } from './data/test_long_names'
+import { nodes as expansionNodes } from './data/test_expanded'
 import { action, configureActions } from '@storybook/addon-actions'
 
 storiesOf('React-Tree', module)
@@ -56,4 +57,7 @@ storiesOf('React-Tree', module)
       size="narrow"
       onSelect={action('select-node')}
     />
+  ))
+  .add('Expanded all', () => (
+    <Tree nodes={expansionNodes} darkMore={false} size={'narrow'} />
   ))
