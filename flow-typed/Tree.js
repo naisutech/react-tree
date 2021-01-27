@@ -11,7 +11,8 @@ declare module 'react-tree' {
     parentId: string | number,
     label: string,
     items: ?(Leaf[]),
-    expanded: boolean
+    expanded: boolean,
+    expandAll: boolean
   }
 
   declare export type NodeList = Node[]

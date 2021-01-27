@@ -44,8 +44,7 @@ const NodeElement = (props: Props) => {
 
   return (
     <Element
-      isOpen={isOpen || data.expanded}
-      //isOpen={isOpen}
+      isOpen={isOpen || data.expanded || data.expandAll}
       isRoot={isRoot}
       onClick={() => {
         toggle()
@@ -64,7 +63,6 @@ const NodeElement = (props: Props) => {
             />
           </IconWrapper>
         )}
-
         <NodeText>{data.label}</NodeText>
       </Wrapper>
     </Element>

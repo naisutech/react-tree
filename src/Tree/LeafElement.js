@@ -41,7 +41,7 @@ const LeafElement = (props: Props) => {
             size="large"
             icon={iconSet && iconSet['file'] ? iconSet['file'] : 'file'}
             currentTheme={currentTheme}
-          ></Icon>
+          />
         )}
 
         <NodeText>{data.label}</NodeText>
