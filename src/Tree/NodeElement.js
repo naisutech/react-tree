@@ -44,8 +44,8 @@ const NodeElement = (props: Props) => {
 
   return (
     <Element
-      //isOpen={isOpen || data.expanded}
-      isOpen={isOpen}
+      isOpen={isOpen || data.expanded}
+      //isOpen={isOpen}
       isRoot={isRoot}
       onClick={() => {
         toggle()
@@ -61,7 +61,7 @@ const NodeElement = (props: Props) => {
               size="large"
               icon={iconSet && iconSet['node'] ? iconSet['node'] : 'node'}
               currentTheme={currentTheme}
-            ></Icon>
+            />
           </IconWrapper>
         )}
 

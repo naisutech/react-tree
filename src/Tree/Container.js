@@ -85,7 +85,7 @@ const Container = (props: Props) => {
                   noIcons={noIcons}
                   iconSet={iconSet}
                 />
-                {_isOpen[k] && (
+                {(_isOpen[k] || item.expanded) && (
                   <Children>
                     <Container
                       parent={item.id}
