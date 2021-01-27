@@ -21,7 +21,8 @@ type Props = {
   currentTheme: string,
   showEmptyItems: boolean,
   iconSet: Object | null,
-  noIcons?: boolean
+  noIcons?: boolean,
+  expandAll?: boolean
 }
 
 const _Container = styled(motion.div)`
@@ -45,7 +46,8 @@ const Container = (props: Props) => {
     currentTheme,
     showEmptyItems,
     iconSet,
-    noIcons
+    noIcons,
+    expandAll
   } = props
 
   // get container items for this level and ancestors for next container
@@ -60,6 +62,14 @@ const Container = (props: Props) => {
     Array(_containerItems.length).fill(false)
   ) // keeping track of open folders
 
+  function expandAllInherit(item: Node, expandAll: boolean): Node {
+    if (item.expandAll === true || expandAll === true) {
+      item.expandAll = true
+      return item
+    }
+    return item
+  }
+
   return (
     <_Container parent={parent}>
       <DropZone>
@@ -68,7 +78,7 @@ const Container = (props: Props) => {
             return (
               <Content key={k}>
                 <NodeElement
-                  data={item}
+                  data={expandAllInherit(item, expandAll)}
                   toggle={() =>
                     _setIsOpen(o => {
                       const _o = o.slice()
@@ -77,7 +87,7 @@ const Container = (props: Props) => {
                     })
                   }
                   onSelect={onSelect}
-                  isOpen={_isOpen[k] || item.expanded}
+                  isOpen={_isOpen[k] || item.expanded || item.expandAll}
                   isRoot={!parent}
                   level={level}
                   selected={selected}
@@ -85,7 +95,7 @@ const Container = (props: Props) => {
                   noIcons={noIcons}
                   iconSet={iconSet}
                 />
-                {(_isOpen[k] || item.expanded) && (
+                {(_isOpen[k] || item.expanded || item.expandAll) && (
                   <Children>
                     <Container
                       parent={item.id}

@@ -58,6 +58,14 @@ storiesOf('React-Tree', module)
       onSelect={action('select-node')}
     />
   ))
-  .add('Expanded all', () => (
+  .add('Expanded', () => (
     <Tree nodes={expansionNodes} darkMore={false} size={'narrow'} />
+  ))
+  .add('Expanded All Override', () => (
+    <Tree
+      nodes={expansionNodes}
+      darkMore={false}
+      size={'narrow'}
+      expandAll={true}
+    />
   ))

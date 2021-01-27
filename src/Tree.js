@@ -22,7 +22,8 @@ type Props = {
   showEmptyItems: boolean,
   iconSet: Object | null,
   noIcons: boolean,
-  containerStyle?: Object
+  containerStyle?: Object,
+  expandAll?: boolean
 }
 
 //STYLES
@@ -69,7 +70,8 @@ const Tree = (props: Props) => {
     showEmptyItems,
     iconSet,
     noIcons,
-    containerStyle
+    containerStyle,
+    expandAll
   } = props
 
   const [_theme, setTheme] = React.useState(
@@ -104,6 +106,7 @@ const Tree = (props: Props) => {
             noIcons={noIcons}
             iconSet={iconSet}
             showEmptyItems={showEmptyItems}
+            expandAll={expandAll}
           />
         )}
         {!isLoading && !nodes.length && (
@@ -147,7 +150,8 @@ Tree.defaultProps = {
   showEmptyItems: false,
   iconSet: null,
   noIcons: false,
-  containerStyle: undefined
+  containerStyle: undefined,
+  expandAll: false
 }
 
 export default Tree
