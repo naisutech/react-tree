@@ -73,66 +73,65 @@ const Container = (props: Props) => {
   return (
     <_Container parent={parent}>
       <DropZone>
-        {!!_containerItems.length &&
-          _containerItems.map((item: Node, k: number) => {
-            return (
-              <Content key={k}>
-                <NodeElement
-                  data={expandAllInherit(item, expandAll)}
-                  toggle={() =>
-                    _setIsOpen(o => {
-                      const _o = o.slice()
-                      _o[k] = !_o[k]
-                      return _o
-                    })
-                  }
-                  onSelect={onSelect}
-                  isOpen={_isOpen[k] || item.expanded || item.expandAll}
-                  isRoot={!parent}
-                  level={level}
-                  selected={selected}
-                  currentTheme={currentTheme}
-                  noIcons={noIcons}
-                  iconSet={iconSet}
-                />
-                {(_isOpen[k] || item.expanded || item.expandAll) && (
-                  <Children>
-                    <Container
-                      parent={item.id}
-                      nodes={_containerAncestors[k]}
-                      level={level + 1}
-                      onSelect={onSelect}
-                      selected={selected}
-                      currentTheme={currentTheme}
-                      showEmptyItems={showEmptyItems}
-                      noIcons={noIcons}
-                      iconSet={iconSet}
-                    />
-                    {item.items &&
-                      item.items.map((child, l) => {
-                        return (
-                          <LeafElement
-                            data={child}
-                            key={l}
-                            level={level}
-                            onSelect={onSelect}
-                            selected={selected}
-                            currentTheme={currentTheme}
-                            noIcons={noIcons}
-                            iconSet={iconSet}
-                          />
-                        )
-                      })}
-                    {showEmptyItems && !item.items && (
-                      <Empty currentTheme={currentTheme}>
-                        <Wrapper level={level + 1}>[No items]</Wrapper>
-                      </Empty>
-                    )}
-                  </Children>
-                )}
-              </Content>
-            )
-          })}
+        {_containerItems.map((item: Node, k: number) => {
+          return (
+            <Content key={k}>
+              <NodeElement
+                data={expandAllInherit(item, expandAll)}
+                toggle={() =>
+                  _setIsOpen(o => {
+                    const _o = o.slice()
+                    _o[k] = !_o[k]
+                    return _o
+                  })
+                }
+                onSelect={onSelect}
+                isOpen={_isOpen[k] || item.expanded || item.expandAll}
+                isRoot={!parent}
+                level={level}
+                selected={selected}
+                currentTheme={currentTheme}
+                noIcons={noIcons}
+                iconSet={iconSet}
+              />
+              {(_isOpen[k] || item.expanded || item.expandAll) && (
+                <Children>
+                  <Container
+                    parent={item.id}
+                    nodes={_containerAncestors[k]}
+                    level={level + 1}
+                    onSelect={onSelect}
+                    selected={selected}
+                    currentTheme={currentTheme}
+                    showEmptyItems={showEmptyItems}
+                    noIcons={noIcons}
+                    iconSet={iconSet}
+                  />
+                  {item.items &&
+                    item.items.map((child, l) => {
+                      return (
+                        <LeafElement
+                          data={child}
+                          key={l}
+                          level={level}
+                          onSelect={onSelect}
+                          selected={selected}
+                          currentTheme={currentTheme}
+                          noIcons={noIcons}
+                          iconSet={iconSet}
+                        />
+                      )
+                    })}
+                  {showEmptyItems && !item.items && (
+                    <Empty currentTheme={currentTheme}>
+                      <Wrapper level={level + 1}>[No items]</Wrapper>
+                    </Empty>
+                  )}
+                </Children>
+              )}
+            </Content>
+          )
+        })}
       </DropZone>
     </_Container>
   )

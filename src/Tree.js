@@ -12,7 +12,7 @@ import Icon from './Tree/Icon'
 
 // TYPES
 type Props = {
-  nodes: NodeList,
+  nodes?: NodeList,
   size: string,
   onSelect: Function => void,
   isLoading: boolean,
@@ -96,7 +96,7 @@ const Tree = (props: Props) => {
         size={size}
         style={{ ...containerStyle }}
       >
-        {!!nodes.length && (
+        {nodes !== null && (
           <Container
             selected={_selected}
             onSelect={selectNode}
@@ -109,7 +109,7 @@ const Tree = (props: Props) => {
             expandAll={expandAll}
           />
         )}
-        {!isLoading && !nodes.length && (
+        {(nodes === null || (!isLoading && !nodes.length)) && (
           <Loader>
             <p>No data :(</p>
           </Loader>
