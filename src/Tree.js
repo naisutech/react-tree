@@ -11,7 +11,7 @@ import type { NodeList, ThemeSettings } from 'react-tree';
 import Icon from './Tree/Icon';
 
 // TYPES
-type Props = {
+export type Props = {
   nodes: NodeList,
   size: string,
   onSelect: Function => void,
