@@ -3,12 +3,12 @@
 /**
  * COMPONENTS AND LIBS
  */
-import * as React from 'react'
-import { motion } from 'framer-motion'
-import styled, { ThemeProvider } from 'styled-components'
-import Container from './Tree/Container'
-import type { NodeList, ThemeSettings } from 'react-tree'
-import Icon from './Tree/Icon'
+import * as React from 'react';
+import { motion } from 'framer-motion';
+import styled, { ThemeProvider } from 'styled-components';
+import Container from './Tree/Container';
+import type { NodeList, ThemeSettings } from 'react-tree';
+import Icon from './Tree/Icon';
 
 // TYPES
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
 }
 
 //STYLES
-import coreTheme from './styles/theme'
+import coreTheme from './styles/theme';
 const _Tree = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ const _Tree = styled(motion.div)`
   width: ${props => {
     return props.size && props.theme.app.sizes[props.size]
       ? `${props.theme.app.sizes[props.size]};`
-      : 'auto;'
+      : 'auto;';
   }}
     
   color: ${props => props.theme[props.currentTheme].text};
@@ -139,7 +139,7 @@ Tree.defaultProps = {
     dark: {
       text: '#fafafa',
       bg: '#2d3439',
-      highlight: '#3f464e'
+      highlight: '#3f464e',
     }
   },
   theme: 'dark',

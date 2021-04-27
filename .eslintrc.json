@@ -11,7 +11,7 @@
       "version": "detect"
     }
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "rules": {
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
