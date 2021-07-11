@@ -1,11 +1,13 @@
 # react-tree
 
-a hierarchical object tree component for React:
+a hierarchical object tree component for React in Typescript
 
 [DEMO here](https://codesandbox.io/s/naisu-techreact-tree-demo-oewiz)
 
 ![demo](./stories/demo/react-tree-demo.gif)
 
+- v2 rebuilt from ground up in typescript
+- extensible/customisable state controls via render props
 - supports dark (default), light theme, and CUSTOM THEMES (see `Theming` below)
 - supports three sizes: full width, half width and narrow (33%)
 - supports full-height or content-height vertical sizing (flex-box based)
@@ -84,22 +86,28 @@ const onSelect = selectedNode => {
 ```
 
 ## Theming
-`react-tree` supports custom theming. All values are CSS colours or hexes (.e.g. `#000`). Provide the theme object to the `customTheme` prop  and provide your theme name to the `theme` prop:
+
+`react-tree` supports custom theming. All values are CSS colours or hexes (.e.g. `#000`). Provide the theme object to the `customTheme` prop and provide your theme name to the `theme` prop:
 
 ```js
-  const myTheme = {
-    'my-theme': {
-      text: '#fff', 
-      bg: '#000',
-      highlight: 'blue', // the colours used for selected and hover items
-      decal: 'hotpink', // the colours used  for open folder indicators and icons
-      accent: '#999' // the colour used for row borders and empty file indicators
-    }
-  }
+const myTheme = {
+  "my-theme": {
+    text: "#fff",
+    bg: "#000",
+    highlight: "blue", // the colours used for selected and hover items
+    decal: "hotpink", // the colours used  for open folder indicators and icons
+    accent: "#999", // the colour used for row borders and empty file indicators
+  },
+};
 ```
 
 ```jsx
-  <Tree nodes={data} onSelect={onSelect} theme={'my-theme'} customTheme={myTheme} />
+<Tree
+  nodes={data}
+  onSelect={onSelect}
+  theme={"my-theme"}
+  customTheme={myTheme}
+/>
 ```
 
 > Result
@@ -107,6 +115,7 @@ const onSelect = selectedNode => {
 ![result](./stories/demo/react-tree-theme.png)
 
 ## Icons
+
 `react-tree` comes with a pretty solid set of default icons for showing files, nodes, and a loder. However, if you want to hide the icons, pass the `noIcons` prop
 
 If you want to customize the icons, you can! Some conditions:
@@ -125,10 +134,10 @@ iconSet={{
 ```
 
 ## Contributing
+
 - open issues and PRs and we'll work together!
 
-### TODO: 
+### TODO:
+
 - add lazy loading support
 - add drag and drop support
-
-

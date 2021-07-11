@@ -1,40 +1,29 @@
 {
+  "root": true,
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
+    "prettier",
+    "prettier/react",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "prettier/flowtype",
-    "prettier/react",
-    "prettier"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
   ],
   "settings": {
     "react": {
       "version": "detect"
     }
   },
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "rules": {
+    "@typescript-eslint/rule-name": "error",
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true,
-        "semi": false
-      }
-    ],
-    "quotes": [
-      2,
-      "single",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
-    ]
+    "react/jsx-uses-vars": "error"
   },
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     }
-  },
-  "plugins": ["flowtype", "prettier", "react"]
+  }
 }

@@ -1,12 +1,11 @@
-// @flow
 import type { Node, NodeList, ContainerItems } from 'react-tree'
 
-export const getAncestorsByParent: Function = (
+export const getAncestorsByParent = (
   nodes: NodeList,
   currentContainer: Node
 ): NodeList => {
   const foundList: any[] = []
-  const search = currentParent => {
+  const search = (currentParent : string|number) => {
     nodes.forEach(n => {
       if (
         !foundList.includes(n.id) &&
@@ -34,7 +33,7 @@ export const getAllAncestorsForCurrentContainers = (
 
 export const getChildrenByParent = (
   nodes: NodeList,
-  parentId: ?number | ?string
+  parentId: number | string
 ): NodeList => {
   return nodes.filter(n => n.parentId === parentId)
 }

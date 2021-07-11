@@ -1,0 +1,22 @@
+{
+  "include": ["./src/**/*.ts"],
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "es2015",
+    "checkJs": true,
+    "jsx": "react",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "removeComments": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "rootDirs": ["./src"],
+    "typeRoots": ["/src/types"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
