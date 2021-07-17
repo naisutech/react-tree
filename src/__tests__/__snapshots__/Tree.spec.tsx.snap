@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`React Tree core functions Renders a loader and nothing else when \`isLoading\` state is \`true\` 1`] = `
+<div>
+  <div
+    class="sc-pNWdM skpEp"
+  >
+    <div
+      class="sc-jrsJWt dIZFVe"
+    >
+      <div>
+        Loading... 🌀
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`React Tree core functions Renders a message when there is no data 1`] = `
+<div>
+  <div
+    class="sc-pNWdM skpEp"
+  >
+    <div>
+      <span>
+        No Data 😔
+      </span>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,105 @@
+:root {
+  font-size: 62.5%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  height: inherit;
+}
+
+#root {
+  height: 100%;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+h1 {
+  font-size: 3.4rem;
+}
+
+h2,
+h3 {
+  font-size: 2rem;
+}
+
+h4,
+p,
+span,
+ul,
+ol,
+dl,
+li,
+em,
+strong,
+details,
+summary {
+  font-size: 1.7rem;
+}
+
+/*
+* Custom examples
+*/
+.custom-node {
+  position: relative;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-node:hover {
+  background-color: hotpink;
+}
+
+.custom-node span::before {
+  position: absolute;
+  top: 2px;
+  left: var(--icon-pos);
+  font-size: 1.7rem;
+  font-style: normal;
+  content: '📁';
+}
+
+.custom-node.open span::before {
+  font-size: 1.7rem;
+  content: '📂';
+}
+
+.custom-node.selected {
+  background-color: black;
+  color: white;
+}
+
+.custom-leaf {
+  position: relative;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-leaf:hover {
+  background-color: gold;
+}
+
+.custom-leaf.selected {
+  background-color: black;
+  color: white;
+}
+
+.custom-leaf span:before {
+  position: absolute;
+  top: 2px;
+  font-size: 1.7rem;
+  font-style: normal;
+  content: '🗒️';
+  left: var(--icon-pos);
+}

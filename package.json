@@ -2,24 +2,42 @@
   "name": "@naisutech/react-tree",
   "version": "0.4.2",
   "description": "a hierarchical object tree component for React",
-  "main": "build/Tree.js",
+  "main": "dist/Tree.js",
+  "module": "dist/Tree.mjs",
   "repository": "git@github.com:naisutech/react-tree.git",
   "author": "ortonomy <git@ortonomy.co>",
   "license": "MIT",
   "private": false,
-  "dependencies": {},
+  "dependencies": {
+    "nanoid": "^3.1.23"
+  },
   "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
-    "@storybook/react": "^6.2.9",
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-links": "^6.3.4",
+    "@storybook/react": "^6.3.4",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/nanoid": "^3.0.0",
     "@types/node": "^16.3.1",
     "@types/react": "^17.0.14",
+    "@types/react-test-renderer": "^17.0.1",
     "@types/styled-components": "^5.1.11",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
+    "babel-jest": "^27.0.6",
+    "babel-loader": "^8.2.2",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -27,12 +45,17 @@
     "flow-bin": "^0.100.0",
     "framer-motion": "^2.0.0",
     "husky": "^6.0.0",
-    "jest": "^24.8.0",
-    "nanoid": "^2.0.3",
+    "jest": "^27.0.6",
     "prettier": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rollup": "^2.53.0",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-graph": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-progress": "^1.1.2",
+    "rollup-plugin-size-snapshot": "^0.12.0",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "styled-components": "^5.0.1",
     "tslib": "^2.3.0",
@@ -40,10 +63,13 @@
     "yarn": "^1.16.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "NODE_ENV=production rollup -c",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "files": [
-    "/build"
+    "dist"
   ],
   "keywords": [
     "react",
@@ -51,5 +77,11 @@
     "hierarchy",
     "folder",
     "list"
-  ]
+  ],
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleDirectories": [
+      "node_modules"
+    ]
+  }
 }

@@ -4,21 +4,15 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
-type Props = {
-  level: number,
-  children?: React.Node
-}
-
-const _Wrapper = styled(motion.div)`
-  padding-left: calc(${props => `20px * ${props.level}`});
+const _Wrapper = styled(motion.div)<{ level: number }>`
+  padding-left: calc(${({ level }) => `25px * ${level}`});
   min-height: 20px;
   display: flex;
   align-items: center;
   min-width: 0;
 `
 
-const Wrapper = (props: Props) => {
-  const { level, children } = props
+const Wrapper: React.FC<{ level: number }> = ({ level, children }) => {
   return <_Wrapper level={level}>{children}</_Wrapper>
 }
 

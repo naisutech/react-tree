@@ -2,9 +2,14 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
-import AppIcons from '../assets/images/icons'
+import AppIcons from '../assets/images/Icons'
+import type { TreeProps } from 'react-tree'
 
-const sizes = {
+interface ISizes {
+  [key: string]: string
+}
+
+const sizes: ISizes = {
   xlarge: '24px',
   large: '20px',
   default: '16px',
@@ -12,12 +17,12 @@ const sizes = {
   xsmall: '10px'
 }
 
-const IconContainer = styled(motion.div)`
+const IconContainer = styled(motion.div)<TreeProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${props => sizes[props.size]};
-  height: ${props => sizes[props.size]};
+  width: ${(props) => sizes[props.size]};
+  height: ${(props) => sizes[props.size]};
   text-align: center;
   padding: 2px;
   overflow: hidden;
@@ -25,8 +30,8 @@ const IconContainer = styled(motion.div)`
   svg {
     height: 100%;
     width: 100%;
-    fill: ${props => props.theme[props.currentTheme].decal};
-    stroke: ${props => props.theme[props.currentTheme].decal};
+    fill: ${(props) => props.theme[props.currentTheme].decal};
+    stroke: ${(props) => props.theme[props.currentTheme].decal};
   }
 `
 
@@ -36,17 +41,10 @@ const _IconImage = styled.img`
   object-fit: contain;
 `
 
-type IconProps = {
-  icon: string | null,
-  currentTheme: string,
-  spin?: boolean,
-  size: string
-}
-
 const Icon = (props: IconProps) => {
   const { icon, spin, size, ...rest } = props
 
-  const setHTML = val => {
+  const setHTML = (val) => {
     return {
       __html: val
     }

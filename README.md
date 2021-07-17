@@ -91,23 +91,18 @@ const onSelect = selectedNode => {
 
 ```js
 const myTheme = {
-  "my-theme": {
-    text: "#fff",
-    bg: "#000",
-    highlight: "blue", // the colours used for selected and hover items
-    decal: "hotpink", // the colours used  for open folder indicators and icons
-    accent: "#999", // the colour used for row borders and empty file indicators
-  },
-};
+  'my-theme': {
+    text: '#fff',
+    bg: '#000',
+    highlight: 'blue', // the colours used for selected and hover items
+    decal: 'hotpink', // the colours used  for open folder indicators and icons
+    accent: '#999' // the colour used for row borders and empty file indicators
+  }
+}
 ```
 
 ```jsx
-<Tree
-  nodes={data}
-  onSelect={onSelect}
-  theme={"my-theme"}
-  customTheme={myTheme}
-/>
+<Tree nodes={data} onSelect={onSelect} theme={'my-theme'} customTheme={myTheme} />
 ```
 
 > Result
@@ -137,7 +132,7 @@ iconSet={{
 
 - open issues and PRs and we'll work together!
 
-### TODO:
+### TODO
 
 - add lazy loading support
 - add drag and drop support

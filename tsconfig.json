@@ -1,22 +1,22 @@
 {
-  "include": ["./src/**/*.ts"],
+  "include": ["src", "types"],
+  "exclude": ["./node_modules", "./dist"],
   "compilerOptions": {
     "target": "ES2016",
-    "module": "es2015",
+    "module": "esnext",
     "checkJs": true,
     "jsx": "react",
     "declaration": true,
+    "declarationDir": "./build/types",
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./build",
-    "rootDir": "./src",
     "removeComments": true,
     "strict": true,
     "moduleResolution": "node",
-    "rootDirs": ["./src"],
-    "typeRoots": ["/src/types"],
+    "typeRoots": ["./types", "./node_modules/@types"],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist"
   }
 }
