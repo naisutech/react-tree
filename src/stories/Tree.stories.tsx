@@ -18,8 +18,7 @@ export default {
       name: 'theme',
       options: ['light', 'dark'],
       control: { type: 'select' },
-      description: 'The name of the them you want to use to display your tree',
-      defaultValue: 'dark'
+      description: 'The name of the them you want to use to display your tree'
     },
     grow: {
       name: 'grow',
@@ -43,6 +42,13 @@ Dark.args = {
   theme: 'dark'
 }
 
+export const WithAnimations = Template.bind({})
+WithAnimations.args = {
+  nodes: testData,
+  theme: 'dark',
+  animations: true
+}
+
 export const WithControls = Template.bind({})
 WithControls.args = {
   nodes: testData,
@@ -56,7 +62,7 @@ export const CustomNodesAndLeaves = Template.bind({})
 CustomNodesAndLeaves.args = {
   nodes: testData,
   theme: 'light',
-  nodeRenderer: ({ data, isOpen, level, selected }) => {
+  NodeRenderer: ({ data, isOpen, level, selected }) => {
     const classes = ['custom-node', isOpen ? 'open' : undefined, selected ? 'selected' : undefined].join(' ')
     return (
       <div className={classes} style={{ width: '100%', ['--icon-pos']: `calc(2px + ${level * 25}px)` } as CSSProperties & { '--icon-pos': string }}>
@@ -64,7 +70,7 @@ CustomNodesAndLeaves.args = {
       </div>
     )
   },
-  leafRenderer: ({ data, level, selected }) => {
+  LeafRenderer: ({ data, level, selected }) => {
     const classes = ['custom-leaf', selected ? 'selected' : undefined].join(' ')
     return (
       <div className={classes} style={{ width: '100%', ['--icon-pos']: `calc(2px + ${(level + 1) * 25}px)` } as CSSProperties & { '--icon-pos': string }}>
@@ -74,42 +80,31 @@ CustomNodesAndLeaves.args = {
   }
 }
 
-export const LightGrow = Template.bind({})
-LightGrow.args = {
+export const ShowEmptyItems = Template.bind({})
+ShowEmptyItems.args = {
   nodes: testData,
-  theme: 'light',
+  theme: 'dark',
+  showEmptyItems: true,
   grow: true
 }
 
-export const DarkGrow = Template.bind({})
-DarkGrow.args = {
+export const Grow = Template.bind({})
+Grow.args = {
   nodes: testData,
   theme: 'dark',
   grow: true
 }
 
-export const NoDataLight = Template.bind({})
-NoDataLight.args = {
+export const NoData = Template.bind({})
+NoData.args = {
   nodes: undefined,
   theme: 'light'
 }
 
-export const NoDataDark = Template.bind({})
-NoDataDark.args = {
-  nodes: undefined,
-  theme: 'dark'
-}
-
-export const IsLoadingLight = Template.bind({})
-IsLoadingLight.args = {
-  nodes: undefined,
-  theme: 'light',
-  isLoading: true
-}
-
-export const IsLoadingDark = Template.bind({})
-IsLoadingDark.args = {
+export const IsLoading = Template.bind({})
+IsLoading.args = {
   nodes: undefined,
   theme: 'dark',
-  isLoading: true
+  isLoading: true,
+  grow: true
 }

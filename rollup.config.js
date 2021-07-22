@@ -7,6 +7,7 @@ import clear from 'rollup-plugin-clear'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import graph from 'rollup-plugin-graph'
 import progress from 'rollup-plugin-progress'
+import svg from 'rollup-plugin-svg'
 import pkg from './package.json'
 let graphOptions = { prune: true }
 
@@ -30,7 +31,8 @@ export default [
       graph(graphOptions),
       sizeSnapshot(),
       terser(),
-      progress()
+      progress(),
+      svg()
     ],
     output: [
       {

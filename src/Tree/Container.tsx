@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
+import { nanoid } from 'nanoid'
 import NodeElement from './NodeElement'
 import LeafElement from './LeafElement'
 import { Empty } from './Elements'
@@ -35,10 +36,11 @@ const Container: React.FC<ContainerProps> = ({
   didToggleOpen = () => {},
   currentTheme = 'dark',
   showEmptyItems = false,
-  iconSet = null,
   noIcons = false,
-  nodeRenderer = null,
-  leafRenderer = null
+  NodeRenderer = null,
+  LeafRenderer = null,
+  IconRenderer = null,
+  animations = false
 }) => {
   // get container items for this level and ancestors for next container
   const containerItems = React.useMemo(() => {
@@ -49,13 +51,21 @@ const Container: React.FC<ContainerProps> = ({
     return getAllDescendantsForCurrentContainers(nodes || [], containerItems)
   }, [containerItems])
 
+  const animationsSpec = animations
+    ? {
+        initial: { opacity: 0, y: -25 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0 }
+      }
+    : {}
+
   return (
     <ContainerWrapper parent={parent}>
       <DropZone>
         {!!containerItems.length &&
           containerItems.map((item: Node, k: number) => {
             return (
-              <Content key={k}>
+              <Content key={k} {...animationsSpec} transition={{ delay: 0.1 * k }}>
                 <NodeElement
                   data={item}
                   isOpen={openNodes.includes(item.id)}
@@ -64,10 +74,10 @@ const Container: React.FC<ContainerProps> = ({
                   level={level}
                   currentTheme={currentTheme}
                   noIcons={noIcons}
-                  iconSet={iconSet}
                   didToggleOpen={didToggleOpen}
                   didToggleSelect={didToggleSelect}
-                  nodeRenderer={nodeRenderer}
+                  NodeRenderer={NodeRenderer}
+                  IconRenderer={IconRenderer}
                 />
                 {openNodes.includes(item.id) && (
                   <Children>
@@ -82,22 +92,25 @@ const Container: React.FC<ContainerProps> = ({
                       currentTheme={currentTheme}
                       showEmptyItems={showEmptyItems}
                       noIcons={noIcons}
-                      iconSet={iconSet}
-                      nodeRenderer={nodeRenderer}
-                      leafRenderer={leafRenderer}
+                      NodeRenderer={NodeRenderer}
+                      LeafRenderer={LeafRenderer}
+                      IconRenderer={IconRenderer}
+                      animations={animations}
                     />
                     {item.items &&
                       item.items.map((child, l) => {
                         return (
                           <LeafElement
                             key={l}
+                            {...animationsSpec}
+                            transition={{ delay: 0.1 * k + 0.1 * (l + 1) }}
                             data={child}
                             level={level}
                             currentTheme={currentTheme}
                             noIcons={noIcons}
-                            iconSet={iconSet}
                             selected={selectedNodes.includes(child.id)}
-                            leafRenderer={leafRenderer}
+                            LeafRenderer={LeafRenderer}
+                            IconRenderer={IconRenderer}
                             didToggleSelect={didToggleSelect}
                           />
                         )

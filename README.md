@@ -80,7 +80,6 @@ const onSelect = selectedNode => {
   showEmptyItems // show the empty items indicator in a folder
   isLoading //  show the loading spinner
   noIcons // hide the default icons
-  iconSet={Object} // see `Icons`
   containerStyle={Object} // css properties object for styling tree container
 />
 ```
@@ -111,20 +110,24 @@ const myTheme = {
 
 ## Icons
 
-`react-tree` comes with a pretty solid set of default icons for showing files, nodes, and a loder. However, if you want to hide the icons, pass the `noIcons` prop
+`react-tree` comes with a pretty solid set of default icons for showing files, nodes, and a loader. However, if you want to hide the icons, pass the `noIcons` prop
 
 If you want to customize the icons, you can! Some conditions:
 
-- the icons are set to a default square dimensions which cannot be modified (`20px` x `20px`)
+- the icons are set to a default square dimensions and will force whatever icons you provide into a `20px` square container using the `object-fit: contain` method
 - overflow out of the box is hidden
 
-You can customize the icons by providing an object to the prop `iconSet` with properties which **must be valid React components**:
+You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react elements/components_. The icon renderer will be passed a single prop `label` which you can use to conditionally render the correct icon.
+
+The three labels are:
+
+`node`
+`leaf`
+`loader`
 
 ```jsx
-iconSet={{
-  loader: <MyComponent />, // the loader spinner (default 'circle-notch', spins)
-  node: <MyComponent />, // the closed / open node indicator (default 'chevron')
-  file: <MyComponent /> // the  file item indicator (default 'paperclip')
+IconRender={({label}) => {
+  return label === 'leaf | node' ? <...> : ...
 }}
 ```
 

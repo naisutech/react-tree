@@ -2,7 +2,7 @@
  * COMPONENTS AND LIBS
  */
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
 import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from 'react-tree'
 import Container from './Tree/Container'
@@ -11,22 +11,24 @@ import coreTheme from './styles/theme'
 /**
  * Building blocks
  */
+const fontSizes = {}
 const TreeBoundary = styled(motion.div)<Partial<InternalTreeProps> & { style: React.CSSProperties }>`
   display: flex;
   flex-direction: column;
   ${(props) => (props.grow ? 'flex-grow: 1; height: 100%;' : '')};
   padding: 5px;
   overflow-y: auto;
-  width: ${(props) => {
-    return props.size && props.theme._app.sizes[props.size] ? `${props.theme._app.sizes[props.size]};` : 'auto'
+  ${({ size, theme }) => {
+    return `width: ${size && theme._app.containerSizes[size] ? theme._app.containerSizes[size] : 'unset'}`
   }};
-  color: ${(props) => props.theme[props.currentTheme || 'dark'].text};
-  background-color: ${(props) => props.theme[props.currentTheme || 'dark'].bg};
+  color: ${({ theme, currentTheme }) => theme[currentTheme || 'dark'].text};
+  background-color: ${({ theme, currentTheme }) => theme[currentTheme || 'dark'].bg};
 
   & * {
     user-select: none;
     cursor: pointer;
     box-sizing: border-box;
+    font-size: ${({ theme, currentTheme }) => theme._app.fontSizes[theme[currentTheme || 'dark'].textSize]};
   }
 `
 
@@ -83,12 +85,13 @@ const Tree: React.FC<
   onOpenClose = () => {},
   containerStyle = {},
   showEmptyItems = false,
-  iconSet = null,
   noIcons = false,
   children = () => {},
   isLoading = false,
-  nodeRenderer = null,
-  leafRenderer = null
+  NodeRenderer = null,
+  LeafRenderer = null,
+  IconRenderer = null,
+  animations = false
 }) => {
   /**
    * We need to ensure that any changes to the content of the nodes list (create, delete)
@@ -97,7 +100,7 @@ const Tree: React.FC<
   const [internalNodes, setInternalNodes] = React.useState<NodeList>(nodes)
   const [selectedNodeIds, setSelectedNodeIds] = React.useState<NodeId[]>([])
   const [openNodeIds, setOpenNodeIds] = React.useState<NodeId[]>([])
-  const treeRef = React.useRef<HTMLElement>(null)
+  const treeRef = React.useRef<HTMLDivElement>(null)
 
   // listen to changes on nodes
   React.useEffect(() => {
@@ -196,25 +199,28 @@ const Tree: React.FC<
         </div>
       )}
       {!!nodes.length && (
-        <Container
-          selectedNodes={selectedNodeIds}
-          openNodes={openNodeIds}
-          didToggleSelect={toggleNodeSelection}
-          didToggleOpen={toggleOpenCloseNode}
-          parent={null}
-          nodes={nodes}
-          currentTheme={theme || 'dark'}
-          noIcons={noIcons}
-          iconSet={iconSet}
-          showEmptyItems={showEmptyItems}
-          nodeRenderer={nodeRenderer}
-          leafRenderer={leafRenderer}
-        />
+        <AnimatePresence>
+          <Container
+            selectedNodes={selectedNodeIds}
+            openNodes={openNodeIds}
+            didToggleSelect={toggleNodeSelection}
+            didToggleOpen={toggleOpenCloseNode}
+            parent={null}
+            nodes={nodes}
+            currentTheme={theme || 'dark'}
+            noIcons={noIcons}
+            showEmptyItems={showEmptyItems}
+            NodeRenderer={NodeRenderer}
+            LeafRenderer={LeafRenderer}
+            IconRenderer={IconRenderer}
+            animations={animations}
+          />
+        </AnimatePresence>
       )}
     </>
   ) : (
     <Loader>
-      <div>Loading... 🌀</div>
+      <div>Loading..</div>
     </Loader>
   )
 

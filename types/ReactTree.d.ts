@@ -1,5 +1,5 @@
 declare module 'react-tree' {
-  import { ReactNode } from 'react'
+  import { ReactElement, ReactNode } from 'react'
 
   type NodeId = number | string
 
@@ -20,7 +20,7 @@ declare module 'react-tree' {
 
   interface TreeProps {
     nodes: NodeList
-    size?: string
+    size?: string | 'full'
     onSelect?: (id: Array<NodeId>) => void
     onOpenClose?: (id: Array<NodeId>) => void
     isLoading?: boolean
@@ -28,10 +28,9 @@ declare module 'react-tree' {
     theme?: string
     grow?: boolean
     showEmptyItems?: boolean
-    iconSet?: Object | null
     noIcons?: boolean
     containerStyle?: React.CSSProperties
-    nodeRenderer?:
+    NodeRenderer?:
       | (({
           data,
           isOpen = false,
@@ -46,7 +45,9 @@ declare module 'react-tree' {
           level: number
         }) => ReactNode)
       | null
-    leafRenderer?: (({ data, selected = false, level = 0 }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
+    LeafRenderer?: (({ data, selected = false, level = 0 }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
+    IconRenderer?: (({ label: string }) => ReactElement) | null
+    animations?: boolean
   }
 
   function ToggleFunction(nodeId: NodeId): void
@@ -81,6 +82,8 @@ declare module 'react-tree' {
   interface ReactTreeTheme {
     text: string
     bg: string
+    iconFill: string
+    iconStroke: string
     highlightBg: string
     highlightText: string
     selectedBg: string
@@ -89,6 +92,7 @@ declare module 'react-tree' {
     hoverText: string
     accentBg: string
     accentText: string
+    textSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge'
   }
 
   interface ThemeSettings {

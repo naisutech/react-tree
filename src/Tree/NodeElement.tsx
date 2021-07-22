@@ -5,55 +5,81 @@ import { Element } from './Elements'
 import Wrapper from './Wrapper'
 import { NodeText } from './Text'
 import type { ElementProps, NodeId } from 'react-tree'
+import Icon from './Icon'
+import Icons from '../assets/images/Icons'
 
-const IconWrapper = styled(motion.div)``
+const DefaultIcon = Icons['node']
 
-const NodeElement: React.FC<ElementProps> = ({
-  data,
-  isOpen = false,
-  isRoot = false,
-  selected = false,
-  level = 0,
-  currentTheme = 'dark',
-  iconSet = null,
-  noIcons = false,
-  didToggleOpen = () => {},
-  didToggleSelect = () => {},
-  nodeRenderer = null
-}) => {
-  if (data === null) {
-    return null
-  }
-
-  const handleClick = React.useCallback(
-    (e: React.MouseEvent, nodeId: NodeId) => {
-      didToggleSelect(nodeId, e.metaKey || e.ctrlKey)
-      if (!e.metaKey && !e.ctrlKey) {
-        didToggleOpen(nodeId, true)
-      }
+const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
+  (
+    {
+      data,
+      isOpen = false,
+      isRoot = false,
+      selected = false,
+      level = 0,
+      currentTheme = 'dark',
+      noIcons = false,
+      didToggleOpen = () => {},
+      didToggleSelect = () => {},
+      NodeRenderer = null,
+      IconRenderer = null
     },
-    [data]
-  )
+    ref
+  ) => {
+    if (data === null) {
+      return null
+    }
 
-  const content =
-    typeof nodeRenderer === 'function' ? (
-      <div data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
-        {nodeRenderer({ data, isOpen, isRoot, selected, level })}
-      </div>
-    ) : (
-      <Element data-node-id={data.id} isOpen={isOpen} isRoot={isRoot} currentTheme={currentTheme} selected={selected} onClick={(e) => handleClick(e, data.id)}>
-        <Wrapper level={level}>
-          {/* {!noIcons && (
-          <IconWrapper animate={{ rotate: isOpen ? 90 : 0 }}>
-            <Icon size="large" icon={iconSet && iconSet['node'] ? iconSet['node'] : 'node'} currentTheme={currentTheme}></Icon>
-          </IconWrapper>
-        )} */}
-          <NodeText>{data.label}</NodeText>
-        </Wrapper>
-      </Element>
+    const handleClick = React.useCallback(
+      (e: React.MouseEvent, nodeId: NodeId) => {
+        didToggleSelect(nodeId, e.metaKey || e.ctrlKey)
+        if (!e.metaKey && !e.ctrlKey) {
+          didToggleOpen(nodeId, true)
+        }
+      },
+      [data]
     )
 
-  return content
-}
+    const renderedIcon = React.useMemo(() => {
+      return IconRenderer && typeof IconRenderer === 'function' ? (
+        <Icon size="large">
+          <IconRenderer label="file" />
+        </Icon>
+      ) : (
+        <Icon size="large" defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
+          <DefaultIcon />
+        </Icon>
+      )
+    }, [isOpen])
 
-export default NodeElement
+    const content =
+      typeof NodeRenderer === 'function' ? (
+        <div ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
+          {NodeRenderer({ data, isOpen, isRoot, selected, level })}
+        </div>
+      ) : (
+        <div ref={ref}>
+          <Element
+            data-node-id={data.id}
+            isOpen={isOpen}
+            isRoot={isRoot}
+            currentTheme={currentTheme}
+            selected={selected}
+            onClick={(e) => handleClick(e, data.id)}
+          >
+            <Wrapper level={level}>
+              {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}
+              <NodeText>{data.label}</NodeText>
+            </Wrapper>
+          </Element>
+        </div>
+      )
+
+    return content
+  }
+)
+
+const MotionNodeElement = motion(NodeElement, { forwardMotionProps: true })
+
+export default MotionNodeElement
