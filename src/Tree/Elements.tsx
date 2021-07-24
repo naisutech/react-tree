@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import type { ElementProps } from 'react-tree'
 import { loadPartialConfig } from '@babel/core'
 
-export const Element = styled(motion.div)<Partial<ElementProps>>`
+export const Element = styled(m.div)<Partial<ElementProps>>`
   padding: 8px 15px 8px 4px;
   min-height: 20px;
   min-width: 0;

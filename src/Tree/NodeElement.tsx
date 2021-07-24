@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Element } from './Elements'
 import Wrapper from './Wrapper'
 import { NodeText } from './Text'
@@ -89,6 +89,6 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
   }
 )
 
-const MotionNodeElement = motion(NodeElement, { forwardMotionProps: true })
+const MotionNodeElement = m(NodeElement, { forwardMotionProps: true })
 
 export default MotionNodeElement

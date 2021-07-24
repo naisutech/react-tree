@@ -2,7 +2,7 @@
  * COMPONENTS AND LIBS
  */
 import * as React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
 import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from 'react-tree'
 import Container from './Tree/Container'
@@ -14,7 +14,7 @@ import Icons from './assets/images/Icons'
  * Building blocks
  */
 const DefaultLoaderIcon = Icons['loader']
-const TreeBoundary = styled(motion.div)<Partial<InternalTreeProps> & { style: React.CSSProperties }>`
+const TreeBoundary = styled(m.div)<Partial<InternalTreeProps> & { style: React.CSSProperties }>`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -35,12 +35,12 @@ const TreeBoundary = styled(motion.div)<Partial<InternalTreeProps> & { style: Re
   }
 `
 
-const Loader = styled(motion.div)`
+const Loader = styled(m.div)`
   align-self: center;
   margin: auto 0;
 `
 
-const Spinner = styled(motion.div)``
+const Spinner = styled(m.div)``
 
 const genericStateToggler = (
   stateSetter: React.Dispatch<React.SetStateAction<NodeId[]>>,
@@ -229,24 +229,22 @@ const Tree: React.FC<
         </div>
       )}
       {!!nodes.length && (
-        <AnimatePresence>
-          <Container
-            selectedNodes={selectedNodeIds}
-            openNodes={openNodeIds}
-            didToggleSelect={toggleNodeSelection}
-            didToggleOpen={toggleOpenCloseNode}
-            parent={null}
-            nodes={nodes}
-            currentTheme={theme || 'dark'}
-            noIcons={noIcons}
-            showEmptyItems={showEmptyItems}
-            NodeRenderer={NodeRenderer}
-            LeafRenderer={LeafRenderer}
-            IconRenderer={IconRenderer}
-            animations={animations}
-            emptyItemsString={emptyItemsString}
-          />
-        </AnimatePresence>
+        <Container
+          selectedNodes={selectedNodeIds}
+          openNodes={openNodeIds}
+          didToggleSelect={toggleNodeSelection}
+          didToggleOpen={toggleOpenCloseNode}
+          parent={null}
+          nodes={nodes}
+          currentTheme={theme || 'dark'}
+          noIcons={noIcons}
+          showEmptyItems={showEmptyItems}
+          NodeRenderer={NodeRenderer}
+          LeafRenderer={LeafRenderer}
+          IconRenderer={IconRenderer}
+          animations={animations}
+          emptyItemsString={emptyItemsString}
+        />
       )}
     </>
   ) : (
@@ -260,9 +258,11 @@ const Tree: React.FC<
 
   return (
     <ThemeProvider theme={_theme}>
-      <TreeBoundary ref={treeRef} grow={grow} currentTheme={theme || 'dark'} size={size} style={{ ...containerStyle }}>
-        {content}
-      </TreeBoundary>
+      <LazyMotion features={domAnimation}>
+        <TreeBoundary ref={treeRef} grow={grow} currentTheme={theme || 'dark'} size={size} style={{ ...containerStyle }}>
+          {content}
+        </TreeBoundary>
+      </LazyMotion>
     </ThemeProvider>
   )
 }

@@ -17,7 +17,17 @@ declare module 'styled-components' {
     accentText: string
     textSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge'
   }
+
+  interface IAppSettings {
+    containerSizes: {
+      [key: string]: string
+    }
+    fontSizes: {
+      [key: string]: string
+    }
+  }
   export interface DefaultTheme {
     [key: string]: ReactTreeTheme
+    _app: IAppSettings
   }
 }

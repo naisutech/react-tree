@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Wrapper from './Wrapper'
 import { NodeText } from './Text'
 import { Element } from './Elements'
@@ -72,6 +72,6 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
   }
 )
 
-const MotionLeafElement = motion(LeafElement, { forwardMotionProps: true })
+const MotionLeafElement = m(LeafElement, { forwardMotionProps: true })
 
 export default MotionLeafElement

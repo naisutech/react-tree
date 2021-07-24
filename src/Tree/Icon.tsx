@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import styled from 'styled-components'
 import AppIcons from '../assets/images/Icons'
 import type { TreeProps } from 'react-tree'
@@ -24,7 +24,7 @@ const sizes: ISizes = {
   xsmall: '10px'
 }
 
-const IconWrapper = styled(motion.div)<ReactTreeIcon>`
+const IconWrapper = styled(m.div)<ReactTreeIcon>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,6 +65,6 @@ const Icon = React.forwardRef<HTMLDivElement, ReactTreeIcon>(({ size = 'default'
   )
 })
 
-const MotionIcon = motion(Icon, { forwardMotionProps: true })
+const MotionIcon = m(Icon, { forwardMotionProps: true })
 
 export default MotionIcon
