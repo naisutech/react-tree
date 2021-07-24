@@ -49,9 +49,9 @@ export default {
       control: 'function'
     },
     animations: { name: 'animations', description: 'Enable animated folders', control: 'boolean' },
-    noDataString: { name: 'noDataString', description: 'Custome strings for the `no data` message' },
-    loadingString: { name: 'loadingString', description: 'Custome strings for the `loading` message' },
-    emptyItemsString: { name: 'emptyItemsString', description: 'Custome strings for the `empty items` message' }
+    noDataString: { name: 'noDataString', description: 'Custome strings for the `no data` message', control: 'text' },
+    loadingString: { name: 'loadingString', description: 'Custome strings for the `loading` message', control: 'text' },
+    emptyItemsString: { name: 'emptyItemsString', description: 'Custome strings for the `empty items` message', control: 'text' }
   }
 } as ComponentMeta<typeof ReactTree>
 
