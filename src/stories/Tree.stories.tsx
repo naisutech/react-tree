@@ -212,7 +212,7 @@ IsLoading.args = {
 export const CustomThemeNoIndicatorsNoSeparatorsWithTinyText = Template.bind({})
 CustomThemeNoIndicatorsNoSeparatorsWithTinyText.args = {
   nodes: testData,
-  theme: 'modifiedDarkLarge',
+  theme: 'noDecorations',
   customTheme: {
     noDecorations: {
       text: '#333',
