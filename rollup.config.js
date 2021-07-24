@@ -22,7 +22,6 @@ export default [
       peerDepsExternal(),
       nodeResolve({ preferBuiltins: true }),
       typescript({
-        useTsconfigDeclarationDir: true,
         sourceMap: true,
         exclude: '**/__tests__/**, **/stories/**'
       }),
@@ -37,13 +36,16 @@ export default [
       {
         file: pkg.main,
         format: 'cjs',
-        sourcemap: true
+        sourcemap: true,
+        exports: 'auto'
       },
       {
         file: pkg.module,
         format: 'esm',
-        sourcemap: true
+        sourcemap: true,
+        exports: 'auto'
       }
-    ]
+    ],
+    external: ['react', 'react-dom']
   }
 ]

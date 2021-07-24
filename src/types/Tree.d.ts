@@ -31,21 +31,9 @@ declare module 'react-tree' {
     noIcons?: boolean
     containerStyle?: React.CSSProperties
     NodeRenderer?:
-      | (({
-          data,
-          isOpen = false,
-          isroot = false,
-          selected = false,
-          level = 0
-        }: {
-          data: Node
-          isOpen: boolean
-          isRoot: boolean
-          selected: boolean
-          level: number
-        }) => ReactNode)
+      | (({ data, isOpen, isRoot, selected, level }: { data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode)
       | null
-    LeafRenderer?: (({ data, selected = false, level = 0 }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
+    LeafRenderer?: (({ data, selected, level }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
     IconRenderer?: (({ label: string }) => ReactElement) | null
     animations?: boolean
     noDataString?: string
@@ -56,15 +44,15 @@ declare module 'react-tree' {
   function ToggleFunction(nodeId: NodeId): void
   function ToggleFunction(): void | boolean
   interface TreeRenderProps {
-    toggleNodeSelection: ToggleFuncion
-    toggleSelectAllNodes: ToggleFuncion
-    toggleOpenCloseNode: ToggleFuncion
-    toggleOpenCloseAllNodes: ToggleFuncion
+    toggleNodeSelection: typeof ToggleFunction
+    toggleSelectAllNodes: typeof ToggleFunction
+    toggleOpenCloseNode: typeof ToggleFunction
+    toggleOpenCloseAllNodes: typeof ToggleFunction
     openNodeIds: NodeId[]
     selectedNodeIds: NodeId[]
   }
 
-  type GenericStateToggler = (nodeId: NodeId, multi: boolean = false) => void
+  type GenericStateToggler = (nodeId: NodeId, multi: boolean) => void
 
   type InternalTreeProps = Partial<TreeProps> & { currentTheme: string }
   type ContainerProps = Partial<InternalTreeProps> & {
