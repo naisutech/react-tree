@@ -23,7 +23,7 @@ export default [
       nodeResolve({ preferBuiltins: false }),
       typescript({
         sourceMap: true,
-        exclude: '**/__tests__/**, **/stories/**'
+        exclude: '**/__tests__/**, **/stories/**, **/mocks/**'
       }),
       commonjs(),
       graph(graphOptions),
