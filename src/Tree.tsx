@@ -35,7 +35,7 @@ const TreeBoundary = styled(m.div)<Partial<InternalTreeProps> & { style: React.C
   }
 `
 
-const Loader = styled(m.div)`
+const Message = styled(m.div)`
   align-self: center;
   margin: auto 0;
 `
@@ -224,9 +224,9 @@ const Tree: React.FC<
           openNodeIds
         })}
       {!nodes.length && (
-        <div style={{ alignSelf: 'center', margin: '0 auto', padding: '20px' }}>
+        <Message>
           <span>{noDataString ? noDataString : 'No Data...'}</span>
-        </div>
+        </Message>
       )}
       {!!nodes.length && (
         <Container
@@ -248,12 +248,12 @@ const Tree: React.FC<
       )}
     </>
   ) : (
-    <Loader>
+    <Message>
       <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
         <span style={{ paddingRight: '4px' }}>{loadingString ? loadingString : 'Loading...'}</span>
-        {LoadingIcon}
+        {!loadingString && LoadingIcon}
       </div>
-    </Loader>
+    </Message>
   )
 
   return (

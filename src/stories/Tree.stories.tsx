@@ -241,3 +241,32 @@ TruncatedLongLabels.args = {
   size: 'narrow',
   grow: true
 }
+
+export const CustomisedLoadingLabel = Template.bind({})
+CustomisedLoadingLabel.args = {
+  nodes: undefined,
+  theme: 'dark',
+  size: 'narrow',
+  grow: true,
+  isLoading: true,
+  loadingString: 'Growing a tree 🌱...'
+}
+
+export const CustomisedNoDataLabel = Template.bind({})
+CustomisedNoDataLabel.args = {
+  nodes: undefined,
+  theme: 'dark',
+  size: 'narrow',
+  grow: true,
+  noDataString: 'No items to show 😒'
+}
+
+export const CustomisedNoItemsLabel = Template.bind({})
+CustomisedNoItemsLabel.args = {
+  nodes: longTestData,
+  theme: 'light',
+  size: 'half',
+  grow: true,
+  showEmptyItems: true,
+  emptyItemsString: '<No data in this folder>'
+}
