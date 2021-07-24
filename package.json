@@ -1,6 +1,6 @@
 {
   "name": "@naisutech/react-tree",
-  "version": "0.4.2",
+  "version": "2.0.0",
   "description": "a hierarchical object tree component for React",
   "main": "dist/Tree.js",
   "module": "dist/Tree.mjs",

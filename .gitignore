@@ -3,5 +3,5 @@
 node_modules
 .vscode
 yarn-error.log
-build
 dist
+.size-snapshot.json
