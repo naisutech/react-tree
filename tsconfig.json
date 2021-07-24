@@ -1,6 +1,6 @@
 {
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "src/**/*.stories.tsx", "src/**/*.test.tsx"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",

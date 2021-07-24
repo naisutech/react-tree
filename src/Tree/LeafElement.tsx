@@ -53,12 +53,19 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const content =
       typeof LeafRenderer === 'function' ? (
-        <div ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
+        <div title={data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
           {LeafRenderer({ data, selected, level })}
         </div>
       ) : (
         <div ref={ref}>
-          <LeafContainer borderTop={borderTop} data-node-id={data.id} selected={selected} currentTheme={currentTheme} onClick={(e) => handleClick(e, data.id)}>
+          <LeafContainer
+            title={data.label}
+            borderTop={borderTop}
+            data-node-id={data.id}
+            selected={selected}
+            currentTheme={currentTheme}
+            onClick={(e) => handleClick(e, data.id)}
+          >
             <Wrapper level={level + 1}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}
 

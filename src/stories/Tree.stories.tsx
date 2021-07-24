@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import ReactTree from '../Tree'
 import { nodes as testData } from '../mocks/full_list_data'
+import { nodes as longTestData } from '../mocks/full_list_long_names_data'
 import type { TreeProps, ReactTreeTheme } from 'react-tree'
 import './Tree.css'
 
@@ -231,4 +232,12 @@ CustomThemeNoIndicatorsNoSeparatorsWithTinyText.args = {
   showEmptyItems: true,
   grow: true,
   animations: true
+}
+
+export const TruncatedLongLabels = Template.bind({})
+TruncatedLongLabels.args = {
+  nodes: longTestData,
+  theme: 'dark',
+  size: 'narrow',
+  grow: true
 }

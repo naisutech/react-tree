@@ -7,7 +7,7 @@ import clear from 'rollup-plugin-clear'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import graph from 'rollup-plugin-graph'
 import progress from 'rollup-plugin-progress'
-import svg from 'rollup-plugin-svg'
+import svgr from '@svgr/rollup'
 import pkg from './package.json'
 let graphOptions = { prune: true }
 
@@ -20,7 +20,7 @@ export default [
         targets: ['dist']
       }),
       peerDepsExternal(),
-      nodeResolve({ preferBuiltins: true }),
+      nodeResolve({ preferBuiltins: false }),
       typescript({
         sourceMap: true,
         exclude: '**/__tests__/**, **/stories/**'
@@ -30,7 +30,13 @@ export default [
       sizeSnapshot(),
       terser(),
       progress(),
-      svg()
+      svgr({
+        svgoConfig: {
+          plugins: {
+            removeViewBox: false
+          }
+        }
+      })
     ],
     output: [
       {
