@@ -16,18 +16,17 @@ export default [
     input: 'src/Tree.tsx',
     external: Object.keys(pkg.peerDependencies || {}),
     plugins: [
+      clear({
+        targets: ['dist']
+      }),
+      peerDepsExternal(),
+      nodeResolve({ preferBuiltins: true }),
       typescript({
-        declaration: true,
-        declarationDir: 'dist',
+        useTsconfigDeclarationDir: true,
         sourceMap: true,
         exclude: '**/__tests__/**, **/stories/**'
       }),
       commonjs(),
-      peerDepsExternal(),
-      nodeResolve({ preferBuiltins: true }),
-      clear({
-        targets: ['dist']
-      }),
       graph(graphOptions),
       sizeSnapshot(),
       terser(),
@@ -36,16 +35,14 @@ export default [
     ],
     output: [
       {
-        file: pkg.module,
-        format: 'esm',
-        sourcemap: true,
-        exports: 'named'
-      },
-      {
         file: pkg.main,
         format: 'cjs',
-        sourcemap: true,
-        exports: 'named'
+        sourcemap: true
+      },
+      {
+        file: pkg.module,
+        format: 'esm',
+        sourcemap: true
       }
     ]
   }

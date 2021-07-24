@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "a hierarchical tree component for React written in Typescript",
   "main": "dist/Tree.js",
-  "module": "dist/Tree.mjs",
+  "module": "dist/Tree.es.js",
   "repository": "git@github.com:naisutech/react-tree.git",
   "author": "ortonomy <git@ortonomy.co>",
   "license": "MIT",
