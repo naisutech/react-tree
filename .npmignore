@@ -13,3 +13,4 @@ rollup.config.js
 tsconfig.json
 yarn-error.log
 yarn.lock
+storybook-static

@@ -48,7 +48,10 @@ export default {
       description: 'Provide a custom icon renderer. This function will be passed the target icon name as a string: `node`, `leaf`, or `loader`',
       control: 'function'
     },
-    animations: { name: 'animations', description: 'Enable animated folders', control: 'boolean' }
+    animations: { name: 'animations', description: 'Enable animated folders', control: 'boolean' },
+    noDataString: { name: 'noDataString', description: 'Custome strings for the `no data` message' },
+    loadingString: { name: 'loadingString', description: 'Custome strings for the `loading` message' },
+    emptyItemsString: { name: 'emptyItemsString', description: 'Custome strings for the `empty items` message' }
   }
 } as ComponentMeta<typeof ReactTree>
 
