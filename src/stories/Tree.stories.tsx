@@ -8,7 +8,7 @@ import type { TreeProps, ReactTreeTheme } from 'react-tree'
 import './Tree.css'
 
 export default {
-  title: 'ReactTree/Tree',
+  title: 'React-Tree',
   component: ReactTree,
   argTypes: {
     nodes: {
