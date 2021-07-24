@@ -47,8 +47,8 @@ const ReactTreeIconContainer = styled(IconWrapper)`
     width: 100%;
 
     * {
-      fill: ${({ theme, currentTheme }) => `${theme[currentTheme ? currentTheme : 'dark'].icon}`};
-      stroke: ${({ theme, currentTheme }) => `${theme[currentTheme ? currentTheme : 'dark'].icon}`};
+      fill: ${({ theme, currentTheme }) => `${theme[currentTheme || 'dark'].icon}`};
+      stroke: ${({ theme, currentTheme }) => `${theme[currentTheme || 'dark'].icon}`};
     }
   }
 `
