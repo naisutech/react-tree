@@ -11,7 +11,7 @@ a hierarchical tree component for React in Typescript
 - **NEW** v2 rebuilt in typescript
 - **NEW** extensible/customisable state controls via render props (see **Adding controls** below)
 - supports dark (default), light theme, and _custom themeing_ (see **Theming** below)
-- **NEW** redesigned themeing object for easier customization
+- **NEW** redesigned theming object for easier customization
 - supports three sizes: _full width_, _half width_ and _narrow (33%)_
 - supports full-height or content-height vertical sizing (flex-box based)
 - optimized UX to clearly indicate open/closed folders, selected items and feedback on user input
