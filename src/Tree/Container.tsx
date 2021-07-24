@@ -40,7 +40,8 @@ const Container: React.FC<ContainerProps> = ({
   NodeRenderer = null,
   LeafRenderer = null,
   IconRenderer = null,
-  animations = false
+  animations = false,
+  emptyItemsString = null
 }) => {
   // get container items for this level and ancestors for next container
   const containerItems = React.useMemo(() => {
@@ -78,6 +79,7 @@ const Container: React.FC<ContainerProps> = ({
                   didToggleSelect={didToggleSelect}
                   NodeRenderer={NodeRenderer}
                   IconRenderer={IconRenderer}
+                  borderTop={(!parent && k !== 0) || !!parent}
                 />
                 {openNodes.includes(item.id) && (
                   <Children>
@@ -96,6 +98,7 @@ const Container: React.FC<ContainerProps> = ({
                       LeafRenderer={LeafRenderer}
                       IconRenderer={IconRenderer}
                       animations={animations}
+                      emptyItemsString={emptyItemsString}
                     />
                     {item.items &&
                       item.items.map((child, l) => {
@@ -112,12 +115,15 @@ const Container: React.FC<ContainerProps> = ({
                             LeafRenderer={LeafRenderer}
                             IconRenderer={IconRenderer}
                             didToggleSelect={didToggleSelect}
+                            borderTop
                           />
                         )
                       })}
                     {showEmptyItems && !item.items && (
-                      <Empty currentTheme={currentTheme}>
-                        <Wrapper level={level + 1}>[No items]</Wrapper>
+                      <Empty currentTheme={currentTheme} borderTop>
+                        <Wrapper level={level + 1}>
+                          <span>{emptyItemsString ? emptyItemsString : '[No items]'}</span>
+                        </Wrapper>
                       </Empty>
                     )}
                   </Children>

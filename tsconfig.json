@@ -2,7 +2,7 @@
   "include": ["src", "types"],
   "exclude": ["./node_modules", "./dist"],
   "compilerOptions": {
-    "target": "ES2016",
+    "target": "ES2019",
     "module": "esnext",
     "checkJs": true,
     "jsx": "react",

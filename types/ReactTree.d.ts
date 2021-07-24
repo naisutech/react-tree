@@ -48,12 +48,20 @@ declare module 'react-tree' {
     LeafRenderer?: (({ data, selected = false, level = 0 }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
     IconRenderer?: (({ label: string }) => ReactElement) | null
     animations?: boolean
+    noDataString?: string
+    loadingString?: string
+    emptyItemsString?: string | null
   }
 
   function ToggleFunction(nodeId: NodeId): void
   function ToggleFunction(): void | boolean
   interface TreeRenderProps {
-    [key: string]: ToggleFuncion
+    toggleNodeSelection: ToggleFuncion
+    toggleSelectAllNodes: ToggleFuncion
+    toggleOpenCloseNode: ToggleFuncion
+    toggleOpenCloseAllNodes: ToggleFuncion
+    openNodeIds: NodeId[]
+    selectedNodeIds: NodeId[]
   }
 
   type GenericStateToggler = (nodeId: NodeId, multi: boolean = false) => void
@@ -72,6 +80,8 @@ declare module 'react-tree' {
     isRoot?: boolean
     data: Node | Leaf
     selected?: boolean
+    borderTop?: boolean
+    borderBottom?: boolean
   }
 
   interface ContainerItems {
@@ -82,10 +92,9 @@ declare module 'react-tree' {
   interface ReactTreeTheme {
     text: string
     bg: string
-    iconFill: string
-    iconStroke: string
-    highlightBg: string
-    highlightText: string
+    indicator: string
+    separator: string
+    icon: string
     selectedBg: string
     selectedText: string
     hoverBg: string

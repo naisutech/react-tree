@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { motion } from 'framer-motion'
 import { Element } from './Elements'
 import Wrapper from './Wrapper'
@@ -7,6 +7,11 @@ import { NodeText } from './Text'
 import type { ElementProps, NodeId } from 'react-tree'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
+
+const NodeContainer = styled(Element)<Partial<ElementProps>>`
+  border-left: ${({ isOpen, theme, currentTheme }) => (isOpen ? `4px solid ${theme[currentTheme || 'dark'].indicator}` : '4px solid transparent')};
+  transition: all 0.2s linear;
+`
 
 const DefaultIcon = Icons['node']
 
@@ -23,13 +28,16 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
       didToggleOpen = () => {},
       didToggleSelect = () => {},
       NodeRenderer = null,
-      IconRenderer = null
+      IconRenderer = null,
+      borderTop = false
     },
     ref
   ) => {
     if (data === null) {
       return null
     }
+
+    const theme = useTheme()
 
     const handleClick = React.useCallback(
       (e: React.MouseEvent, nodeId: NodeId) => {
@@ -43,11 +51,11 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const renderedIcon = React.useMemo(() => {
       return IconRenderer && typeof IconRenderer === 'function' ? (
-        <Icon size="large">
-          <IconRenderer label="file" />
+        <Icon size="large" currentTheme={currentTheme}>
+          <IconRenderer label="node" />
         </Icon>
       ) : (
-        <Icon size="large" defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
+        <Icon size={theme[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
           <DefaultIcon />
         </Icon>
       )
@@ -60,19 +68,20 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
         </div>
       ) : (
         <div ref={ref}>
-          <Element
+          <NodeContainer
             data-node-id={data.id}
             isOpen={isOpen}
             isRoot={isRoot}
             currentTheme={currentTheme}
             selected={selected}
             onClick={(e) => handleClick(e, data.id)}
+            borderTop={borderTop}
           >
             <Wrapper level={level}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}
               <NodeText>{data.label}</NodeText>
             </Wrapper>
-          </Element>
+          </NodeContainer>
         </div>
       )
 

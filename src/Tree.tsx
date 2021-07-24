@@ -7,13 +7,16 @@ import styled, { ThemeProvider } from 'styled-components'
 import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from 'react-tree'
 import Container from './Tree/Container'
 import coreTheme from './styles/theme'
+import Icon from './Tree/Icon'
+import Icons from './assets/images/Icons'
 
 /**
  * Building blocks
  */
-const fontSizes = {}
+const DefaultLoaderIcon = Icons['loader']
 const TreeBoundary = styled(motion.div)<Partial<InternalTreeProps> & { style: React.CSSProperties }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   ${(props) => (props.grow ? 'flex-grow: 1; height: 100%;' : '')};
   padding: 5px;
@@ -73,7 +76,14 @@ const genericStateToggler = (
 
 const Tree: React.FC<
   TreeProps & {
-    children?: ({ toggleNodeSelection, toggleSelectAllNodes, toggleOpenCloseNode, toggleOpenCloseAllNodes }: Partial<TreeRenderProps>) => React.ReactNode
+    children?: ({
+      toggleNodeSelection,
+      toggleSelectAllNodes,
+      toggleOpenCloseNode,
+      toggleOpenCloseAllNodes,
+      selectedNodeIds,
+      openNodeIds
+    }: Partial<TreeRenderProps>) => React.ReactNode
   }
 > = ({
   nodes = [],
@@ -91,7 +101,10 @@ const Tree: React.FC<
   NodeRenderer = null,
   LeafRenderer = null,
   IconRenderer = null,
-  animations = false
+  animations = false,
+  noDataString = null,
+  loadingString = null,
+  emptyItemsString = null
 }) => {
   /**
    * We need to ensure that any changes to the content of the nodes list (create, delete)
@@ -129,9 +142,13 @@ const Tree: React.FC<
   // 2. Handling a ALL select toggle
   const toggleSelectAllNodes = (): boolean => {
     // TODO: make sure that this selects even leaf nodes
-    if (selectedNodeIds.length !== internalNodes.length) {
+    if (selectedNodeIds.length === 0) {
       setSelectedNodeIds((p) => {
-        const selection = internalNodes.map((el) => el.id)
+        const selection = internalNodes
+          .map((el) => {
+            return [el.id].concat(el.items ? el.items.map((i) => i.id) : [])
+          })
+          .flatMap((n) => n)
         onSelect(selection)
         return selection
       })
@@ -184,6 +201,17 @@ const Tree: React.FC<
     }
   }, [])
 
+  const LoadingIcon =
+    IconRenderer && typeof IconRenderer === 'function' ? (
+      <Icon size="large">
+        <IconRenderer label="loader" />
+      </Icon>
+    ) : (
+      <Icon size="large" defaultIcon initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8 }}>
+        <DefaultLoaderIcon />
+      </Icon>
+    )
+
   const content = !isLoading ? (
     <>
       {typeof children === 'function' &&
@@ -191,11 +219,13 @@ const Tree: React.FC<
           toggleNodeSelection,
           toggleSelectAllNodes,
           toggleOpenCloseNode,
-          toggleOpenCloseAllNodes
+          toggleOpenCloseAllNodes,
+          selectedNodeIds,
+          openNodeIds
         })}
       {!nodes.length && (
-        <div>
-          <span>No Data 😔</span>
+        <div style={{ alignSelf: 'center', margin: '0 auto', padding: '20px' }}>
+          <span>{noDataString ? noDataString : 'No Data...'}</span>
         </div>
       )}
       {!!nodes.length && (
@@ -214,13 +244,17 @@ const Tree: React.FC<
             LeafRenderer={LeafRenderer}
             IconRenderer={IconRenderer}
             animations={animations}
+            emptyItemsString={emptyItemsString}
           />
         </AnimatePresence>
       )}
     </>
   ) : (
     <Loader>
-      <div>Loading..</div>
+      <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+        <span style={{ paddingRight: '4px' }}>{loadingString ? loadingString : 'Loading...'}</span>
+        {LoadingIcon}
+      </div>
     </Loader>
   )
 
