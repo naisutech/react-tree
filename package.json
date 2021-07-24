@@ -1,7 +1,7 @@
 {
   "name": "@naisutech/react-tree",
   "version": "2.0.0",
-  "description": "a hierarchical object tree component for React",
+  "description": "a hierarchical tree component for React written in Typescript",
   "main": "dist/Tree.js",
   "module": "dist/Tree.mjs",
   "repository": "git@github.com:naisutech/react-tree.git",
