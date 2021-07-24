@@ -17,7 +17,7 @@ export default {
     },
     theme: {
       name: 'theme',
-      options: ['light', 'dark', 'noDecorations'],
+      options: ['light', 'dark', 'noDecorations', 'modifiedDarkLarge'],
       control: 'select',
       description: 'The name of the them you want to use to display your tree'
     },
@@ -212,7 +212,7 @@ IsLoading.args = {
 export const CustomThemeNoIndicatorsNoSeparatorsWithTinyText = Template.bind({})
 CustomThemeNoIndicatorsNoSeparatorsWithTinyText.args = {
   nodes: testData,
-  theme: 'noDecorations',
+  theme: 'modifiedDarkLarge',
   customTheme: {
     noDecorations: {
       text: '#333',
@@ -227,6 +227,20 @@ CustomThemeNoIndicatorsNoSeparatorsWithTinyText.args = {
       accentBg: 'gold',
       accentText: '#666',
       textSize: 'small'
+    },
+    modifiedDarkLarge: {
+      text: '#fafafa',
+      bg: '#2d3439',
+      indicator: 'gold',
+      separator: 'gold',
+      icon: 'gold',
+      selectedBg: '#3f464e',
+      selectedText: '#fafafa',
+      hoverBg: '#505a63',
+      hoverText: '#fafafa',
+      accentBg: '#2d3439',
+      accentText: '#999',
+      textSize: 'large'
     }
   },
   showEmptyItems: true,

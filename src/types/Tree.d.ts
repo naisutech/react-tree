@@ -41,6 +41,7 @@ declare module 'react-tree' {
     emptyItemsString?: string | null
   }
 
+  function ToggleFunction(nodeId: NodeId, multi: boolean): void
   function ToggleFunction(nodeId: NodeId): void
   function ToggleFunction(): void | boolean
   interface TreeRenderProps {
