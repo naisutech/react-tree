@@ -21,11 +21,7 @@ export default [
       }),
       peerDepsExternal(),
       nodeResolve({ preferBuiltins: false }),
-      typescript({
-        sourceMap: true,
-        exclude: '**/__tests__/**, **/stories/**, **/mocks/**',
-        noEmitOnError: true
-      }),
+      typescript({ tsconfig: './tsconfig.build.json' }),
       commonjs(),
       graph(graphOptions),
       sizeSnapshot(),

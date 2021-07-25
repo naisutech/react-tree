@@ -70,12 +70,12 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production rollup -c && tsc --emitDeclarationOnly -p tsconfig.build.json",
+    "build": "NODE_ENV=production rollup -c",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o docs"
   },
   "files": [
-    "dist"
+    "/dist"
   ],
   "keywords": [
     "react",

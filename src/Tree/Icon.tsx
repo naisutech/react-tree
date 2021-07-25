@@ -3,7 +3,7 @@ import * as React from 'react'
 import { m } from 'framer-motion'
 import styled from 'styled-components'
 import AppIcons from '../assets/images/Icons'
-import type { TreeProps } from 'react-tree'
+import { TreeProps } from '../types/Tree'
 
 interface ReactTreeIcon {
   size: string | 'default'

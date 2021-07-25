@@ -1,4 +1,4 @@
-import type { Node, NodeList } from 'react-tree'
+import type { Node, NodeList } from '../types/Tree'
 
 export const getDescendantByParent = (nodes: NodeList, currentContainer: Node): NodeList => {
   const foundList: any[] = []

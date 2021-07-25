@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ReactTree from '../Tree'
 import { nodes as testData } from '../mocks/full_list_data'
 import { nodes as longTestData } from '../mocks/full_list_long_names_data'
-import type { TreeProps, ReactTreeTheme } from 'react-tree'
+import type { TreeProps, ReactTreeTheme } from '../types/Tree'
 import './Tree.css'
 
 export default {

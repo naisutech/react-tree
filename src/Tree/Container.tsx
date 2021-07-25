@@ -7,7 +7,7 @@ import LeafElement from './LeafElement'
 import { Empty } from './Elements'
 import Wrapper from './Wrapper'
 import { getChildrenByParent, getAllDescendantsForCurrentContainers } from '../lib/NodeList'
-import type { ContainerProps, NodeList, Node, NodeId } from 'react-tree'
+import type { ContainerProps, NodeList, Node, NodeId } from '../types/Tree'
 
 const ContainerWrapper = styled(m.div)<{ parent?: NodeId | null }>`
   min-width: 0;

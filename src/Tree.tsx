@@ -4,11 +4,11 @@
 import * as React from 'react'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
-import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from 'react-tree'
 import Container from './Tree/Container'
 import coreTheme from './styles/theme'
 import Icon from './Tree/Icon'
 import Icons from './assets/images/Icons'
+import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from './types/Tree'
 
 /**
  * Building blocks

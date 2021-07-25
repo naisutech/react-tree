@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import type { NodeList } from 'react-tree'
+import type { NodeList } from '../types/Tree'
 
 const rootNodes: NodeList = [
   {
