@@ -70,7 +70,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production rollup -c",
+    "build": "NODE_ENV=production rollup -c && tsc --emitDeclarationOnly -p tsconfig.build.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o docs"
   },

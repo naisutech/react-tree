@@ -24,14 +24,14 @@ const TreeBoundary = styled(m.div)<Partial<InternalTreeProps> & { style: React.C
   ${({ size, theme }) => {
     return `width: ${size && theme._app.containerSizes[size] ? theme._app.containerSizes[size] : 'unset'}`
   }};
-  color: ${({ theme, currentTheme }) => theme[currentTheme || 'dark'].text};
-  background-color: ${({ theme, currentTheme }) => theme[currentTheme || 'dark'].bg};
+  color: ${({ theme, currentTheme }) => theme._themes[currentTheme || 'dark'].text};
+  background-color: ${({ theme, currentTheme }) => theme._themes[currentTheme || 'dark'].bg};
 
   & * {
     user-select: none;
     cursor: pointer;
     box-sizing: border-box;
-    font-size: ${({ theme, currentTheme }) => theme._app.fontSizes[theme[currentTheme || 'dark'].textSize]};
+    font-size: ${({ theme, currentTheme }) => theme._app.fontSizes[theme._themes[currentTheme || 'dark'].textSize]};
   }
 `
 
@@ -124,7 +124,15 @@ const Tree: React.FC<
    * We should also be able to handle dynamic theme changes
    */
   const _theme = React.useMemo(() => {
-    return Object.assign({}, customTheme, coreTheme)
+    return {
+      _themes: {
+        ...coreTheme._themes,
+        ...customTheme
+      },
+      _app: {
+        ...coreTheme._app
+      }
+    }
   }, [customTheme])
 
   /**

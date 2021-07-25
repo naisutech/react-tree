@@ -47,7 +47,9 @@ const reactTreeAppSettings = {
 }
 
 export default {
-  ...reactTreeBuiltInThemes,
+  _themes: {
+    ...reactTreeBuiltInThemes
+  },
   _app: {
     ...reactTreeAppSettings
   }

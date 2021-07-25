@@ -9,7 +9,7 @@ import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 
 const NodeContainer = styled(Element)<Partial<ElementProps>>`
-  border-left: ${({ isOpen, theme, currentTheme }) => (isOpen ? `4px solid ${theme[currentTheme || 'dark'].indicator}` : '4px solid transparent')};
+  border-left: ${({ isOpen, theme, currentTheme }) => (isOpen ? `4px solid ${theme._themes[currentTheme || 'dark'].indicator}` : '4px solid transparent')};
   transition: all 0.2s linear;
 `
 
@@ -55,7 +55,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
           <IconRenderer label="node" />
         </Icon>
       ) : (
-        <Icon size={theme[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
+        <Icon size={theme._themes[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
           <DefaultIcon />
         </Icon>
       )

@@ -46,7 +46,7 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
           <IconRenderer label="leaf" />
         </Icon>
       ) : (
-        <Icon size={theme[currentTheme || 'dark'].textSize} defaultIcon currentTheme={currentTheme}>
+        <Icon size={theme._themes[currentTheme || 'dark'].textSize} defaultIcon currentTheme={currentTheme}>
           <DefaultIcon />
         </Icon>
       )

@@ -27,7 +27,9 @@ declare module 'styled-components' {
     }
   }
   export interface DefaultTheme {
-    [key: string]: ReactTreeTheme
+    _themes: {
+      [key: string]: ReactTreeTheme
+    }
     _app: IAppSettings
   }
 }

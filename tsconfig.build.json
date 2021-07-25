@@ -7,7 +7,7 @@
     "checkJs": true,
     "jsx": "react",
     "declaration": true,
-    "declarationDir": "./",
+    "outDir": "dist",
     "sourceMap": true,
     "removeComments": true,
     "moduleResolution": "node",
