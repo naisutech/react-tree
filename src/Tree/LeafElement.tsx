@@ -6,7 +6,7 @@ import { NodeText } from './Text'
 import { Element } from './Elements'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
-import { ElementProps, NodeId } from '../types/Tree'
+import { ElementProps, NodeId } from '../Tree'
 
 const LeafContainer = styled(Element)<Partial<ElementProps>>``
 

@@ -6,3 +6,4 @@ yarn-error.log
 dist
 .size-snapshot.json
 storybook-static
+js

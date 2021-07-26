@@ -4,7 +4,7 @@ import { m } from 'framer-motion'
 import { Element } from './Elements'
 import Wrapper from './Wrapper'
 import { NodeText } from './Text'
-import { ElementProps, NodeId } from '../types/Tree'
+import { ElementProps, NodeId } from '../Tree'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 

@@ -1,10 +1,10 @@
 import React, { CSSProperties } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import ReactTree from '../Tree'
+import ReactTree from '..'
 import { nodes as testData } from '../mocks/full_list_data'
 import { nodes as longTestData } from '../mocks/full_list_long_names_data'
-import type { TreeProps, ReactTreeTheme } from '../types/Tree'
+import type { TreeProps, ReactTreeTheme } from '../Tree'
 import './Tree.css'
 
 export default {

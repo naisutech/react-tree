@@ -4,7 +4,7 @@
   "description": "a hierarchical tree component for React written in Typescript",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
-  "types": "dist/Tree.d.ts",
+  "types": "types/Tree.d.ts",
   "repository": "git@github.com:naisutech/react-tree.git",
   "author": "ortonomy <git@ortonomy.co>",
   "license": "MIT",
@@ -70,9 +70,10 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production rollup -c",
+    "build": "NODE_ENV=production rm -rf ./js && tsc -p tsconfig.build.json && yarn copy-files && rollup -c && mv ./types ./dist/",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs"
+    "build-storybook": "build-storybook -o docs",
+    "copy-files": "cp ./src/assets/images/*.svg ./js/assets/images"
   },
   "files": [
     "/dist"

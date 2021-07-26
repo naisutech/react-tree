@@ -8,7 +8,8 @@ import Container from './Tree/Container'
 import coreTheme from './styles/theme'
 import Icon from './Tree/Icon'
 import Icons from './assets/images/Icons'
-import { TreeProps, InternalTreeProps, NodeList, NodeId, TreeRenderProps } from './types/Tree'
+export { InternalTreeProps, NodeId, Leaf, LeafList, Node, NodeList, TreeProps, ToggleFunction, TreeRenderProps, ReactTreeTheme, ThemeSettings } from './Tree'
+import { InternalTreeProps, NodeId, NodeList, TreeProps, TreeRenderProps } from './Tree'
 
 /**
  * Building blocks
@@ -39,8 +40,6 @@ const Message = styled(m.div)`
   align-self: center;
   margin: auto 0;
 `
-
-const Spinner = styled(m.div)``
 
 const genericStateToggler = (
   stateSetter: React.Dispatch<React.SetStateAction<NodeId[]>>,
@@ -151,7 +150,7 @@ const Tree: React.FC<
   const toggleSelectAllNodes = (): boolean => {
     // TODO: make sure that this selects even leaf nodes
     if (selectedNodeIds.length === 0) {
-      setSelectedNodeIds((p) => {
+      setSelectedNodeIds(() => {
         const selection = internalNodes
           .map((el) => {
             return [el.id].concat(el.items ? el.items.map((i) => i.id) : [])
@@ -162,7 +161,7 @@ const Tree: React.FC<
       })
       return true
     }
-    setSelectedNodeIds((p) => {
+    setSelectedNodeIds(() => {
       onSelect([])
       return []
     })
@@ -175,14 +174,14 @@ const Tree: React.FC<
   // 4. Toggling all nodes open/closed
   const toggleOpenCloseAllNodes = (): boolean => {
     if (openNodeIds.length !== internalNodes.length) {
-      setOpenNodeIds((p) => {
+      setOpenNodeIds(() => {
         const openIds = internalNodes.map((el) => el.id)
         onOpenClose(openIds)
         return openIds
       })
       return true
     }
-    setOpenNodeIds((p) => {
+    setOpenNodeIds(() => {
       onOpenClose([])
       return []
     })

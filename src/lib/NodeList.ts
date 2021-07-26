@@ -1,4 +1,4 @@
-import type { Node, NodeList } from '../types/Tree'
+import type { Node, NodeList } from '../Tree'
 
 export const getDescendantByParent = (nodes: NodeList, currentContainer: Node): NodeList => {
   const foundList: any[] = []

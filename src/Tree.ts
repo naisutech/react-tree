@@ -1,5 +1,8 @@
 import { ReactElement, ReactNode } from 'react'
 
+/**
+ * @public
+ */
 export declare type NodeId = number | string
 
 export declare interface Entry {
@@ -7,16 +10,32 @@ export declare interface Entry {
   parentId: NodeId | null
 }
 
+/**
+ * @public
+ */
 export declare type Leaf = Entry & { label: string }
+
+/**
+ * @public
+ */
 export declare type LeafList = Leaf[]
 
+/**
+ * @public
+ */
 export declare type Node = Entry &
   Leaf & {
     items?: LeafList
   }
 
+/**
+ * @public
+ */
 export declare type NodeList = Node[]
 
+/**
+ * @public
+ */
 export declare interface TreeProps {
   nodes: NodeList
   size?: string | 'full'
@@ -33,21 +52,32 @@ export declare interface TreeProps {
     | (({ data, isOpen, isRoot, selected, level }: { data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode)
     | null
   LeafRenderer?: (({ data, selected, level }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
-  IconRenderer?: (({ label: string }) => ReactElement) | null
+  IconRenderer?: (({ label }: { label: string }) => ReactElement) | null
   animations?: boolean
   noDataString?: string
   loadingString?: string
   emptyItemsString?: string | null
 }
 
-export declare function ToggleFunction(nodeId: NodeId, multi: boolean): void
-export declare function ToggleFunction(nodeId: NodeId): void
-export declare function ToggleFunction(): void | boolean
+declare function ToggleFunction(nodeId: NodeId, multi: boolean): void
+
+declare function ToggleFunction(nodeId: NodeId): void
+
+declare function ToggleFunction(): void | boolean
+
+/**
+ * @public
+ */
+export type ToggleFunction = typeof ToggleFunction
+
+/**
+ * @public
+ */
 export declare interface TreeRenderProps {
-  toggleNodeSelection: typeof ToggleFunction
-  toggleSelectAllNodes: typeof ToggleFunction
-  toggleOpenCloseNode: typeof ToggleFunction
-  toggleOpenCloseAllNodes: typeof ToggleFunction
+  toggleNodeSelection: ToggleFunction
+  toggleSelectAllNodes: ToggleFunction
+  toggleOpenCloseNode: ToggleFunction
+  toggleOpenCloseAllNodes: ToggleFunction
   openNodeIds: NodeId[]
   selectedNodeIds: NodeId[]
 }
@@ -77,6 +107,9 @@ export declare interface ContainerItems {
   other: NodeList
 }
 
+/**
+ * @public
+ */
 export declare interface ReactTreeTheme {
   text: string
   bg: string
@@ -92,6 +125,9 @@ export declare interface ReactTreeTheme {
   textSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge'
 }
 
+/**
+ * @public
+ */
 export declare interface ThemeSettings {
   [key: string]: ReactTreeTheme
 }

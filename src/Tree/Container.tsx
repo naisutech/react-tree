@@ -1,13 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { m } from 'framer-motion'
-import { nanoid } from 'nanoid'
 import NodeElement from './NodeElement'
 import LeafElement from './LeafElement'
 import { Empty } from './Elements'
 import Wrapper from './Wrapper'
 import { getChildrenByParent, getAllDescendantsForCurrentContainers } from '../lib/NodeList'
-import type { ContainerProps, NodeList, Node, NodeId } from '../types/Tree'
+import type { ContainerProps, NodeList, Node, NodeId } from '../Tree'
 
 const ContainerWrapper = styled(m.div)<{ parent?: NodeId | null }>`
   min-width: 0;

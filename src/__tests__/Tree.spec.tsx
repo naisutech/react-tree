@@ -1,6 +1,6 @@
 import React from 'react'
 import { cleanup, render, screen, waitFor } from '@testing-library/react'
-import Tree from '../Tree'
+import Tree from '..'
 
 afterEach(cleanup)
 

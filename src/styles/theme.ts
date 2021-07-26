@@ -1,4 +1,4 @@
-import type { ThemeSettings } from '../types/Tree'
+import type { ThemeSettings } from '../Tree'
 
 const reactTreeBuiltInThemes: ThemeSettings = {
   dark: {

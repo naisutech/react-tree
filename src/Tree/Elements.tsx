@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { m } from 'framer-motion'
-import { ElementProps } from '../types/Tree'
+import { ElementProps } from '../Tree'
 
 export const Element = styled(m.div)<Partial<ElementProps>>`
   padding: 8px 15px 8px 4px;

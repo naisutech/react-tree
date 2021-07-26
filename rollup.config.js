@@ -1,4 +1,3 @@
-import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
@@ -11,44 +10,60 @@ import svgr from '@svgr/rollup'
 import pkg from './package.json'
 let graphOptions = { prune: true }
 
-export default [
-  {
-    input: 'src/Tree.tsx',
-    external: Object.keys(pkg.peerDependencies || {}),
-    plugins: [
-      clear({
-        targets: ['dist']
-      }),
-      peerDepsExternal(),
-      nodeResolve({ preferBuiltins: false }),
-      typescript({ tsconfig: './tsconfig.build.json' }),
-      commonjs(),
-      graph(graphOptions),
-      sizeSnapshot(),
-      terser(),
-      progress(),
-      svgr({
-        svgoConfig: {
-          plugins: {
-            removeViewBox: false
-          }
+const universalConfig = {
+  input: 'js/index.js',
+  plugins: [
+    clear({
+      targets: ['dist']
+    }),
+    peerDepsExternal(),
+    nodeResolve({ extensions: ['.js', '.svg'] }),
+    commonjs(),
+    graph(graphOptions),
+    sizeSnapshot(),
+    terser(),
+    progress(),
+    svgr({
+      svgoConfig: {
+        plugins: {
+          removeViewBox: false
         }
-      })
-    ],
-    output: [
-      {
-        file: pkg.main,
-        format: 'cjs',
-        sourcemap: true,
-        exports: 'auto'
-      },
-      {
-        file: pkg.module,
-        format: 'esm',
-        sourcemap: true,
-        exports: 'auto'
       }
-    ],
-    external: ['react', 'react-dom']
+    })
+  ],
+  external: ['react', 'react-dom']
+}
+
+const umd = {
+  ...universalConfig,
+  output: {
+    file: 'dist/index.umd.js',
+    format: 'umd',
+    sourcemap: true,
+    exports: 'auto',
+    globals: { react: 'React' },
+    name: 'ReactTree'
   }
-]
+}
+
+const es = {
+  ...universalConfig,
+  output: {
+    file: pkg.module,
+    format: 'esm',
+    sourcemap: true,
+    exports: 'auto'
+  }
+}
+
+const cjs = {
+  ...universalConfig,
+  output: {
+    file: pkg.main,
+    format: 'cjs',
+    sourcemap: true,
+    exports: 'auto'
+  }
+}
+
+export default [umd, es, cjs]
