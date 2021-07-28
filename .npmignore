@@ -1,7 +1,9 @@
+.docs
 .storybook
-.vscode
-src
+docs
+js
 node_modules
+src
 .eslintrc.json
 .gitignore
 .npmignore
@@ -10,8 +12,6 @@ node_modules
 babel.config.js
 rollup.config.js
 tsconfig.json
+tsconfig.build.json
 yarn-error.log
 yarn.lock
-storybook-static
-docs
-js
