@@ -76,7 +76,8 @@
     "copy-files": "cp ./src/assets/images/*.svg ./js/assets/images"
   },
   "files": [
-    "/dist"
+    "/dist",
+    "/types"
   ],
   "keywords": [
     "react",

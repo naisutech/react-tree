@@ -1,9 +1,6 @@
 **/.DS_Store
-.env
-node_modules
-.vscode
-yarn-error.log
 dist
-.size-snapshot.json
-storybook-static
 js
+node_modules
+types
+.size-snapshot.json
