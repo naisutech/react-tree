@@ -2,7 +2,6 @@
 .vscode
 src
 node_modules
-types
 .eslintrc.json
 .gitignore
 .npmignore
