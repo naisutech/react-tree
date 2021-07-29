@@ -22,7 +22,7 @@ const sizes: ISizes = {
   xsmall: '10px'
 }
 
-const IconWrapper = styled(m.div)<ReactTreeIcon>`
+const IconWrapper = styled(m.div)<{ size: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +39,7 @@ const IconWrapper = styled(m.div)<ReactTreeIcon>`
   }
 `
 
-const ReactTreeIconContainer = styled(IconWrapper)`
+const ReactTreeIconContainer = styled(IconWrapper)<{ currentTheme: string }>`
   svg {
     height: 100%;
     width: 100%;

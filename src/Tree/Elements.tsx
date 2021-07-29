@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import { m } from 'framer-motion'
-import { ElementProps } from '../Tree'
 
-export const Element = styled(m.div)<Partial<ElementProps>>`
+export const Element = styled(m.div)<{ currentTheme: string; borderTop: boolean; selected: boolean }>`
   padding: 8px 15px 8px 4px;
   min-height: 20px;
   min-width: 0;
@@ -23,7 +22,7 @@ export const Element = styled(m.div)<Partial<ElementProps>>`
       : ''}
 `
 
-export const Empty = styled(Element)<Partial<ElementProps>>`
+export const Empty = styled(Element)<{ currentTheme: string }>`
   color: ${({ theme, currentTheme }) => theme._themes[currentTheme || 'dark'].accentText};
   background-color: ${({ theme, currentTheme }) => theme._themes[currentTheme || 'dark'].accentBg};
 `

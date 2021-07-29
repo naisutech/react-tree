@@ -8,14 +8,14 @@ import Container from './Tree/Container'
 import coreTheme from './styles/theme'
 import Icon from './Tree/Icon'
 import Icons from './assets/images/Icons'
-export { InternalTreeProps, NodeId, Leaf, LeafList, Node, NodeList, TreeProps, ToggleFunction, TreeRenderProps, ReactTreeTheme, ThemeSettings } from './Tree'
-import { InternalTreeProps, NodeId, NodeList, TreeProps, TreeRenderProps } from './Tree'
+export { NodeId, Leaf, LeafList, Node, NodeList, TreeProps, ToggleFunction, TreeRenderProps, ReactTreeTheme, ThemeSettings } from './Tree'
+import { NodeId, NodeList, TreeProps, TreeRenderProps } from './Tree'
 
 /**
  * Building blocks
  */
 const DefaultLoaderIcon = Icons['loader']
-const TreeBoundary = styled(m.div)<Partial<InternalTreeProps> & { style: React.CSSProperties }>`
+const TreeBoundary = styled(m.div)<{ grow: boolean; currentTheme: string; size: string }>`
   display: flex;
   position: relative;
   flex-direction: column;

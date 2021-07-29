@@ -75,10 +75,6 @@
     "build-storybook": "build-storybook -o docs",
     "copy-files": "cp ./src/assets/images/*.svg ./js/assets/images"
   },
-  "files": [
-    "/dist",
-    "/types"
-  ],
   "keywords": [
     "react",
     "tree",

@@ -6,9 +6,9 @@ import LeafElement from './LeafElement'
 import { Empty } from './Elements'
 import Wrapper from './Wrapper'
 import { getChildrenByParent, getAllDescendantsForCurrentContainers } from '../lib/NodeList'
-import type { ContainerProps, NodeList, Node, NodeId } from '../Tree'
+import type { ContainerProps, NodeList, Node } from '../Tree'
 
-const ContainerWrapper = styled(m.div)<{ parent?: NodeId | null }>`
+const ContainerWrapper = styled(m.div)`
   min-width: 0;
 `
 
@@ -60,7 +60,7 @@ const Container: React.FC<ContainerProps> = ({
     : {}
 
   return (
-    <ContainerWrapper parent={parent}>
+    <ContainerWrapper>
       <DropZone>
         {!!containerItems.length &&
           containerItems.map((item: Node, k: number) => {
@@ -119,7 +119,7 @@ const Container: React.FC<ContainerProps> = ({
                         )
                       })}
                     {showEmptyItems && !item.items && (
-                      <Empty currentTheme={currentTheme} borderTop>
+                      <Empty currentTheme={currentTheme} borderTop selected={false}>
                         <Wrapper level={level + 1}>
                           <span>{emptyItemsString ? emptyItemsString : '[No items]'}</span>
                         </Wrapper>

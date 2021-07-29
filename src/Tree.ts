@@ -84,8 +84,8 @@ export declare interface TreeRenderProps {
 
 export declare type GenericStateToggler = (nodeId: NodeId, multi: boolean) => void
 
-export declare type InternalTreeProps = Partial<TreeProps> & { currentTheme: string }
-export declare type ContainerProps = Partial<InternalTreeProps> & {
+export declare type ContainerProps = Partial<TreeProps> & {
+  currentTheme: string
   parent: NodeId | null
   level?: number
   selectedNodes: Array<NodeId>
@@ -93,6 +93,7 @@ export declare type ContainerProps = Partial<InternalTreeProps> & {
   didToggleSelect: GenericStateToggler
   didToggleOpen: GenericStateToggler
 }
+
 export declare type ElementProps = Partial<ContainerProps> & {
   isOpen?: boolean
   isRoot?: boolean

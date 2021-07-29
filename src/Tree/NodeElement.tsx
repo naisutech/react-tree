@@ -8,7 +8,7 @@ import { ElementProps, NodeId } from '../Tree'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 
-const NodeContainer = styled(Element)<Partial<ElementProps>>`
+const NodeContainer = styled(Element)<{ currentTheme: string; isOpen: boolean }>`
   border-left: ${({ isOpen, theme, currentTheme }) => (isOpen ? `4px solid ${theme._themes[currentTheme || 'dark'].indicator}` : '4px solid transparent')};
   transition: all 0.2s linear;
 `
@@ -71,7 +71,6 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
           <NodeContainer
             data-node-id={data.id}
             isOpen={isOpen}
-            isRoot={isRoot}
             currentTheme={currentTheme}
             selected={selected}
             onClick={(e) => handleClick(e, data.id)}

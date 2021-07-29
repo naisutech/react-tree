@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { m } from 'framer-motion'
 import Wrapper from './Wrapper'
 import { NodeText } from './Text'
@@ -7,8 +7,6 @@ import { Element } from './Elements'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 import { ElementProps, NodeId } from '../Tree'
-
-const LeafContainer = styled(Element)<Partial<ElementProps>>``
 
 const DefaultIcon = Icons['file']
 
@@ -58,7 +56,7 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
         </div>
       ) : (
         <div ref={ref}>
-          <LeafContainer
+          <Element
             title={data.label}
             borderTop={borderTop}
             data-node-id={data.id}
@@ -68,10 +66,9 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
           >
             <Wrapper level={level + 1}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}
-
               <NodeText>{data.label}</NodeText>
             </Wrapper>
-          </LeafContainer>
+          </Element>
         </div>
       )
 
