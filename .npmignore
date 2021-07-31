@@ -11,6 +11,6 @@ src
 .size-snapshot.json
 babel.config.js
 rollup.config.js
-tsconfig.buid.json
+tsconfig.build.json
 tsconfig.json
 yarn.lock
