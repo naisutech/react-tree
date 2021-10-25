@@ -35,7 +35,7 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
       (e: React.MouseEvent, nodeId: NodeId) => {
         didToggleSelect(nodeId, e.metaKey || e.ctrlKey)
       },
-      [data]
+      [data, didToggleSelect]
     )
 
     const renderedIcon =

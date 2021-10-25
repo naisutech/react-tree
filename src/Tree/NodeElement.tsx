@@ -46,7 +46,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
           didToggleOpen(nodeId, true)
         }
       },
-      [data]
+      [data, didToggleSelect]
     )
 
     const renderedIcon = React.useMemo(() => {
