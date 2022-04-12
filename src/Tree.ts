@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react'
+import { value ReactElement, value ReactNode } from 'react'
 
 /**
  * @public
@@ -52,7 +52,7 @@ export declare interface TreeProps {
     | (({ data, isOpen, isRoot, selected, level }: { data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode)
     | null
   LeafRenderer?: (({ data, selected, level }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
-  IconRenderer?: (({ label }: { label: string }) => ReactElement) | null
+  IconRenderer?: (({ label, data }: { label: string; data: Node; type: 'leaf' | 'node' }) => ReactElement) | null
   animations?: boolean
   noDataString?: string
   loadingString?: string
