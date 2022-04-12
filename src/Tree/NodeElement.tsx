@@ -52,7 +52,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
     const renderedIcon = React.useMemo(() => {
       return IconRenderer && typeof IconRenderer === 'function' ? (
         <Icon size="large" currentTheme={currentTheme}>
-          <IconRenderer label="node" />
+          <IconRenderer data={data} type="node" />
         </Icon>
       ) : (
         <Icon size={theme._themes[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>

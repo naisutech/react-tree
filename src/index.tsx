@@ -211,7 +211,7 @@ const Tree: React.FC<
   const LoadingIcon =
     IconRenderer && typeof IconRenderer === 'function' ? (
       <Icon size="large">
-        <IconRenderer label="loader" />
+        <IconRenderer type="loader" />
       </Icon>
     ) : (
       <Icon size="large" defaultIcon initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8 }}>

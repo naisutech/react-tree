@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ReactTree from '..'
 import { nodes as testData } from '../mocks/full_list_data'
 import { nodes as longTestData } from '../mocks/full_list_long_names_data'
-import type { TreeProps, ReactTreeTheme } from '../Tree'
+import type { TreeProps, ReactTreeTheme, Node } from '../Tree'
 import './Tree.css'
 
 export default {
@@ -141,16 +141,28 @@ CustomNodesAndLeaves.args = {
 export const CustomIcons = Template.bind({})
 CustomIcons.args = {
   nodes: testData,
-  IconRenderer: ({ label }) => {
-    switch (label) {
+  IconRenderer: ({ type, data }: { type: 'node' | 'leaf'; data: Node }) => {
+    switch (type) {
       case 'node': {
-        return <span>👉</span>
+        return (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <span title={String(data.id)}>👉</span>
+          </div>
+        )
       }
       case 'leaf': {
-        return <span>🍀</span>
+        return (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <span title={String(data.id)}>🍀</span>
+          </div>
+        )
       }
       default: {
-        return <span>😵‍💫</span>
+        return (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <span title={String(data.id)}>😵‍💫</span>
+          </div>
+        )
       }
     }
   }

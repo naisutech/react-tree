@@ -1,6 +1,6 @@
 {
   "name": "@naisutech/react-tree",
-  "version": "2.0.12",
+  "version": "2.1.0",
   "description": "a hierarchical tree component for React written in Typescript",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
