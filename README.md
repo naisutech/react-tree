@@ -224,17 +224,14 @@ If you want to customize the icons, you can! Some conditions:
 - the icons are set to a default square dimensions and will force whatever icons you provide into a `20px` square container using the `object-fit: contain` method
 - overflow out of the box is hidden
 
-You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react element/component_. The icon renderer will be passed a single prop `label` which you can use to conditionally render the correct icon.
+You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react element/component_. The icon renderer will be passed two props:
 
-The three labels are:
-
-`node`
-`leaf`
-`loader`
+- `type : 'node' | 'leaf' | 'loader'`:  use to conditionally render the correct icon.
+- `data: Node`: the content of the node/leaf
 
 ```jsx
-IconRender={({label}) => {
-  return label === 'leaf | node' ? <...> : ...
+IconRender={({type}) => {
+  return type === 'leaf | node' ? <...> : ...
 }}
 ```
 
