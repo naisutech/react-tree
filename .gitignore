@@ -4,3 +4,5 @@ js
 node_modules
 types
 .size-snapshot.json
+*.tgz
+**/*.tgz
