@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { value useTheme } from 'styled-components'
-import { value m } from 'framer-motion'
+import { useTheme } from 'styled-components'
+import { m } from 'framer-motion'
 import Wrapper from './Wrapper'
-import { value NodeText } from './Text'
-import { value Element } from './Elements'
+import { NodeText } from './Text'
+import { Element } from './Elements'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
-import { value ElementProps, value NodeId } from '../Tree'
+import { ElementProps, NodeId } from '../Tree'
 
 const DefaultIcon = Icons['file']
 
@@ -41,7 +41,7 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
     const renderedIcon =
       IconRenderer && typeof IconRenderer === 'function' ? (
         <Icon size="large" currentTheme={currentTheme}>
-          <IconRenderer label="leaf" data={data} type="leaf" />
+          <IconRenderer data={data} type="leaf" />
         </Icon>
       ) : (
         <Icon size={theme._themes[currentTheme || 'dark'].textSize} defaultIcon currentTheme={currentTheme}>

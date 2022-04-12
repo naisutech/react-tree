@@ -1,10 +1,10 @@
 import * as React from 'react'
-import styled, { value useTheme } from 'styled-components'
-import { value m } from 'framer-motion'
-import { value Element } from './Elements'
+import styled, { useTheme } from 'styled-components'
+import { m } from 'framer-motion'
+import { Element } from './Elements'
 import Wrapper from './Wrapper'
-import { value NodeText } from './Text'
-import { value ElementProps, value NodeId } from '../Tree'
+import { NodeText } from './Text'
+import { ElementProps, NodeId } from '../Tree'
 import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 
@@ -52,7 +52,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
     const renderedIcon = React.useMemo(() => {
       return IconRenderer && typeof IconRenderer === 'function' ? (
         <Icon size="large" currentTheme={currentTheme}>
-          <IconRenderer label="node" data={data} type="node" />
+          <IconRenderer data={data} type="node" />
         </Icon>
       ) : (
         <Icon size={theme._themes[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
