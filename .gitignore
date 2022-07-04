@@ -6,3 +6,4 @@ types
 .size-snapshot.json
 *.tgz
 **/*.tgz
+lib

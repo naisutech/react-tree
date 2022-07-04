@@ -44,16 +44,18 @@ const Message = styled(m.div)`
 const genericStateToggler = (
   stateSetter: React.Dispatch<React.SetStateAction<NodeId[]>>,
   callback: (nodeIds: NodeId[]) => void,
+  toggleAllowed: boolean,
+  multiAllowed: boolean,
   nodeId: NodeId,
   multi: boolean = false
 ): void => {
   stateSetter((p) => {
     let _p = p.slice()
-    const toggledIndex = _p.findIndex((id) => id === nodeId)
+    const toggledIndex = toggleAllowed ? _p.findIndex((id) => id === nodeId) : -1
 
     // in case of select, which might be single or multi
     // handle single select
-    if (!multi) {
+    if (!multi || !multiAllowed) {
       let result = [nodeId]
       if (toggledIndex != -1) {
         result = []
@@ -103,7 +105,10 @@ const Tree: React.FC<
   animations = false,
   noDataString = null,
   loadingString = null,
-  emptyItemsString = null
+  emptyItemsString = null,
+  toggleSelect = true,
+  multiSelect = true,
+  unselectOnOutsideClick = true
 }) => {
   /**
    * We need to ensure that any changes to the content of the nodes list (create, delete)
@@ -144,7 +149,7 @@ const Tree: React.FC<
    */
 
   // 1. Handling a single select toggle
-  const toggleNodeSelection = genericStateToggler.bind(null, setSelectedNodeIds, onSelect)
+  const toggleNodeSelection = genericStateToggler.bind(null, setSelectedNodeIds, onSelect, toggleSelect, multiSelect)
 
   // 2. Handling a ALL select toggle
   const toggleSelectAllNodes = (): boolean => {
@@ -169,7 +174,7 @@ const Tree: React.FC<
   }
 
   // 3. Toggling an open node
-  const toggleOpenCloseNode = genericStateToggler.bind(null, setOpenNodeIds, onOpenClose)
+  const toggleOpenCloseNode = genericStateToggler.bind(null, setOpenNodeIds, onOpenClose, true, true)
 
   // 4. Toggling all nodes open/closed
   const toggleOpenCloseAllNodes = (): boolean => {
@@ -191,22 +196,23 @@ const Tree: React.FC<
   /**
    * Finally we need to set up a listener to deselect any nodes if there is a click outside of the selected tree
    */
-  React.useEffect(() => {
-    const isOutsideClick = (e: MouseEvent) => {
-      if (!treeRef?.current?.contains(e.target as Node)) {
-        // must be outside of the tree
-        onSelect([])
-        setSelectedNodeIds([])
+  if (unselectOnOutsideClick)
+    React.useEffect(() => {
+      const isOutsideClick = (e: MouseEvent) => {
+        if (!treeRef?.current?.contains(e.target as Node)) {
+          // must be outside of the tree
+          onSelect([])
+          setSelectedNodeIds([])
+        }
       }
-    }
 
-    if (!window) return
-    window.addEventListener('click', isOutsideClick)
-    return () => {
       if (!window) return
-      window.removeEventListener('click', isOutsideClick)
-    }
-  }, [])
+      window.addEventListener('click', isOutsideClick)
+      return () => {
+        if (!window) return
+        window.removeEventListener('click', isOutsideClick)
+      }
+    }, [])
 
   const LoadingIcon =
     IconRenderer && typeof IconRenderer === 'function' ? (

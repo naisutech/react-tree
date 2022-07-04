@@ -57,6 +57,9 @@ export declare interface TreeProps {
   noDataString?: string
   loadingString?: string
   emptyItemsString?: string | null
+  multiSelect?: boolean
+  toggleSelect?: boolean
+  unselectOnOutsideClick: boolean
 }
 
 declare function ToggleFunction(nodeId: NodeId, multi: boolean): void

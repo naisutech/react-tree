@@ -6,10 +6,6 @@ export const Element = styled(m.div)<{ currentTheme: string; borderTop: boolean;
   min-height: 20px;
   min-width: 0;
   transition: all 0.2s ease-in-out;
-  &:hover {
-    background: ${(props) => props.theme._themes[props.currentTheme || 'dark'].hoverBg};
-    color: ${(props) => props.theme._themes[props.currentTheme || 'dark'].hoverText};
-  }
 
   ${({ theme, currentTheme, borderTop }) => (borderTop ? `border-top: 1px solid ${theme._themes[currentTheme || 'dark'].separator};` : '')}
 
@@ -19,7 +15,12 @@ export const Element = styled(m.div)<{ currentTheme: string; borderTop: boolean;
     background-color: ${props.theme._themes[props.currentTheme || 'dark'].selectedBg};
     color: ${props.theme._themes[props.currentTheme || 'dark'].selectedText};
   `
-      : ''}
+      : `
+    &:hover {
+      background: ${props.theme._themes[props.currentTheme || 'dark'].hoverBg};
+      color: ${props.theme._themes[props.currentTheme || 'dark'].hoverText};
+    }
+  `}
 `
 
 export const Empty = styled(Element)<{ currentTheme: string }>`
