@@ -26,6 +26,7 @@ export declare type LeafList = Leaf[]
 export declare type Node = Entry &
   Leaf & {
     items?: LeafList
+    selectable?: boolean
   }
 
 /**
@@ -95,6 +96,7 @@ export declare type ContainerProps = Partial<TreeProps> & {
   openNodes: Array<NodeId>
   didToggleSelect: GenericStateToggler
   didToggleOpen: GenericStateToggler
+  selectable?: boolean
 }
 
 export declare type ElementProps = Partial<ContainerProps> & {

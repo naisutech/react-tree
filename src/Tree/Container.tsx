@@ -79,6 +79,7 @@ const Container: React.FC<ContainerProps> = ({
                   NodeRenderer={NodeRenderer}
                   IconRenderer={IconRenderer}
                   borderTop={(!parent && k !== 0) || !!parent}
+                  selectable={item.selectable}
                 />
                 {openNodes.includes(item.id) && (
                   <Children>
