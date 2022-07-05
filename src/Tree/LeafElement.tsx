@@ -51,13 +51,13 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const content =
       typeof LeafRenderer === 'function' ? (
-        <div title={data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
+        <div title={data.tooltip || data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
           {LeafRenderer({ data, selected, level })}
         </div>
       ) : (
         <div ref={ref}>
           <Element
-            title={data.label}
+            title={data.tooltip || data.label}
             borderTop={borderTop}
             data-node-id={data.id}
             selected={selected}

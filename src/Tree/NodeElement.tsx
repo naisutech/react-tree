@@ -65,7 +65,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const content =
       typeof NodeRenderer === 'function' ? (
-        <div title={data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
+        <div title={data.tooltip || data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
           {NodeRenderer({ data, isOpen, isRoot, selected, level })}
         </div>
       ) : (
@@ -77,7 +77,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
             selected={selected}
             onClick={(e) => handleClick(e, data.id)}
             borderTop={borderTop}
-            title={data.label}
+            title={data.tooltip || data.label}
           >
             <Wrapper level={level}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}

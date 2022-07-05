@@ -13,7 +13,7 @@ export declare interface Entry {
 /**
  * @public
  */
-export declare type Leaf = Entry & { label: string }
+export declare type Leaf = Entry & { label: string; tooltip?: string }
 
 /**
  * @public
