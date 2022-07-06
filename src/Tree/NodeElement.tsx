@@ -29,7 +29,8 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
       didToggleSelect = () => {},
       NodeRenderer = null,
       IconRenderer = null,
-      borderTop = false
+      borderTop = false,
+      selectable = true
     },
     ref
   ) => {
@@ -41,8 +42,9 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const handleClick = React.useCallback(
       (e: React.MouseEvent, nodeId: NodeId) => {
-        didToggleSelect(nodeId, e.metaKey || e.ctrlKey)
-        if (!e.metaKey && !e.ctrlKey) {
+        const multi = e.metaKey || e.ctrlKey
+        if (selectable) didToggleSelect(nodeId, multi)
+        if (!multi) {
           didToggleOpen(nodeId, true)
         }
       },
@@ -63,7 +65,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
 
     const content =
       typeof NodeRenderer === 'function' ? (
-        <div title={data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
+        <div title={data.tooltip || data.label} ref={ref} data-node-id={data.id} onClick={(e) => handleClick(e, data.id)}>
           {NodeRenderer({ data, isOpen, isRoot, selected, level })}
         </div>
       ) : (
@@ -75,7 +77,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
             selected={selected}
             onClick={(e) => handleClick(e, data.id)}
             borderTop={borderTop}
-            title={data.label}
+            title={data.tooltip || data.label}
           >
             <Wrapper level={level}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}

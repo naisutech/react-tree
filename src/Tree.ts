@@ -13,7 +13,7 @@ export declare interface Entry {
 /**
  * @public
  */
-export declare type Leaf = Entry & { label: string }
+export declare type Leaf = Entry & { label: string; tooltip?: string }
 
 /**
  * @public
@@ -26,6 +26,7 @@ export declare type LeafList = Leaf[]
 export declare type Node = Entry &
   Leaf & {
     items?: LeafList
+    selectable?: boolean
   }
 
 /**
@@ -57,6 +58,9 @@ export declare interface TreeProps {
   noDataString?: string
   loadingString?: string
   emptyItemsString?: string | null
+  multiSelect?: boolean
+  toggleSelect?: boolean
+  unselectOnOutsideClick: boolean
 }
 
 declare function ToggleFunction(nodeId: NodeId, multi: boolean): void
@@ -92,6 +96,7 @@ export declare type ContainerProps = Partial<TreeProps> & {
   openNodes: Array<NodeId>
   didToggleSelect: GenericStateToggler
   didToggleOpen: GenericStateToggler
+  selectable?: boolean
 }
 
 export declare type ElementProps = Partial<ContainerProps> & {
