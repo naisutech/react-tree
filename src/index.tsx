@@ -43,7 +43,6 @@ const Message = styled(m.div)`
 
 const genericStateToggler = (
   stateSetter: React.Dispatch<React.SetStateAction<NodeId[]>>,
-  callback: (nodeIds: NodeId[]) => void,
   toggleAllowed: boolean,
   multiAllowed: boolean,
   nodeId: NodeId,
@@ -60,7 +59,6 @@ const genericStateToggler = (
       if (toggledIndex != -1) {
         result = []
       }
-      callback(result)
       return result
     }
 
@@ -70,7 +68,6 @@ const genericStateToggler = (
     } else {
       _p.push(nodeId)
     }
-    callback(_p)
     return _p
   })
 }
@@ -119,6 +116,14 @@ const Tree: React.FC<
   const [openNodeIds, setOpenNodeIds] = React.useState<NodeId[]>([])
   const treeRef = React.useRef<HTMLDivElement>(null)
 
+  React.useEffect(() => {
+    onSelect(selectedNodeIds)
+  }, [selectedNodeIds])
+
+  React.useEffect(() => {
+    onOpenClose(openNodeIds)
+  }, [openNodeIds])
+
   // listen to changes on nodes
   React.useEffect(() => {
     setInternalNodes(nodes)
@@ -149,7 +154,7 @@ const Tree: React.FC<
    */
 
   // 1. Handling a single select toggle
-  const toggleNodeSelection = genericStateToggler.bind(null, setSelectedNodeIds, onSelect, toggleSelect, multiSelect)
+  const toggleNodeSelection = genericStateToggler.bind(null, setSelectedNodeIds, toggleSelect, multiSelect)
 
   // 2. Handling a ALL select toggle
   const toggleSelectAllNodes = (): boolean => {
@@ -174,7 +179,7 @@ const Tree: React.FC<
   }
 
   // 3. Toggling an open node
-  const toggleOpenCloseNode = genericStateToggler.bind(null, setOpenNodeIds, onOpenClose, true, true)
+  const toggleOpenCloseNode = genericStateToggler.bind(null, setOpenNodeIds, true, true)
 
   // 4. Toggling all nodes open/closed
   const toggleOpenCloseAllNodes = (): boolean => {
