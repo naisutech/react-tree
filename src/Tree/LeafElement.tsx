@@ -1,12 +1,12 @@
+import { m } from 'framer-motion'
 import * as React from 'react'
 import { useTheme } from 'styled-components'
-import { m } from 'framer-motion'
-import Wrapper from './Wrapper'
-import { NodeText } from './Text'
-import { Element } from './Elements'
-import Icon from './Icon'
 import Icons from '../assets/images/Icons'
 import { ElementProps, NodeId } from '../Tree'
+import { Element } from './Elements'
+import Icon from './Icon'
+import { NodeText } from './Text'
+import Wrapper from './Wrapper'
 
 const DefaultIcon = Icons['file']
 
@@ -21,7 +21,8 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
       didToggleSelect = () => {},
       LeafRenderer = null,
       IconRenderer = null,
-      borderTop = false
+      borderTop = false,
+      animateSelection = true
     },
     ref
   ) => {
@@ -38,16 +39,16 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
       [data, didToggleSelect]
     )
 
-    const renderedIcon =
-      IconRenderer && typeof IconRenderer === 'function' ? (
-        <Icon size="large" currentTheme={currentTheme}>
-          <IconRenderer data={data} type="leaf" />
-        </Icon>
-      ) : (
-        <Icon size={theme._themes[currentTheme || 'dark'].textSize} defaultIcon currentTheme={currentTheme}>
-          <DefaultIcon />
-        </Icon>
-      )
+    const userIcon = IconRenderer && typeof IconRenderer === 'function' ? IconRenderer({ data: data, type: 'leaf' }) : null
+    const renderedIcon = userIcon ? (
+      <Icon size="large" currentTheme={currentTheme}>
+        {userIcon}
+      </Icon>
+    ) : (
+      <Icon size={theme._themes[currentTheme || 'dark'].textSize} defaultIcon currentTheme={currentTheme}>
+        <DefaultIcon />
+      </Icon>
+    )
 
     const content =
       typeof LeafRenderer === 'function' ? (
@@ -63,6 +64,7 @@ const LeafElement = React.forwardRef<HTMLDivElement, ElementProps>(
             selected={selected}
             currentTheme={currentTheme}
             onClick={(e) => handleClick(e, data.id)}
+            animateSelection={animateSelection}
           >
             <Wrapper level={level + 1}>
               {!noIcons && <span style={{ paddingRight: '8px' }}>{renderedIcon}</span>}

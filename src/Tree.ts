@@ -53,7 +53,7 @@ export declare interface TreeProps {
     | (({ data, isOpen, isRoot, selected, level }: { data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode)
     | null
   LeafRenderer?: (({ data, selected, level }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
-  IconRenderer?: (({ data, type }: { data?: Node; type?: 'leaf' | 'node' | 'loader' }) => ReactElement) | null
+  IconRenderer?: (({ data, type }: { data?: Node; type?: 'leaf' | 'node' | 'loader' }) => ReactElement | null) | null
   animations?: boolean
   noDataString?: string
   loadingString?: string
@@ -61,6 +61,8 @@ export declare interface TreeProps {
   multiSelect?: boolean
   toggleSelect?: boolean
   unselectOnOutsideClick: boolean
+  animateSelection?: boolean
+  animateDropdown?: boolean
 }
 
 declare function ToggleFunction(nodeId: NodeId, multi: boolean): void

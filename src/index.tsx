@@ -1,15 +1,15 @@
 /**
  * COMPONENTS AND LIBS
  */
+import { domAnimation, LazyMotion, m } from 'framer-motion'
 import * as React from 'react'
-import { LazyMotion, domAnimation, m } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
-import Container from './Tree/Container'
-import coreTheme from './styles/theme'
-import Icon from './Tree/Icon'
 import Icons from './assets/images/Icons'
-export { NodeId, Leaf, LeafList, Node, NodeList, TreeProps, ToggleFunction, TreeRenderProps, ReactTreeTheme, ThemeSettings } from './Tree'
+import coreTheme from './styles/theme'
 import { NodeId, NodeList, TreeProps, TreeRenderProps } from './Tree'
+import Container from './Tree/Container'
+import Icon from './Tree/Icon'
+export { Leaf, LeafList, Node, NodeId, NodeList, ReactTreeTheme, ThemeSettings, ToggleFunction, TreeProps, TreeRenderProps } from './Tree'
 
 /**
  * Building blocks
@@ -105,7 +105,9 @@ const Tree: React.FC<
   emptyItemsString = null,
   toggleSelect = true,
   multiSelect = true,
-  unselectOnOutsideClick = true
+  unselectOnOutsideClick = true,
+  animateSelection = true,
+  animateDropdown = false || animations
 }) => {
   /**
    * We need to ensure that any changes to the content of the nodes list (create, delete)
@@ -260,7 +262,8 @@ const Tree: React.FC<
           NodeRenderer={NodeRenderer}
           LeafRenderer={LeafRenderer}
           IconRenderer={IconRenderer}
-          animations={animations}
+          animateDropdown={animateDropdown}
+          animateSelection={animateSelection}
           emptyItemsString={emptyItemsString}
         />
       )}

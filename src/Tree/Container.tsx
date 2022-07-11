@@ -1,12 +1,12 @@
+import { m } from 'framer-motion'
 import * as React from 'react'
 import styled from 'styled-components'
-import { m } from 'framer-motion'
-import NodeElement from './NodeElement'
-import LeafElement from './LeafElement'
+import { getAllDescendantsForCurrentContainers, getChildrenByParent } from '../lib/NodeList'
+import type { ContainerProps, Node, NodeList } from '../Tree'
 import { Empty } from './Elements'
+import LeafElement from './LeafElement'
+import NodeElement from './NodeElement'
 import Wrapper from './Wrapper'
-import { getChildrenByParent, getAllDescendantsForCurrentContainers } from '../lib/NodeList'
-import type { ContainerProps, NodeList, Node } from '../Tree'
 
 const ContainerWrapper = styled(m.div)`
   min-width: 0;
@@ -39,7 +39,8 @@ const Container: React.FC<ContainerProps> = ({
   NodeRenderer = null,
   LeafRenderer = null,
   IconRenderer = null,
-  animations = false,
+  animateDropdown = false,
+  animateSelection = true,
   emptyItemsString = null
 }) => {
   // get container items for this level and ancestors for next container
@@ -51,7 +52,7 @@ const Container: React.FC<ContainerProps> = ({
     return getAllDescendantsForCurrentContainers(nodes || [], containerItems)
   }, [containerItems])
 
-  const animationsSpec = animations
+  const animationsSpec = animateDropdown
     ? {
         initial: { opacity: 0, y: -25 },
         animate: { opacity: 1, y: 0 },
@@ -80,6 +81,7 @@ const Container: React.FC<ContainerProps> = ({
                   IconRenderer={IconRenderer}
                   borderTop={(!parent && k !== 0) || !!parent}
                   selectable={item.selectable}
+                  animateSelection={animateSelection}
                 />
                 {openNodes.includes(item.id) && (
                   <Children>
@@ -97,7 +99,8 @@ const Container: React.FC<ContainerProps> = ({
                       NodeRenderer={NodeRenderer}
                       LeafRenderer={LeafRenderer}
                       IconRenderer={IconRenderer}
-                      animations={animations}
+                      animateDropdown={animateDropdown}
+                      animateSelection={animateSelection}
                       emptyItemsString={emptyItemsString}
                     />
                     {item.items &&
@@ -115,6 +118,7 @@ const Container: React.FC<ContainerProps> = ({
                             LeafRenderer={LeafRenderer}
                             IconRenderer={IconRenderer}
                             didToggleSelect={didToggleSelect}
+                            animateSelection={animateSelection}
                             borderTop
                           />
                         )
