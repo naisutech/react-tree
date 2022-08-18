@@ -127,7 +127,7 @@ can be used to customise the UX of your _React Tree_ component. You can explore 
 | `containerStyle`         | `CSSProperties`                                                                                     | `null`  | N        | Style the _React Tree_ container                                              |
 | `NodeRenderer`           | `({ data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode` | `null`  | N        | A custom renderer for `Node` elements                                         |
 | `LeafRenderer`           | `({ data: Node; selected: boolean; level: number }) => ReactNode`                                   | `null`  | N        | A custom renderer for `Leaf` elements                                         |
-| `IconRenderer`           | `({ type: 'node' \| 'leaf' \| 'loader', data: Node }) => ReactElement`                              | `null`  | N        | A custom renderer for `Icon` elements                                         |
+| `IconRenderer`           | `({ type: 'node' \| 'leaf' \| 'loader', data: Node, isOpen: boolean }) => ReactElement`             | `null`  | N        | A custom renderer for `Icon` elements                                         |
 | `animations`             | `boolean`                                                                                           | `false` | N        | Enable animated micro-interactions                                            |
 | `noDataString`           | `string`                                                                                            | `null`  | N        | Replace the default message shown when there is no data to render             |
 | `loadingString`          | `string`                                                                                            | `null`  | N        | Replace the default message shown when `isLoading` is active                  |
@@ -230,10 +230,11 @@ If you want to customize the icons, you can! Some conditions:
 - the icons are set to a default square dimensions and will force whatever icons you provide into a `20px` square container using the `object-fit: contain` method
 - overflow out of the box is hidden
 
-You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react element/component_. The icon renderer will be passed two props:
+You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react element/component_. The icon renderer will be passed three props:
 
 - `type : 'node' | 'leaf' | 'loader'`: use to conditionally render the correct icon.
 - `data: Node`: the content of the node/leaf
+- `isOpen: boolean`: use only for node, indicates whether node is open or not
 
 ```jsx
 IconRender={({type}) => {
