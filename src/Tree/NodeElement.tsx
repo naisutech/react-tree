@@ -53,7 +53,7 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
     )
 
     const renderedIcon = React.useMemo(() => {
-      const userIcon = IconRenderer && typeof IconRenderer === 'function' ? IconRenderer({ data: data, type: 'node' }) : null
+      const userIcon = IconRenderer && typeof IconRenderer === 'function' ? IconRenderer({ data: data, type: 'node', isOpen }) : null
       return userIcon ? (
         <Icon size="large" currentTheme={currentTheme}>
           {userIcon}
