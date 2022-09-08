@@ -1,11 +1,11 @@
-import styled from 'styled-components'
 import { m } from 'framer-motion'
+import styled from 'styled-components'
 
-export const Element = styled(m.div)<{ currentTheme: string; borderTop: boolean; selected: boolean }>`
+export const Element = styled(m.div)<{ currentTheme: string; borderTop: boolean; selected: boolean; animateSelection?: boolean }>`
   padding: 8px 15px 8px 4px;
   min-height: 20px;
   min-width: 0;
-  transition: all 0.2s ease-in-out;
+  ${({ animateSelection }) => (animateSelection ? 'transition: all 0.2s ease-in-out;' : '')}
 
   ${({ theme, currentTheme, borderTop }) => (borderTop ? `border-top: 1px solid ${theme._themes[currentTheme || 'dark'].separator};` : '')}
 

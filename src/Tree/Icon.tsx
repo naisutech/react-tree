@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react'
 import { m } from 'framer-motion'
+import * as React from 'react'
 import styled from 'styled-components'
 
 interface ReactTreeIcon {
@@ -8,6 +8,7 @@ interface ReactTreeIcon {
   currentTheme?: string
   defaultIcon?: boolean
   children?: React.ReactNode
+  rotate?: number
 }
 
 interface ISizes {
@@ -22,7 +23,7 @@ const sizes: ISizes = {
   xsmall: '10px'
 }
 
-const IconWrapper = styled(m.div)<{ size: string }>`
+const IconWrapper = styled(m.div)<{ size: string; rotate?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,13 +37,15 @@ const IconWrapper = styled(m.div)<{ size: string }>`
     width: 100%;
     height: 100%;
     object-fit: contain;
+    ${({ rotate }) => (rotate ? `transform: rotate(${rotate}deg);` : '')}
   }
 `
 
-const ReactTreeIconContainer = styled(IconWrapper)<{ currentTheme: string }>`
+const ReactTreeIconContainer = styled(IconWrapper)<{ currentTheme: string; rotate?: number }>`
   svg {
     height: 100%;
     width: 100%;
+    ${({ rotate }) => (rotate ? `transform: rotate(${rotate}deg);` : '')}
 
     * {
       fill: ${({ theme, currentTheme }) => `${theme._themes[currentTheme || 'dark'].icon}`};
@@ -51,13 +54,13 @@ const ReactTreeIconContainer = styled(IconWrapper)<{ currentTheme: string }>`
   }
 `
 
-const Icon = React.forwardRef<HTMLDivElement, ReactTreeIcon>(({ size = 'default', currentTheme = 'dark', defaultIcon = false, children }, ref) => {
+const Icon = React.forwardRef<HTMLDivElement, ReactTreeIcon>(({ size = 'default', currentTheme = 'dark', defaultIcon = false, children, rotate }, ref) => {
   return defaultIcon ? (
-    <ReactTreeIconContainer ref={ref} currentTheme={currentTheme} size={size}>
+    <ReactTreeIconContainer ref={ref} currentTheme={currentTheme} size={size} rotate={rotate}>
       {children}
     </ReactTreeIconContainer>
   ) : (
-    <IconWrapper ref={ref} size={size}>
+    <IconWrapper ref={ref} size={size} rotate={rotate}>
       {children}
     </IconWrapper>
   )
