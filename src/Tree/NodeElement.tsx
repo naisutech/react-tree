@@ -1,16 +1,16 @@
+import { m } from 'framer-motion'
 import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { m } from 'framer-motion'
-import { Element } from './Elements'
-import Wrapper from './Wrapper'
-import { NodeText } from './Text'
-import { ElementProps, NodeId } from '../Tree'
-import Icon from './Icon'
 import Icons from '../assets/images/Icons'
+import { ElementProps, NodeId } from '../Tree'
+import { Element } from './Elements'
+import Icon from './Icon'
+import { NodeText } from './Text'
+import Wrapper from './Wrapper'
 
-const NodeContainer = styled(Element)<{ currentTheme: string; isOpen: boolean }>`
+const NodeContainer = styled(Element)<{ currentTheme: string; isOpen: boolean; animations?: boolean }>`
   border-left: ${({ isOpen, theme, currentTheme }) => (isOpen ? `4px solid ${theme._themes[currentTheme || 'dark'].indicator}` : '4px solid transparent')};
-  transition: all 0.2s linear;
+  ${({ animations }) => (animations ? 'transition: all 0.2s linear;' : '')}
 `
 
 const DefaultIcon = Icons['node']
@@ -30,7 +30,8 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
       NodeRenderer = null,
       IconRenderer = null,
       borderTop = false,
-      selectable = true
+      selectable = true,
+      animateSelection = false
     },
     ref
   ) => {
@@ -52,12 +53,19 @@ const NodeElement = React.forwardRef<HTMLDivElement, ElementProps>(
     )
 
     const renderedIcon = React.useMemo(() => {
-      return IconRenderer && typeof IconRenderer === 'function' ? (
+      const userIcon = IconRenderer && typeof IconRenderer === 'function' ? IconRenderer({ data: data, type: 'node' }) : null
+      return userIcon ? (
         <Icon size="large" currentTheme={currentTheme}>
-          <IconRenderer data={data} type="node" />
+          {userIcon}
         </Icon>
       ) : (
-        <Icon size={theme._themes[currentTheme || 'dark'].textSize} currentTheme={currentTheme} defaultIcon animate={{ rotate: isOpen ? 90 : 0 }}>
+        <Icon
+          size={theme._themes[currentTheme || 'dark'].textSize}
+          currentTheme={currentTheme}
+          rotate={!animateSelection && isOpen ? 90 : undefined}
+          defaultIcon
+          animate={animateSelection ? { rotate: isOpen ? 90 : 0 } : undefined}
+        >
           <DefaultIcon />
         </Icon>
       )

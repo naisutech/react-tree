@@ -1,15 +1,15 @@
 /**
  * COMPONENTS AND LIBS
  */
+import { domAnimation, LazyMotion, m } from 'framer-motion'
 import * as React from 'react'
-import { LazyMotion, domAnimation, m } from 'framer-motion'
 import styled, { ThemeProvider } from 'styled-components'
-import Container from './Tree/Container'
-import coreTheme from './styles/theme'
-import Icon from './Tree/Icon'
 import Icons from './assets/images/Icons'
-export { NodeId, Leaf, LeafList, Node, NodeList, TreeProps, ToggleFunction, TreeRenderProps, ReactTreeTheme, ThemeSettings } from './Tree'
+import coreTheme from './styles/theme'
 import { NodeId, NodeList, TreeProps, TreeRenderProps } from './Tree'
+import Container from './Tree/Container'
+import Icon from './Tree/Icon'
+export { Leaf, LeafList, Node, NodeId, NodeList, ReactTreeTheme, ThemeSettings, ToggleFunction, TreeProps, TreeRenderProps } from './Tree'
 
 /**
  * Building blocks
@@ -41,7 +41,31 @@ const Message = styled(m.div)`
   margin: auto 0;
 `
 
+const getToggleResult = (currentValue: NodeId[], toggleAllowed: boolean, multiAllowed: boolean, nodeId: NodeId, multi: boolean = false) => {
+  let _p = currentValue.slice()
+  const toggledIndex = toggleAllowed ? _p.findIndex((id) => id === nodeId) : -1
+
+  // in case of select, which might be single or multi
+  // handle single select
+  if (!multi || !multiAllowed) {
+    let result = [nodeId]
+    if (toggledIndex != -1) {
+      result = []
+    }
+    return result
+  }
+
+  // handle multi select (which is default for open/close toggle)
+  if (toggledIndex !== -1) {
+    _p = _p.filter((id) => id !== nodeId)
+  } else {
+    _p.push(nodeId)
+  }
+  return _p
+}
+
 const genericStateToggler = (
+  currentValue: NodeId[],
   stateSetter: React.Dispatch<React.SetStateAction<NodeId[]>>,
   callback: (nodeIds: NodeId[]) => void,
   toggleAllowed: boolean,
@@ -49,30 +73,9 @@ const genericStateToggler = (
   nodeId: NodeId,
   multi: boolean = false
 ): void => {
-  stateSetter((p) => {
-    let _p = p.slice()
-    const toggledIndex = toggleAllowed ? _p.findIndex((id) => id === nodeId) : -1
-
-    // in case of select, which might be single or multi
-    // handle single select
-    if (!multi || !multiAllowed) {
-      let result = [nodeId]
-      if (toggledIndex != -1) {
-        result = []
-      }
-      callback(result)
-      return result
-    }
-
-    // handle multi select (which is default for open/close toggle)
-    if (toggledIndex !== -1) {
-      _p = _p.filter((id) => id !== nodeId)
-    } else {
-      _p.push(nodeId)
-    }
-    callback(_p)
-    return _p
-  })
+  const newResult = getToggleResult(currentValue, toggleAllowed, multiAllowed, nodeId, multi)
+  stateSetter(newResult)
+  callback(newResult)
 }
 
 const Tree: React.FC<
@@ -108,7 +111,9 @@ const Tree: React.FC<
   emptyItemsString = null,
   toggleSelect = true,
   multiSelect = true,
-  unselectOnOutsideClick = true
+  unselectOnOutsideClick = true,
+  animateSelection = true,
+  animateDropdown = false || animations
 }) => {
   /**
    * We need to ensure that any changes to the content of the nodes list (create, delete)
@@ -149,7 +154,7 @@ const Tree: React.FC<
    */
 
   // 1. Handling a single select toggle
-  const toggleNodeSelection = genericStateToggler.bind(null, setSelectedNodeIds, onSelect, toggleSelect, multiSelect)
+  const toggleNodeSelection = genericStateToggler.bind(null, selectedNodeIds, setSelectedNodeIds, onSelect, toggleSelect, multiSelect)
 
   // 2. Handling a ALL select toggle
   const toggleSelectAllNodes = (): boolean => {
@@ -174,7 +179,7 @@ const Tree: React.FC<
   }
 
   // 3. Toggling an open node
-  const toggleOpenCloseNode = genericStateToggler.bind(null, setOpenNodeIds, onOpenClose, true, true)
+  const toggleOpenCloseNode = genericStateToggler.bind(null, openNodeIds, setOpenNodeIds, onOpenClose, true, true)
 
   // 4. Toggling all nodes open/closed
   const toggleOpenCloseAllNodes = (): boolean => {
@@ -255,7 +260,8 @@ const Tree: React.FC<
           NodeRenderer={NodeRenderer}
           LeafRenderer={LeafRenderer}
           IconRenderer={IconRenderer}
-          animations={animations}
+          animateDropdown={animateDropdown}
+          animateSelection={animateSelection}
           emptyItemsString={emptyItemsString}
         />
       )}
