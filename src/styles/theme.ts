@@ -1,3 +1,4 @@
+import { IAppSettings } from 'styled-components'
 import type { ThemeSettings } from '../Tree'
 
 const reactTreeBuiltInThemes: ThemeSettings = {
@@ -13,7 +14,10 @@ const reactTreeBuiltInThemes: ThemeSettings = {
     hoverText: '#fafafa',
     accentBg: '#2d3439',
     accentText: '#999',
-    textSize: 'default'
+    fontSize: 'default',
+    fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`,
+    nodeHeight: '40px'
   },
   light: {
     text: '#333',
@@ -27,16 +31,14 @@ const reactTreeBuiltInThemes: ThemeSettings = {
     hoverText: '#333',
     accentBg: '#fafafa',
     accentText: '#ccc',
-    textSize: 'default'
+    fontSize: 'default',
+    fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`,
+    nodeHeight: '40px'
   }
 }
 
-const reactTreeAppSettings = {
-  containerSizes: {
-    full: '100%',
-    half: '50%',
-    narrow: '33%'
-  },
+const reactTreeAppSettings: IAppSettings = {
   fontSizes: {
     xlarge: '34px',
     large: '20px',
@@ -47,10 +49,10 @@ const reactTreeAppSettings = {
 }
 
 export default {
-  _themes: {
+  themes: {
     ...reactTreeBuiltInThemes
   },
-  _app: {
+  app: {
     ...reactTreeAppSettings
   }
 }

@@ -30,8 +30,7 @@ const universalConfig = {
         }
       }
     })
-  ],
-  external: ['react', 'react-dom']
+  ]
 }
 
 const umd = {
@@ -41,7 +40,7 @@ const umd = {
     format: 'umd',
     sourcemap: true,
     exports: 'auto',
-    globals: { react: 'React' },
+    globals: { react: 'React', 'styled-components': 'styled' },
     name: 'ReactTree'
   }
 }

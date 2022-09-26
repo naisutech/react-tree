@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
-import type { NodeList } from '../Tree'
+import type { TreeNodeList } from '../../Tree'
 
-const rootNodes: NodeList = [
+const rootNodes: TreeNodeList = [
   {
     id: nanoid(),
     parentId: null,
@@ -19,7 +19,7 @@ const rootNodes: NodeList = [
   }
 ]
 
-const childNodes: NodeList = [
+const childNodes: TreeNodeList = [
   {
     id: nanoid(),
     parentId: rootNodes[0].id,
@@ -43,7 +43,7 @@ const childNodes: NodeList = [
   }
 ]
 
-const childChildNodes: NodeList = [
+const childChildNodes: TreeNodeList = [
   {
     id: nanoid(),
     parentId: childNodes[0].id,
@@ -80,4 +80,8 @@ for (let i = 0; i < 3; i++) {
   }
 }
 
-export const nodes: NodeList = [...rootNodes, ...childNodes, ...childChildNodes]
+export const nodes: TreeNodeList = [
+  ...rootNodes,
+  ...childNodes,
+  ...childChildNodes
+]

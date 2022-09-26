@@ -1,112 +1,22 @@
-import { ReactElement, ReactNode } from 'react'
+/**
+ * @public
+ */
+export declare type TreeNodeId = number | string
 
 /**
  * @public
  */
-export declare type NodeId = number | string
-
-export declare interface Entry {
-  id: NodeId
-  parentId: NodeId | null
+export declare interface TreeNode {
+  id: TreeNodeId
+  parentId: TreeNodeId | null
+  label?: string
+  items?: TreeNodeList | null
 }
 
 /**
  * @public
  */
-export declare type Leaf = Entry & { label: string }
-
-/**
- * @public
- */
-export declare type LeafList = Leaf[]
-
-/**
- * @public
- */
-export declare type Node = Entry &
-  Leaf & {
-    items?: LeafList
-  }
-
-/**
- * @public
- */
-export declare type NodeList = Node[]
-
-/**
- * @public
- */
-export declare interface TreeProps {
-  nodes: NodeList
-  size?: string | 'full'
-  onSelect?: (id: Array<NodeId>) => void
-  onOpenClose?: (id: Array<NodeId>) => void
-  isLoading?: boolean
-  customTheme?: ThemeSettings
-  theme?: string
-  grow?: boolean
-  showEmptyItems?: boolean
-  noIcons?: boolean
-  containerStyle?: React.CSSProperties
-  NodeRenderer?:
-    | (({ data, isOpen, isRoot, selected, level }: { data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode)
-    | null
-  LeafRenderer?: (({ data, selected, level }: { data: Node; selected: boolean; level: number }) => ReactNode) | null
-  IconRenderer?: (({ data, type }: { data?: Node; type?: 'leaf' | 'node' | 'loader' }) => ReactElement) | null
-  animations?: boolean
-  noDataString?: string
-  loadingString?: string
-  emptyItemsString?: string | null
-}
-
-declare function ToggleFunction(nodeId: NodeId, multi: boolean): void
-
-declare function ToggleFunction(nodeId: NodeId): void
-
-declare function ToggleFunction(): void | boolean
-
-/**
- * @public
- */
-export type ToggleFunction = typeof ToggleFunction
-
-/**
- * @public
- */
-export declare interface TreeRenderProps {
-  toggleNodeSelection: ToggleFunction
-  toggleSelectAllNodes: ToggleFunction
-  toggleOpenCloseNode: ToggleFunction
-  toggleOpenCloseAllNodes: ToggleFunction
-  openNodeIds: NodeId[]
-  selectedNodeIds: NodeId[]
-}
-
-export declare type GenericStateToggler = (nodeId: NodeId, multi: boolean) => void
-
-export declare type ContainerProps = Partial<TreeProps> & {
-  currentTheme: string
-  parent: NodeId | null
-  level?: number
-  selectedNodes: Array<NodeId>
-  openNodes: Array<NodeId>
-  didToggleSelect: GenericStateToggler
-  didToggleOpen: GenericStateToggler
-}
-
-export declare type ElementProps = Partial<ContainerProps> & {
-  isOpen?: boolean
-  isRoot?: boolean
-  data: Node | Leaf
-  selected?: boolean
-  borderTop?: boolean
-  borderBottom?: boolean
-}
-
-export declare interface ContainerItems {
-  current: NodeList
-  other: NodeList
-}
+export declare type TreeNodeList = TreeNode[]
 
 /**
  * @public
@@ -123,7 +33,9 @@ export declare interface ReactTreeTheme {
   hoverText: string
   accentBg: string
   accentText: string
-  textSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge'
+  fontSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge' | CSSUnit
+  fontFamily: string
+  nodeHeight: CSSUnit
 }
 
 /**
@@ -132,3 +44,12 @@ export declare interface ReactTreeTheme {
 export declare interface ThemeSettings {
   [key: string]: ReactTreeTheme
 }
+
+type CSSNumber = number
+/**
+ * @public
+ */
+export declare type CSSUnit =
+  | `${CSSNumber}rem`
+  | `${CSSNumber}em`
+  | `${CSSNumber}px`

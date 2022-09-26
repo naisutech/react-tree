@@ -30,7 +30,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es5",
+    "target": "es2019",
     "paths": {
       "@naisu-tech/react-tree": ["./src/index"],
       "@naisu-tech/react-tree/*": ["./src/*"]

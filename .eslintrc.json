@@ -2,12 +2,10 @@
   "root": true,
   "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
-    "prettier",
-    "prettier/react",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier"
   ],
   "settings": {
     "react": {
@@ -16,7 +14,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "@typescript-eslint/rule-name": "error",
+    "@typescript-eslint/no-empty-function": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
   },

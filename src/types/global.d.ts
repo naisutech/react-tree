@@ -1,4 +1,5 @@
 import 'styled-components'
+import { CSSUnit } from 'Tree'
 
 declare module 'styled-components' {
   interface ReactTreeTheme {
@@ -13,21 +14,19 @@ declare module 'styled-components' {
     hoverText: string
     accentBg: string
     accentText: string
-    textSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge'
+    fontSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge' | CSSUnit
+    fontFamily: string
+    nodeHeight: CSSUnit
   }
 
   interface IAppSettings {
-    containerSizes: {
-      [key: string]: string
-    }
-    fontSizes: {
-      [key: string]: string
-    }
+    fontSizes: Record<
+      'xsmall' | 'small' | 'default' | 'large' | 'xlarge',
+      CSSUnit
+    >
   }
   export interface DefaultTheme {
-    _themes: {
-      [key: string]: ReactTreeTheme
-    }
-    _app: IAppSettings
+    themes: Record<string, ReactTreeTheme>
+    app: IAppSettings
   }
 }
