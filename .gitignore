@@ -2,7 +2,8 @@
 dist
 js
 node_modules
-types
+/types
 .size-snapshot.json
 *.tgz
 **/*.tgz
+/lib

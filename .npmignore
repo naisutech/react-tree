@@ -14,3 +14,4 @@ rollup.config.js
 tsconfig.build.json
 tsconfig.json
 yarn.lock
+buildWindows.bat
