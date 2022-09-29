@@ -25,9 +25,7 @@ const universalConfig = {
     progress(),
     svgr({
       svgoConfig: {
-        plugins: {
-          removeViewBox: false
-        }
+        plugins: []
       }
     })
   ]

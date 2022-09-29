@@ -1,16 +1,19 @@
 import * as React from 'react'
 import { LazyMotion, domAnimation } from 'framer-motion'
 import { DefaultTheme, ThemeProvider } from 'styled-components'
+export { useReactTreeApi } from './hooks/useReactTreeApi'
+import { TreeNodeId, TreeNodeList, ThemeSettings, TreeRenderFn } from './Tree'
+import ReactTreeContext, { ReactTreeApi } from './Tree/Context'
 export {
   TreeNodeId,
   TreeNode,
   TreeNodeList,
+  TreeRenderFn,
   ReactTreeTheme,
   ThemeSettings
 } from './Tree'
-export { useReactTreeApi } from './hooks/useReactTreeApi'
-import { TreeNodeId, TreeNodeList, ThemeSettings } from './Tree'
-import ReactTreeContext, { ReactTreeApi } from './Tree/Context'
+export { ReactTreeApi, TReactTreeContext } from './Tree/Context'
+
 import TreeRoot from './Tree/TreeRoot'
 import coreTheme from './styles/theme'
 
@@ -21,80 +24,87 @@ export declare interface ReactTreeProps {
   nodes: TreeNodeList
   defaultOpenNodes?: TreeNodeId[]
   defaultSelectedNodes?: TreeNodeId[]
-  apiRef?: React.MutableRefObject<ReactTreeApi>
   messages?: { noData?: string; loading?: string; emptyItems?: string }
   loading?: boolean
-  enableAnimations?: boolean
-  showEmptyItems?: boolean
-  noIcons?: boolean
   theme?: string
   themes?: ThemeSettings
+  enableItemAnimations?: boolean
+  enableIndicatorAnimations?: boolean
+  showEmptyItems?: boolean
+  noIcons?: boolean
+  truncateLongText?: boolean
   containerStyles?: React.CSSProperties
-  RenderNode?: () => React.ReactNode
-  RenderIcon?: ({
-    data,
-    type
-  }: {
-    data?: Node
-    type?: 'leaf' | 'node' | 'loader'
-  }) => React.ReactNode
+  RenderNode?: TreeRenderFn
+  RenderIcon?: TreeRenderFn
 }
 
-export const ReactTree = ({
-  nodes = [],
-  defaultOpenNodes,
-  defaultSelectedNodes,
-  apiRef,
-  messages = {
-    loading: 'Loading...',
-    noData: 'No data to render 😔',
-    emptyItems: '[Empty]'
-  },
-  loading = false,
-  enableAnimations = false,
-  showEmptyItems = false,
-  noIcons = false,
-  theme = 'light',
-  themes,
-  containerStyles
-}: ReactTreeProps) => {
-  apiRef
-  showEmptyItems
-  noIcons
-  containerStyles
-  /**
-   * Complete react-tree theme
-   */
-  const config: DefaultTheme = React.useMemo(() => {
-    return {
-      themes: {
-        ...coreTheme.themes,
-        ...themes
+export const ReactTree = React.forwardRef(
+  (
+    {
+      nodes = [],
+      defaultOpenNodes,
+      defaultSelectedNodes,
+      messages = {
+        loading: 'Loading...',
+        noData: 'No data to render 😔',
+        emptyItems: '[Empty]'
       },
-      app: coreTheme.app
-    }
-  }, [themes])
+      loading = false,
+      theme = 'light',
+      themes,
+      enableIndicatorAnimations = false,
+      enableItemAnimations = false,
+      showEmptyItems = false,
+      noIcons = false,
+      truncateLongText = false,
+      containerStyles,
+      RenderNode,
+      RenderIcon
+    }: ReactTreeProps,
+    ref: React.MutableRefObject<ReactTreeApi>
+  ) => {
+    /**
+     * Complete react-tree theme
+     */
+    const config: DefaultTheme = React.useMemo(() => {
+      return {
+        themes: {
+          ...coreTheme.themes,
+          ...themes
+        },
+        app: coreTheme.app
+      }
+    }, [themes])
 
-  messages
+    messages
 
-  return (
-    <ThemeProvider theme={config}>
-      <LazyMotion features={domAnimation}>
-        <ReactTreeContext.Provider
-          nodes={nodes}
-          defaultOpenNodes={defaultOpenNodes}
-          defaultSelectedNodes={defaultSelectedNodes}
-          options={{
-            animations: enableAnimations,
-            lazy: false,
-            showEmptyItems,
-            noIcons
-          }}
-          theme={theme}
-        >
-          <TreeRoot loading={loading} containerStyles={containerStyles} />
-        </ReactTreeContext.Provider>
-      </LazyMotion>
-    </ThemeProvider>
-  )
-}
+    return (
+      <ThemeProvider theme={config}>
+        <LazyMotion features={domAnimation}>
+          <ReactTreeContext.Provider
+            nodes={nodes}
+            defaultOpenNodes={defaultOpenNodes}
+            defaultSelectedNodes={defaultSelectedNodes}
+            options={{
+              folderAnimations: enableItemAnimations,
+              indicatorAnimations: enableIndicatorAnimations,
+              lazy: false,
+              showEmptyItems,
+              noIcons,
+              truncateLongText
+            }}
+            theme={theme}
+            apiRef={ref}
+          >
+            <TreeRoot
+              loading={loading}
+              containerStyles={containerStyles}
+              RenderNode={RenderNode}
+              RenderIcon={RenderIcon}
+            />
+          </ReactTreeContext.Provider>
+        </LazyMotion>
+      </ThemeProvider>
+    )
+  }
+)

@@ -1,3 +1,5 @@
+import { TReactTreeContext } from 'Tree/Context'
+
 /**
  * @public
  */
@@ -18,24 +20,57 @@ export declare interface TreeNode {
  */
 export declare type TreeNodeList = TreeNode[]
 
+export declare type TreeRenderFn = ({
+  node,
+  type,
+  selected = false,
+  open = false,
+  context
+}: {
+  node: TreeNode
+  type: 'leaf' | 'node' | 'loader' | 'empty'
+  selected: boolean
+  open?: boolean
+  context: TReactTreeContext
+}) => React.ReactNode
+
 /**
  * @public
  */
 export declare interface ReactTreeTheme {
-  text: string
-  bg: string
-  indicator: string
-  separator: string
-  icon: string
-  selectedBg: string
-  selectedText: string
-  hoverBg: string
-  hoverText: string
-  accentBg: string
-  accentText: string
-  fontSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge' | CSSUnit
-  fontFamily: string
-  nodeHeight: CSSUnit
+  text?: {
+    fontSize?: SizeUnit | CSSUnit
+    fontFamily?: string
+    color?: string
+    selectedColor?: string
+    hoverColor?: string
+  }
+  nodes?: {
+    height?: CSSUnit
+    folder?: {
+      bgColor?: string
+      selectedBgColor?: string
+      hoverBgColor?: string
+    }
+    leaf?: {
+      bgColor?: string
+      selectedBgColor?: string
+      hoverBgColor?: string
+    }
+    indicator?: {
+      bgColor?: string
+      size?: CSSUnit
+    }
+    separator?: {
+      border?: string
+      borderColor?: string
+    }
+    icons?: {
+      size?: CSSUnit
+      folderColor?: string
+      leafColor?: string
+    }
+  }
 }
 
 /**
@@ -46,6 +81,7 @@ export declare interface ThemeSettings {
 }
 
 type CSSNumber = number
+
 /**
  * @public
  */
@@ -53,3 +89,8 @@ export declare type CSSUnit =
   | `${CSSNumber}rem`
   | `${CSSNumber}em`
   | `${CSSNumber}px`
+
+/**
+ * @public
+ */
+export declare type SizeUnit = 'xs' | 'sm' | 'std' | 'lg' | 'xl'

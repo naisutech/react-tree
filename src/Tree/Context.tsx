@@ -7,10 +7,16 @@ import { TreeNodeId, TreeNodeList } from 'Tree'
 export declare interface ReactTreeApi {
   getOpenNodes: () => (number | string)[]
   getSelectedNodes: () => (number | string)[]
-  openNodes: (nodes: (number | string)[]) => void
-  closeNodes: (nodes: (number | string)[]) => void
+  toggleNodeSelectedState: (node: string | number) => void
+  toggleNodeOpenState: (node: string | number) => void
+  toggleAllNodesOpenState: (state: 'open' | 'closed') => void
+  toggleAllNodesSelectedState: (state: 'selected' | 'unselected') => void
+  toggleOpenNodes: (nodes: (number | string)[]) => void
+  toggleOpenClosedNodes: (nodes: (number | string)[]) => void
+  toggleClosedNodes: (nodes: (number | string)[]) => void
   selectNodes: (nodes: (number | string)[]) => void
   deselectNodes: (nodes: (number | string)[]) => void
+  toggleSelectedNodes: (nodes: (number | string)[]) => void
 }
 
 export interface ReactTreeState {
@@ -18,31 +24,43 @@ export interface ReactTreeState {
   selectedNodes: TreeNodeId[]
   openNodes: TreeNodeId[]
   options: {
-    animations: boolean
+    folderAnimations: boolean
+    indicatorAnimations: boolean
     lazy: boolean
     showEmptyItems: boolean
     noIcons: boolean
+    truncateLongText: boolean
   }
   theme: string
 }
 
-export interface ReactTreeContext extends ReactTreeState {
-  selectNode: (nodeId: TreeNodeId) => void
-  toggleOpenNode: (nodeId: TreeNodeId) => void
-}
-const _ReactTreeContext = React.createContext<ReactTreeContext>({
+export type TReactTreeContext = ReactTreeState & ReactTreeApi
+
+const _ReactTreeContext = React.createContext<TReactTreeContext>({
   nodes: [],
   selectedNodes: [],
   openNodes: [],
   options: {
-    animations: false,
-    lazy: false,
+    folderAnimations: false,
+    indicatorAnimations: false,
     showEmptyItems: false,
-    noIcons: false
+    noIcons: false,
+    lazy: false,
+    truncateLongText: false
   },
   theme: 'light',
-  selectNode: () => {},
-  toggleOpenNode: () => {}
+  getOpenNodes: () => [],
+  getSelectedNodes: () => [],
+  toggleNodeSelectedState: () => {},
+  toggleNodeOpenState: () => {},
+  toggleAllNodesOpenState: () => {},
+  toggleAllNodesSelectedState: () => {},
+  toggleOpenNodes: () => {},
+  toggleClosedNodes: () => {},
+  toggleOpenClosedNodes: () => {},
+  selectNodes: () => {},
+  deselectNodes: () => {},
+  toggleSelectedNodes: () => {}
 })
 
 const ReactTreeContextProvider = ({
@@ -51,10 +69,12 @@ const ReactTreeContextProvider = ({
   defaultSelectedNodes = [],
   defaultOpenNodes = [],
   options = {
-    animations: false,
+    folderAnimations: false,
+    indicatorAnimations: false,
     lazy: false,
     showEmptyItems: false,
-    noIcons: false
+    noIcons: false,
+    truncateLongText: false
   },
   theme = 'light',
   apiRef
@@ -63,10 +83,12 @@ const ReactTreeContextProvider = ({
   defaultSelectedNodes?: TreeNodeId[]
   defaultOpenNodes?: TreeNodeId[]
   options?: {
-    animations?: boolean
+    folderAnimations?: boolean
+    indicatorAnimations?: boolean
     lazy?: boolean
     showEmptyItems?: boolean
     noIcons?: boolean
+    truncateLongText?: boolean
   }
   theme: string
   apiRef?: React.MutableRefObject<ReactTreeApi>
@@ -77,48 +99,94 @@ const ReactTreeContextProvider = ({
   const [openNodes, setOpenNodes] =
     React.useState<TreeNodeId[]>(defaultOpenNodes)
   const [treeConfig, setTreeConfig] = React.useState<{
-    animations: boolean
+    folderAnimations: boolean
+    indicatorAnimations: boolean
     lazy: boolean
     showEmptyItems: boolean
     noIcons: boolean
+    truncateLongText: boolean
   }>({
-    animations: options.animations || false,
+    folderAnimations: options?.folderAnimations || false,
+    indicatorAnimations: options?.indicatorAnimations || false,
     lazy: options.lazy || false,
     showEmptyItems: options.showEmptyItems || false,
-    noIcons: options.noIcons || false
+    noIcons: options.noIcons || false,
+    truncateLongText: options.truncateLongText || false
   })
 
-  const selectNode = React.useCallback(
-    (nodeId: TreeNodeId) => {
-      setSelectedNodes(nodes => {
-        const _nodes = nodes.slice()
-        const i = _nodes.indexOf(nodeId)
-        if (i !== -1) {
-          _nodes.splice(i, 1)
-        } else {
-          _nodes.push(nodeId)
-        }
-        return _nodes
-      })
-    },
-    [selectedNodes]
-  )
+  // define API methods
+  const treeApi = React.useMemo(() => {
+    return {
+      getOpenNodes: () => openNodes,
+      getSelectedNodes: () => selectedNodes,
+      toggleNodeSelectedState: (nodeId: TreeNodeId) => {
+        setSelectedNodes(nodes => {
+          const _nodes = nodes.slice()
+          const i = _nodes.indexOf(nodeId)
+          if (i !== -1) {
+            _nodes.splice(i, 1)
+          } else {
+            _nodes.push(nodeId)
+          }
+          return _nodes
+        })
+      },
+      toggleNodeOpenState: (nodeId: TreeNodeId) => {
+        setOpenNodes(nodes => {
+          const _nodes = nodes.slice()
+          const i = _nodes.indexOf(nodeId)
+          if (i !== -1) {
+            _nodes.splice(i, 1)
+          } else {
+            _nodes.push(nodeId)
+          }
+          return _nodes
+        })
+      },
+      toggleAllNodesOpenState: (state: 'open' | 'closed') => {
+        const list = state === 'open' ? nodeList.map(n => n.id) : []
+        setOpenNodes(list)
+      },
+      toggleAllNodesSelectedState: (state: 'selected' | 'unselected') => {
+        const list =
+          state === 'selected'
+            ? nodeList
+                .map(n => n.id)
+                .concat(nodeList.flatMap(n => n.items || []).map(n => n.id))
+            : []
+        setSelectedNodes(list)
+      },
+      toggleOpenNodes: (nodes: TreeNodeId[]) => {
+        setOpenNodes(nList => {
+          return Array.from(new Set(nList.concat(nodes)))
+        })
+      },
+      toggleClosedNodes: (nodes: TreeNodeId[]) => {
+        setOpenNodes(nList => {
+          return nList.filter(n => !nodes.includes(n))
+        })
+      },
+      toggleOpenClosedNodes: (nodes: TreeNodeId[]) => {
+        setOpenNodes(nodes)
+      },
+      selectNodes: (nodes: TreeNodeId[]) => {
+        setSelectedNodes(nList => {
+          return Array.from(new Set(nList.concat(nodes)))
+        })
+      },
+      deselectNodes: (nodes: TreeNodeId[]) => {
+        setSelectedNodes(nList => {
+          return nList.filter(n => !nodes.includes(n))
+        })
+      },
+      toggleSelectedNodes: (nodes: TreeNodeId[]) => {
+        setSelectedNodes(nodes)
+      }
+    }
+  }, [nodeList, openNodes, selectedNodes])
 
-  const toggleOpenNode = React.useCallback(
-    (nodeId: TreeNodeId) => {
-      setOpenNodes(nodes => {
-        const _nodes = nodes.slice()
-        const i = _nodes.indexOf(nodeId)
-        if (i !== -1) {
-          _nodes.splice(i, 1)
-        } else {
-          _nodes.push(nodeId)
-        }
-        return _nodes
-      })
-    },
-    [openNodes]
-  )
+  // provide external access to API
+  React.useImperativeHandle(apiRef, () => treeApi)
 
   React.useEffect(() => {
     setTreeNodeList(nodes)
@@ -126,10 +194,12 @@ const ReactTreeContextProvider = ({
 
   React.useEffect(() => {
     setTreeConfig({
-      animations: options.animations || false,
+      folderAnimations: options?.folderAnimations || false,
+      indicatorAnimations: options?.indicatorAnimations || false,
       lazy: options.lazy || false,
       showEmptyItems: options.showEmptyItems || false,
-      noIcons: options.noIcons || false
+      noIcons: options.noIcons || false,
+      truncateLongText: options.truncateLongText || false
     })
   }, [options])
 
@@ -139,39 +209,10 @@ const ReactTreeContextProvider = ({
       selectedNodes,
       openNodes,
       options: treeConfig,
-      selectNode,
-      toggleOpenNode,
-      theme
+      theme,
+      ...treeApi
     }
-  }, [nodes, selectedNodes, openNodes, selectNode, toggleOpenNode, theme])
-
-  // set up ref API
-  if (apiRef) {
-    apiRef.current = {
-      getOpenNodes: () => openNodes,
-      getSelectedNodes: () => selectedNodes,
-      openNodes: nodes => {
-        setOpenNodes(nList => {
-          return Array.from(new Set(nList.concat(nodes)))
-        })
-      },
-      closeNodes: nodes => {
-        setOpenNodes(nList => {
-          return nList.filter(n => !nodes.includes(n))
-        })
-      },
-      selectNodes: nodes => {
-        setSelectedNodes(nList => {
-          return Array.from(new Set(nList.concat(nodes)))
-        })
-      },
-      deselectNodes: nodes => {
-        setSelectedNodes(nList => {
-          return nList.filter(n => !nodes.includes(n))
-        })
-      }
-    }
-  }
+  }, [nodes, selectedNodes, openNodes, theme, treeApi])
 
   return (
     <_ReactTreeContext.Provider value={value}>

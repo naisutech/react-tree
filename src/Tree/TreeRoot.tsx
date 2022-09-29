@@ -3,23 +3,37 @@ import styled, { useTheme } from 'styled-components'
 import { motion } from 'framer-motion'
 import ReactTreeContext from './Context'
 import { AnyNode } from './Nodes'
-import { ReactTreeTheme } from 'Tree'
+import { ReactTreeTheme, SizeUnit, TreeRenderFn } from 'Tree'
 
 const TreeWrapper = styled(motion.div)<{
   $backgroundColor?: string
   $fontFamily?: string
   $fontSize?: string
-}>(({ $backgroundColor, $fontFamily, $fontSize }) => {
-  return [
-    `& * {
+  $fontColor?: string
+  $truncateLongText?: boolean
+}>(
+  ({
+    $backgroundColor,
+    $fontFamily,
+    $fontSize,
+    $fontColor,
+    $truncateLongText
+  }) => {
+    return [
+      `& * {
       font-size: ${$fontSize ? $fontSize : 'initial'};
       font-family: ${$fontFamily ? $fontFamily : 'initial'};
+      color: ${$fontColor ? $fontColor : 'initial'};
     }`,
-    `display: flex; flex-direction: column; flex: 1;`,
-    `background-color: ${$backgroundColor || 'initial'};`,
-    `padding: 1rem;`
-  ]
-})
+      `display: flex; flex-direction: column; flex: 1;`,
+      `background-color: ${$backgroundColor || 'initial'};`,
+      `padding: 1rem;`,
+      $truncateLongText
+        ? `overflow-x: hidden; text-overflow: ellipsis; white-space: nowrap;`
+        : ``
+    ]
+  }
+)
 
 const TreeMessage = styled(motion.div)<{ $theme: string }>`
   flex: 1;
@@ -29,43 +43,44 @@ const TreeMessage = styled(motion.div)<{ $theme: string }>`
   justify-content: center;
   padding: 1rem;
   font-family: ${({ theme: options, $theme }) =>
-    options.themes[$theme as string].fontFamily};
+    options.themes[$theme as string].text?.fontFamily};
 `
 
 const TreeRoot = ({
   loading,
-  containerStyles
+  containerStyles,
+  RenderNode,
+  RenderIcon
 }: {
   loading: boolean
   containerStyles?: React.CSSProperties
+  RenderNode?: TreeRenderFn
+  RenderIcon?: TreeRenderFn
 }) => {
   const options = useTheme()
-  const { theme } = ReactTreeContext.useReactTreeContext()
+  const { theme, options: appOptions } = ReactTreeContext.useReactTreeContext()
 
   const currentTheme = options.themes[theme] as ReactTreeTheme
-  let fontSize = currentTheme.fontSize
-  if (currentTheme.fontSize in options.app.fontSizes) {
-    fontSize =
-      options.app.fontSizes[
-        currentTheme.fontSize as
-          | 'xsmall'
-          | 'small'
-          | 'default'
-          | 'large'
-          | 'xlarge'
-      ]
+  if (!currentTheme) throw new Error('Specified theme does not exit')
+
+  let fontSize = currentTheme?.text?.fontSize || 'std'
+
+  if (fontSize in options.app.fontSizes) {
+    fontSize = options.app.fontSizes[fontSize as SizeUnit]
   }
 
   return (
     <TreeWrapper
-      $backgroundColor={currentTheme.bg}
-      $fontFamily={currentTheme.fontFamily}
+      $backgroundColor={currentTheme.nodes?.folder?.bgColor}
+      $fontFamily={currentTheme?.text?.fontFamily}
       $fontSize={fontSize}
+      $fontColor={currentTheme?.text?.color}
+      $truncateLongText={appOptions.truncateLongText}
       data-test-id="react-tree-root"
       style={{ ...containerStyles, display: 'flex', flexDirection: 'column' }}
     >
       {loading && <TreeMessage $theme={theme}>Loading (more)...</TreeMessage>}
-      {!loading && <AnyNode />}
+      {!loading && <AnyNode RenderNode={RenderNode} RenderIcon={RenderIcon} />}
     </TreeWrapper>
   )
 }

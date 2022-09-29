@@ -1,29 +1,46 @@
 import 'styled-components'
-import { CSSUnit } from 'Tree'
+import { CSSUnit, SizeUnit } from 'Tree'
 
 declare module 'styled-components' {
   interface ReactTreeTheme {
-    text: string
-    bg: string
-    indicator: string
-    separator: string
-    icon: string
-    selectedBg: string
-    selectedText: string
-    hoverBg: string
-    hoverText: string
-    accentBg: string
-    accentText: string
-    fontSize: 'xsmall' | 'small' | 'default' | 'large' | 'xlarge' | CSSUnit
-    fontFamily: string
-    nodeHeight: CSSUnit
+    text?: {
+      fontSize?: SizeUnit | CSSUnit
+      fontFamily?: string
+      color?: string
+      selectedColor?: string
+      hoverColor?: string
+      accentColor?: string
+    }
+    nodes?: {
+      height?: CSSUnit
+      folder?: {
+        bgColor?: string
+        selectedBgColor?: string
+        hoverBgColor?: string
+      }
+      leaf?: {
+        bgColor?: string
+        selectedBgColor?: string
+        hoverBgColor?: string
+      }
+      indicator?: {
+        bgColor?: string
+        size?: CSSUnit
+      }
+      separator?: {
+        border?: string
+        borderColor?: string
+      }
+      icons?: {
+        size?: CSSUnit
+        folderColor?: string
+        leafColor?: string
+      }
+    }
   }
 
   interface IAppSettings {
-    fontSizes: Record<
-      'xsmall' | 'small' | 'default' | 'large' | 'xlarge',
-      CSSUnit
-    >
+    fontSizes: Record<SizeUnit, CSSUnit>
   }
   export interface DefaultTheme {
     themes: Record<string, ReactTreeTheme>
