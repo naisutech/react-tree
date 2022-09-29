@@ -24,7 +24,11 @@ export declare interface ReactTreeProps {
   nodes: TreeNodeList
   defaultOpenNodes?: TreeNodeId[]
   defaultSelectedNodes?: TreeNodeId[]
-  messages?: { noData?: string; loading?: string; emptyItems?: string }
+  messages?: {
+    noData?: React.ReactNode
+    loading?: React.ReactNode
+    emptyItems?: React.ReactNode
+  }
   loading?: boolean
   theme?: string
   themes?: ThemeSettings
@@ -36,6 +40,10 @@ export declare interface ReactTreeProps {
   containerStyles?: React.CSSProperties
   RenderNode?: TreeRenderFn
   RenderIcon?: TreeRenderFn
+  selectedNodes?: TreeNodeId[]
+  openNodes?: TreeNodeId[]
+  onToggleSelectedNodes?: (nodes: TreeNodeId[]) => void
+  onToggleOpenNodes?: (nodes: TreeNodeId[]) => void
 }
 
 export const ReactTree = React.forwardRef(
@@ -44,6 +52,8 @@ export const ReactTree = React.forwardRef(
       nodes = [],
       defaultOpenNodes,
       defaultSelectedNodes,
+      selectedNodes,
+      openNodes,
       messages = {
         loading: 'Loading...',
         noData: 'No data to render 😔',
@@ -59,7 +69,9 @@ export const ReactTree = React.forwardRef(
       truncateLongText = false,
       containerStyles,
       RenderNode,
-      RenderIcon
+      RenderIcon,
+      onToggleSelectedNodes,
+      onToggleOpenNodes
     }: ReactTreeProps,
     ref: React.MutableRefObject<ReactTreeApi>
   ) => {
@@ -94,6 +106,10 @@ export const ReactTree = React.forwardRef(
             }}
             theme={theme}
             apiRef={ref}
+            openNodes={openNodes}
+            selectedNodes={selectedNodes}
+            onToggleOpenNodes={onToggleOpenNodes}
+            onToggleSelectedNodes={onToggleSelectedNodes}
           >
             <TreeRoot
               loading={loading}

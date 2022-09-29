@@ -31,6 +31,7 @@ export declare type TreeRenderFn = ({
   type: 'leaf' | 'node' | 'loader' | 'empty'
   selected: boolean
   open?: boolean
+  icon?: string
   context: TReactTreeContext
 }) => React.ReactNode
 

@@ -30,7 +30,11 @@ export interface ReactTreeState {
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
-    messages: { noData?: string; loading?: string; emptyItems?: string }
+    messages: {
+      noData?: React.ReactNode
+      loading?: React.ReactNode
+      emptyItems?: React.ReactNode
+    }
   }
   theme: string
 }
@@ -72,8 +76,10 @@ const _ReactTreeContext = React.createContext<TReactTreeContext>({
 const ReactTreeContextProvider = ({
   children,
   nodes = [],
-  defaultSelectedNodes = [],
-  defaultOpenNodes = [],
+  defaultSelectedNodes,
+  defaultOpenNodes,
+  selectedNodes,
+  openNodes,
   options = {
     folderAnimations: false,
     indicatorAnimations: false,
@@ -88,11 +94,15 @@ const ReactTreeContextProvider = ({
     }
   },
   theme = 'light',
-  apiRef
+  apiRef,
+  onToggleOpenNodes = () => {},
+  onToggleSelectedNodes = () => {}
 }: React.PropsWithChildren<{
   nodes?: TreeNodeList
   defaultSelectedNodes?: TreeNodeId[]
   defaultOpenNodes?: TreeNodeId[]
+  openNodes?: TreeNodeId[]
+  selectedNodes?: TreeNodeId[]
   options?: {
     folderAnimations?: boolean
     indicatorAnimations?: boolean
@@ -100,16 +110,24 @@ const ReactTreeContextProvider = ({
     showEmptyItems?: boolean
     noIcons?: boolean
     truncateLongText?: boolean
-    messages?: { noData?: string; loading?: string; emptyItems?: string }
+    messages?: {
+      noData?: React.ReactNode
+      loading?: React.ReactNode
+      emptyItems?: React.ReactNode
+    }
   }
   theme: string
   apiRef?: React.MutableRefObject<ReactTreeApi>
+  onToggleOpenNodes?: (nodes: TreeNodeId[]) => void
+  onToggleSelectedNodes?: (nodes: TreeNodeId[]) => void
 }>) => {
   const [nodeList, setTreeNodeList] = React.useState(nodes)
-  const [selectedNodes, setSelectedNodes] =
-    React.useState<TreeNodeId[]>(defaultSelectedNodes)
-  const [openNodes, setOpenNodes] =
-    React.useState<TreeNodeId[]>(defaultOpenNodes)
+  const [_selectedNodes, setSelectedNodes] = React.useState<TreeNodeId[]>(
+    defaultSelectedNodes || selectedNodes || []
+  )
+  const [_openNodes, setOpenNodes] = React.useState<TreeNodeId[]>(
+    defaultOpenNodes || openNodes || []
+  )
   const [treeConfig, setTreeConfig] = React.useState<{
     folderAnimations: boolean
     indicatorAnimations: boolean
@@ -117,7 +135,11 @@ const ReactTreeContextProvider = ({
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
-    messages: { noData: string; loading: string; emptyItems: string }
+    messages: {
+      noData: React.ReactNode
+      loading: React.ReactNode
+      emptyItems: React.ReactNode
+    }
   }>({
     folderAnimations: options?.folderAnimations || false,
     indicatorAnimations: options?.indicatorAnimations || false,
@@ -135,8 +157,8 @@ const ReactTreeContextProvider = ({
   // define API methods
   const treeApi = React.useMemo(() => {
     return {
-      getOpenNodes: () => openNodes,
-      getSelectedNodes: () => selectedNodes,
+      getOpenNodes: () => _openNodes,
+      getSelectedNodes: () => _selectedNodes,
       toggleNodeSelectedState: (nodeId: TreeNodeId) => {
         setSelectedNodes(nodes => {
           const _nodes = nodes.slice()
@@ -201,7 +223,7 @@ const ReactTreeContextProvider = ({
         setSelectedNodes(nodes)
       }
     }
-  }, [nodeList, openNodes, selectedNodes])
+  }, [nodeList, _openNodes, _selectedNodes])
 
   // provide external access to API
   React.useImperativeHandle(apiRef, () => treeApi)
@@ -209,6 +231,26 @@ const ReactTreeContextProvider = ({
   React.useEffect(() => {
     setTreeNodeList(nodes)
   }, [nodes])
+
+  // handle controlled component states
+  React.useEffect(() => {
+    if (!openNodes) return
+    setOpenNodes(openNodes)
+  }, [openNodes])
+
+  React.useEffect(() => {
+    if (!selectedNodes) return
+    setSelectedNodes(selectedNodes)
+  }, [selectedNodes])
+
+  // handle event listeners
+  React.useEffect(() => {
+    onToggleOpenNodes(_openNodes)
+  }, [_openNodes])
+
+  React.useEffect(() => {
+    onToggleSelectedNodes(_selectedNodes)
+  }, [_selectedNodes])
 
   React.useEffect(() => {
     setTreeConfig({
@@ -229,13 +271,13 @@ const ReactTreeContextProvider = ({
   const value = React.useMemo(() => {
     return {
       nodes: nodeList,
-      selectedNodes,
-      openNodes,
+      selectedNodes: _selectedNodes,
+      openNodes: _openNodes,
       options: treeConfig,
       theme,
       ...treeApi
     }
-  }, [nodes, selectedNodes, openNodes, theme, treeApi])
+  }, [nodes, _selectedNodes, openNodes, theme, treeApi])
 
   return (
     <_ReactTreeContext.Provider value={value}>

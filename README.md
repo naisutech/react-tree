@@ -8,23 +8,22 @@ a hierarchical tree component for React in Typescript
 
 ## Features
 
-- **NEW** v2 rebuilt in typescript
-- **NEW** extensible/customisable state controls via render props (see **Adding controls** below)
-- supports dark (default), light theme, and _custom themeing_ (see **Theming** below)
-- **NEW** redesigned theming object for easier customization
-- supports three sizes: _full width_, _half width_ and _narrow (33%)_
-- supports full-height or content-height vertical sizing (flex-box based)
-- optimized UX to clearly indicate open/closed folders, selected items and feedback on user input
-- optimized for long object labels: ellipsis when labels become too large for container
-- **NEW** title attributes on hover for truncated labels that are too long for container
-- optimized for deeply nested structures: container becomes scrollable when nested items might become hidden outside of container
-- empty indicator: if no data is provided, display a message to the user
-- loading indicator: indicate that the component is not ready
-- no data indicator: if no data is provided or the Node list is empty, displays a default message
-- **NEW** all messages fulling customisable
-- **NEW** user-specifiable render methods for _Nodes_, _Leaves_, and _Icons_, see **Custom renderers** below)
-- **NEW** opt-in animated micro-interactions for opening/closing folders
-- **NEW** multi-select API! hold your OS's `meta` key or `ctrl` key to be able to select/deselect multiple-nodes (see **Adding controls => Programatically selecting multiple elements** below)
+- Written in Typescript will full typings exported from package
+- Theming support for almost all parts of the components appearance, (**NEW** including partial theming) (see **Theming** below)
+- Use as an uncontrolled component with `defaultSelectedNodes` and `defaultOpenNodes` or a completely controlled component with `selectedNodes` and `openNodes` props with `onEvent` listeners
+- Fully stylable container for fixed width, or flex-box based layouts, or scrollable container when lists are too long for the parent container
+- Optimized UX to clearly indicate open/closed folders, selected items and feedback on user input
+- Toggle support for long-object labels with `truncateLongText` prop
+- Title attributes on hover for truncated labels that are too long for container
+- Toggle support for empty folders with `displayEmpty` prop
+- Customizable component message strings with `messages` prop (no data, empty folders, loading) 
+- Display a loading indicator and nothing when in loading state with `loading` prop
+- Opt-in animated micro-interactions for opening/closing folders
+- Multi-select API! hold your OS's `meta` key or `ctrl` key to be able to select/deselect multiple-nodes
+- **NEW** imperative API via export `useReactTreeApi` hook. Pass the ref to the componenta (see **Imperative API** below
+- **NEW** new context-based state management for better maintainability and handling of business logic
+- **NEW** moved react and styled components to `peerDependencies`
+- **NEW** Custom render functions for nodes and icons (full node context passed to render function with open/selected status)
 
 ## Add to a project
 
@@ -52,6 +51,7 @@ const data = ... // fetch data
   - `parentId`
 - optional properties:
   - `items`
+- id is typed to be `number` or `string`
 - root nodes should have `parentId` property set to `null`
 - files/leaf items should be a flat list of node objects on `items` property inside a node.
 - files do not require an `items` property (this should be obvious)
@@ -84,58 +84,54 @@ const data = ... // fetch data
 There are a number of optional properties which
 can be used to customise the UX of your _React Tree_ component. You can explore the full interactive docs [here](https://naisutech.github.io/react-tree/) or you can refer to the sample code below:
 
-```jsx
+```tsx
 <Tree
-  nodes={Node[]}
-  isLoading={boolean}
-  onSelect={(nodeIds: string[]) => void}
-  onOpenClose={(nodeIds: string[]) => void}
-  size={string}
-  grow={boolean}
-  noIcons={boolean}
-  showEmptyItems={boolean}
-  animations={boolean}
-  theme={string}
-  customTheme={[key:string] : ReactTreeTheme}
-  NodeRenderer={}
-  LeafRenderer={}
-  IconRenderer={}
-  noDataString={string}
-  loadingString={string}
-  emptyItemsString={string}
-  containerStyle={CSSProperties}
-  toggleSelect={boolean}
-  multiSelect={boolean}
-  unselectOnClickOutside={boolean}
+  nodes: TreeNodeList
+  defaultOpenNodes?: TreeNodeId[]
+  defaultSelectedNodes?: TreeNodeId[]
+  messages?: { noData?: React.ReactNode; loading?: React.ReactNode; emptyItems?: React.ReactNode }
+  loading?: boolean
+  theme?: string
+  themes?: ThemeSettings
+  enableItemAnimations?: boolean
+  enableIndicatorAnimations?: boolean
+  showEmptyItems?: boolean
+  noIcons?: boolean
+  truncateLongText?: boolean
+  containerStyles?: React.CSSProperties
+  RenderNode?: TreeRenderFn
+  RenderIcon?: TreeRenderFn
+  selectedNodes?: TreeNodeId[]
+  openNodes?: TreeNodeId[]
+  onToggleSelectedNodes?: (nodes: TreeNodeId[]) => void
+  onToggleOpenNodes?: (nodes: TreeNodeId[]) => void
 />
 ```
 
 ### Props list
 
-| Prop name                | Prop type                                                                                           | Default | Required | Description                                                                   |
-| ------------------------ | --------------------------------------------------------------------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------- |
-| `nodes`                  | `Node[]`                                                                                            | `[]`    | Y        | The data set for react tree to render                                         |
-| `onSelect`               | `(nodeIds: string[]) => void`                                                                       | `null`  | N        | Event listener called on every select/deselect action                         |
-| `onOpenClose`            | `(nodeIds: string[]) => void`                                                                       | `null`  | N        | Event listener called on every open/close action                              |
-| `theme`                  | `string`                                                                                            | `dark`  | N        | The currently selected theme                                                  |
-| `customTheme`            | `[key:string] : ReactTreeTheme`                                                                     | `null`  | N        | Specify a custom theme                                                        |
-| `size`                   | `full`, `half`, `narrow`                                                                            | `full`  | N        | Specify a pre-defined size                                                    |
-| `grow`                   | `boolean`                                                                                           | `false` | N        | Whether or not the tree will attempt to fill its container                    |
-| `showEmptyItems`         | `boolean`                                                                                           | `false` | N        | Whether or not to display an indicator for empty folders                      |
-| `isLoading`              | `boolean`                                                                                           | `false` | N        | Display a loader instead of the rendered tree                                 |
-| `noIcons`                | `boolean`                                                                                           | `false` | N        | Disable the icon display                                                      |
-| `containerStyle`         | `CSSProperties`                                                                                     | `null`  | N        | Style the _React Tree_ container                                              |
-| `NodeRenderer`           | `({ data: Node; isOpen: boolean; isRoot: boolean; selected: boolean; level: number }) => ReactNode` | `null`  | N        | A custom renderer for `Node` elements                                         |
-| `LeafRenderer`           | `({ data: Node; selected: boolean; level: number }) => ReactNode`                                   | `null`  | N        | A custom renderer for `Leaf` elements                                         |
-| `IconRenderer`           | `({ type: 'node' \| 'leaf' \| 'loader', data: Node, isOpen: boolean }) => ReactElement`             | `null`  | N        | A custom renderer for `Icon` elements                                         |
-| `animateDropdown`        | `boolean`                                                                                           | `false` | N        | Enable animated "cascade" of dropdown lists (was `animations`)                |
-| `animateSelection`       | `boolean`                                                                                           | `true`  | N        | Enable animated selections (leaf selection bg, and node icon rotate)          |
-| `noDataString`           | `string`                                                                                            | `null`  | N        | Replace the default message shown when there is no data to render             |
-| `loadingString`          | `string`                                                                                            | `null`  | N        | Replace the default message shown when `isLoading` is active                  |
-| `emptyItemsString`       | `string`                                                                                            | `null`  | N        | Replace the default message shown when the `showEmptyItems` setting is active |
-| `toggleSelect`           | `boolean`                                                                                           | `true`  | N        | Whether or not clicking on already-selected items will unselect them          |
-| `multiSelect`            | `boolean`                                                                                           | `true`  | N        | Whether or not more than one item can be selected using `meta` or `ctrl` key  |
-| `unselectOnClickOutside` | `boolean`                                                                                           | `true`  | N        | Whether or not clicking outside the treeview should clear the selection       |
+| **Prop name**               | **Prop type**                                                                           | **Default**                                                                       | **Required** | **Description**                                                                                                                                          |
+|-----------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `nodes`                     | `TreeNodeList`                                                                          | `[]`                                                                              | Y            | The data set for react tree to render                                                                                                                    |
+| `defaultOpenNodes`          | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The default set of open nodes. Specify when you intend to use the component in uncontrolled mode                                                         |
+| `defaultSelectedNodes `     | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The default set of selected nodes. Specify when you intend to use the component in uncontrolled mode                                                     |
+| `openNodes`                 | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The currently open nodes. Specify when you intend to use the component in controlled mode.                                                               |
+| `selectedNodes`             | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The currently selected nodes. Specify when you intend to use the component in controlled mode.                                                           |
+| `theme`                     | `string`                                                                                | `light`                                                                           | N            | The curently selected theme (built-in themes are `light`, and `dark`)                                                                                    |
+| `themes`                    | `ThemeSettings` (`Record<string, ReactTreeTheme>`)                                      | `{}`                                                                              | N            | The user-specified set of themes                                                                                                                         |
+| `loading`                   | `boolean`                                                                               | `false`                                                                           | N            | Display a loader instead of the rendered tree                                                                                                            |
+| `messages`                  | `{ noData?: React.ReactNode; loading?: React.ReactNode; emptyItems?: React.ReactNode }` | `{loading: 'Loading...', noData: 'No data to render 😔', emptyItems: '[Empty]' }` | N            | The default component message strings.                                                                                                                   |
+| `enableItemAnimations`      | `boolean`                                                                               | `false`                                                                           | N            | Whether or not to animate folders on enter/exit                                                                                                          |
+| `enableIndicatorAnimations` | `boolean`                                                                               | `false`                                                                           | N            | Whether or not to animate folder open/close icons                                                                                                        |
+| `showEmptyItems`            | `boolean`                                                                               | `false`                                                                           | N            | Whether or not to display an indicator for empty folders                                                                                                 |
+| `noIcons`                   | `boolean`                                                                               | `false`                                                                           | N            | Disable the icon display                                                                                                                                 |
+| `truncateLongText`          | `boolean`                                                                               | `false`                                                                           | N            | Prepares all DOM nodes to be able to truncate long text nodes. Note this setting will have _no effect_ if container is not styled to have a fixed width. |
+| `containerStyles`           | `CSSProperties`                                                                         | `{}`                                                                              | N            | Style the _React Tree_ container                                                                                                                         |
+| `RenderNode`                | `TreeRenderFn`                                                                          | `undefined`                                                                       | N            | A custom renderer for `Node` elements. See **Custom rendering**                                                                                          |
+| `RenderIcon`                | `TreeRenderFn`                                                                          | `undefined`                                                                       | N            | A custom renderer for `Icon` elements. See **Custom rendering**                                                                                          |
+| `onToggleSelectedNodes`     | `(nodes: TreeNodeId[]) => void`                                                         | () => void                                                                        | N            | A callback called whenever items are selected/deselected                                                                                                 |
+| `onToggleOpenNodes`         | `(nodes: TreeNodeId[]) => void`                                                         | () => void                                                                        | N            | A callback called whenever items are opened/closed                                                                                                       |
+
 
 ## Typescript
 

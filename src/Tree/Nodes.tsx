@@ -153,9 +153,10 @@ export const AnyNode = ({
                       <NodeIcon
                         node={n}
                         type="node"
+                        icon={Icons.node}
+                        context={treeContext}
                         open={isOpen}
                         selected={isSelected}
-                        context={treeContext}
                       />
                     </IconBlock>
                   </RowBlock>
@@ -264,8 +265,9 @@ export const AnyNode = ({
                               <LeafIcon
                                 node={item}
                                 type="leaf"
-                                selected={isSelected}
+                                icon={Icons.node}
                                 context={treeContext}
+                                selected={isSelected}
                               />
                             </IconBlock>
                           )}

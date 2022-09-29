@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import ReactTreeContext from './Context'
 import { AnyNode } from './Nodes'
 import { ReactTreeTheme, SizeUnit, TreeRenderFn } from 'Tree'
+import { ColumnBlock, TextBlock } from './Elements'
 
 const TreeWrapper = styled(motion.div)<{
   $backgroundColor?: string
@@ -58,7 +59,11 @@ const TreeRoot = ({
   RenderIcon?: TreeRenderFn
 }) => {
   const options = useTheme()
-  const { theme, options: appOptions } = ReactTreeContext.useReactTreeContext()
+  const {
+    nodes,
+    theme,
+    options: appOptions
+  } = ReactTreeContext.useReactTreeContext()
 
   const currentTheme = options.themes[theme] as ReactTreeTheme
   if (!currentTheme) throw new Error('Specified theme does not exit')
@@ -79,6 +84,13 @@ const TreeRoot = ({
       data-test-id="react-tree-root"
       style={{ ...containerStyles, display: 'flex', flexDirection: 'column' }}
     >
+      {!loading && nodes.length === 0 && (
+        <ColumnBlock
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+        >
+          <TextBlock>{appOptions.messages.noData}</TextBlock>
+        </ColumnBlock>
+      )}
       {loading && <TreeMessage $theme={theme}>Loading (more)...</TreeMessage>}
       {!loading && <AnyNode RenderNode={RenderNode} RenderIcon={RenderIcon} />}
     </TreeWrapper>
