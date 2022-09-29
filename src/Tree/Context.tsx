@@ -117,14 +117,19 @@ const ReactTreeContextProvider = ({
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
-    messages?: { noData?: string; loading?: string; emptyItems?: string }
+    messages: { noData: string; loading: string; emptyItems: string }
   }>({
     folderAnimations: options?.folderAnimations || false,
     indicatorAnimations: options?.indicatorAnimations || false,
     lazy: options.lazy || false,
     showEmptyItems: options.showEmptyItems || false,
     noIcons: options.noIcons || false,
-    truncateLongText: options.truncateLongText || false
+    truncateLongText: options.truncateLongText || false,
+    messages: {
+      loading: options.messages?.loading || 'Loading...',
+      noData: options.messages?.noData || 'No data to render 😔',
+      emptyItems: options.messages?.emptyItems || '[Empty]'
+    }
   })
 
   // define API methods
@@ -213,10 +218,10 @@ const ReactTreeContextProvider = ({
       showEmptyItems: options.showEmptyItems || false,
       noIcons: options.noIcons || false,
       truncateLongText: options.truncateLongText || false,
-      messages: options.messages || {
-        loading: 'Loading...',
-        noData: 'No data to render 😔',
-        emptyItems: '[Empty]'
+      messages: {
+        loading: options.messages?.loading || 'Loading...',
+        noData: options.messages?.noData || 'No data to render 😔',
+        emptyItems: options.messages?.emptyItems || '[Empty]'
       }
     })
   }, [options])
