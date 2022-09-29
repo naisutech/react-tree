@@ -20,10 +20,10 @@ a hierarchical tree component for React in Typescript
 - Display a loading indicator and nothing when in loading state with `loading` prop
 - Opt-in animated micro-interactions for opening/closing folders
 - Multi-select API! hold your OS's `meta` key or `ctrl` key to be able to select/deselect multiple-nodes
-- **NEW** imperative API via export `useReactTreeApi` hook. Pass the ref to the componenta (see **Imperative API** below
-- **NEW** new context-based state management for better maintainability and handling of business logic
-- **NEW** moved react and styled components to `peerDependencies`
-- **NEW** Custom render functions for nodes and icons (full node context passed to render function with open/selected status)
+- **NEW in v3** imperative API via export `useReactTreeApi` hook. Pass the ref to the componenta (see **Imperative API** below
+- **NEW in v3** new context-based state management for better maintainability and handling of business logic
+- **NEW in v3** moved react and styled components to `peerDependencies`
+- **NEW in v3** Custom render functions for nodes and icons (full node context passed to render function with open/selected status)
 
 ## Add to a project
 
