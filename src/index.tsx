@@ -76,8 +76,6 @@ export const ReactTree = React.forwardRef(
       }
     }, [themes])
 
-    messages
-
     return (
       <ThemeProvider theme={config}>
         <LazyMotion features={domAnimation}>
@@ -91,7 +89,8 @@ export const ReactTree = React.forwardRef(
               lazy: false,
               showEmptyItems,
               noIcons,
-              truncateLongText
+              truncateLongText,
+              messages
             }}
             theme={theme}
             apiRef={ref}

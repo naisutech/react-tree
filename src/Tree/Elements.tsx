@@ -30,6 +30,7 @@ export const UniversalNode = styled(UniversalNodeContainer)<{
   $height?: CSSUnit
   $border?: string
   $borderColor?: string
+  $backgroundColor?: string
   $selected?: boolean
   $selectedBgColor?: string
   $hoverColor?: string
@@ -37,6 +38,9 @@ export const UniversalNode = styled(UniversalNodeContainer)<{
   flex-direction: row;
   align-items: center;
   height: ${({ $height }) => $height || 'initial'};
+  ${({ $backgroundColor }) => {
+    return `background-color: ${$backgroundColor || 'initial'};`
+  }};
   border-top: ${({ $border }) => $border || '1px solid'};
   border-top-color: ${({ $borderColor }) => $borderColor || 'transparent'};
   ${({ $selected, $selectedBgColor }) => {

@@ -4,7 +4,6 @@ import Icons from '../assets/images/Icons'
 import { TreeNodeId, TreeRenderFn } from 'Tree'
 import ReactTreeContext from './Context'
 import {
-  // ColumnBlock,
   IconBlock,
   RowBlock,
   TextBlock,
@@ -37,6 +36,7 @@ export const AnyNode = ({
     toggleSelectedNodes
   } = treeContext
 
+  // each node will calculate it's own set of open and selected nodes and children
   const theseNodes = React.useMemo(() => {
     return nodes.filter(n => n.parentId === parentId)
   }, [nodes])
@@ -56,6 +56,7 @@ export const AnyNode = ({
     })
   }, [selectedNodes])
 
+  // check if user want to render their own icon
   const NodeIcon = React.useMemo(() => {
     if (RenderIcon && typeof RenderIcon === 'function') {
       return RenderIcon
@@ -74,6 +75,8 @@ export const AnyNode = ({
     toggleNodeOpenState(nodeId)
   }, [])
 
+  // only one handler needed here that isn't a direct use of the API
+  // which is keyboard modified selection
   const handleToggleSelectedNode = React.useCallback(
     (
       event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -94,14 +97,18 @@ export const AnyNode = ({
     [selectedNodes]
   )
 
+  // get current theme out of the theme list
   const currentTheme = themeList.themes[theme]
 
   return (
     <UniversalNodeContainer $truncateLongText={appOptions.truncateLongText}>
+      {/* Render list of nodes inside a container */}
       {theseNodes.map((n, i) => {
         const isOpen = theseNodesOpen[i]
         const isSelected = theseNodesSelected[i]
 
+        // Render current node inside a container
+        // N.B. Indentation is needed on each rendered node, not the container, because separator needs to cover whole width of container
         return (
           <UniversalNodeContainer
             key={n.id}
@@ -116,6 +123,7 @@ export const AnyNode = ({
             <UniversalNode
               $indent={depth}
               $height={currentTheme.nodes?.height}
+              $backgroundColor={currentTheme.nodes?.folder?.bgColor}
               $border={currentTheme.nodes?.separator?.border}
               $borderColor={
                 !depth && i === 0
@@ -175,9 +183,14 @@ export const AnyNode = ({
               </RowBlock>
             </UniversalNode>
             {theseNodesOpen[i] && (
+              // Only if this node is open, render its children
               <UniversalNodeContainer
                 $truncateLongText={appOptions.truncateLongText}
               >
+                {/* 
+                  1. Recursively render any nodes that are children of this node at the top of the list
+                  2. Render any items of this node beneath it
+                */}
                 {[
                   <AnyNode
                     key={n.id + '' + depth}
@@ -193,6 +206,8 @@ export const AnyNode = ({
                       $height={currentTheme.nodes?.height}
                       $indent={depth + 1}
                       $truncateLongText={appOptions.truncateLongText}
+                      $backgroundColor={currentTheme.nodes?.leaf?.bgColor}
+                      $hoverColor={currentTheme.nodes?.leaf?.hoverBgColor}
                       $border={currentTheme.nodes?.separator?.border}
                       $borderColor={
                         !depth && i === 0
@@ -208,7 +223,7 @@ export const AnyNode = ({
                           title="[No items]"
                           $truncateLongText={appOptions.truncateLongText}
                         >
-                          [No items]
+                          {appOptions.messages.emptyItems}
                         </TextBlock>
                       </RowBlock>
                     </UniversalNode>
@@ -220,6 +235,7 @@ export const AnyNode = ({
                         key={item.id}
                         $height={currentTheme.nodes?.height}
                         $indent={depth + 1}
+                        $backgroundColor={currentTheme.nodes?.leaf?.bgColor}
                         $border={currentTheme.nodes?.separator?.border}
                         $borderColor={
                           currentTheme.nodes?.separator?.borderColor
@@ -228,6 +244,7 @@ export const AnyNode = ({
                         $selectedBgColor={
                           currentTheme.nodes?.leaf?.selectedBgColor
                         }
+                        $hoverColor={currentTheme.nodes?.leaf?.hoverBgColor}
                         $truncateLongText={appOptions.truncateLongText}
                         onClick={e => {
                           e.stopPropagation()
@@ -240,7 +257,7 @@ export const AnyNode = ({
                         >
                           {!appOptions.noIcons && (
                             <IconBlock
-                              $color={currentTheme.nodes?.icons?.folderColor}
+                              $color={currentTheme.nodes?.icons?.leafColor}
                               $size={currentTheme.nodes?.icons?.size}
                               style={{ paddingRight: '.25rem' }}
                             >

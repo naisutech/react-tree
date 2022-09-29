@@ -57,10 +57,6 @@ export declare interface ReactTreeTheme {
       selectedBgColor?: string
       hoverBgColor?: string
     }
-    indicator?: {
-      bgColor?: string
-      size?: CSSUnit
-    }
     separator?: {
       border?: string
       borderColor?: string

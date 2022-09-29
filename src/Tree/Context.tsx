@@ -30,6 +30,7 @@ export interface ReactTreeState {
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
+    messages: { noData?: string; loading?: string; emptyItems?: string }
   }
   theme: string
 }
@@ -46,7 +47,12 @@ const _ReactTreeContext = React.createContext<TReactTreeContext>({
     showEmptyItems: false,
     noIcons: false,
     lazy: false,
-    truncateLongText: false
+    truncateLongText: false,
+    messages: {
+      loading: 'Loading...',
+      noData: 'No data to render 😔',
+      emptyItems: '[Empty]'
+    }
   },
   theme: 'light',
   getOpenNodes: () => [],
@@ -74,7 +80,12 @@ const ReactTreeContextProvider = ({
     lazy: false,
     showEmptyItems: false,
     noIcons: false,
-    truncateLongText: false
+    truncateLongText: false,
+    messages: {
+      loading: 'Loading...',
+      noData: 'No data to render 😔',
+      emptyItems: '[Empty]'
+    }
   },
   theme = 'light',
   apiRef
@@ -89,6 +100,7 @@ const ReactTreeContextProvider = ({
     showEmptyItems?: boolean
     noIcons?: boolean
     truncateLongText?: boolean
+    messages?: { noData?: string; loading?: string; emptyItems?: string }
   }
   theme: string
   apiRef?: React.MutableRefObject<ReactTreeApi>
@@ -105,6 +117,7 @@ const ReactTreeContextProvider = ({
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
+    messages?: { noData?: string; loading?: string; emptyItems?: string }
   }>({
     folderAnimations: options?.folderAnimations || false,
     indicatorAnimations: options?.indicatorAnimations || false,
@@ -199,7 +212,12 @@ const ReactTreeContextProvider = ({
       lazy: options.lazy || false,
       showEmptyItems: options.showEmptyItems || false,
       noIcons: options.noIcons || false,
-      truncateLongText: options.truncateLongText || false
+      truncateLongText: options.truncateLongText || false,
+      messages: options.messages || {
+        loading: 'Loading...',
+        noData: 'No data to render 😔',
+        emptyItems: '[Empty]'
+      }
     })
   }, [options])
 

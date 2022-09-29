@@ -23,10 +23,6 @@ const reactTreeBuiltInThemes: ThemeSettings = {
         selectedBgColor: '#3f464e',
         hoverBgColor: '#505a63'
       },
-      indicator: {
-        bgColor: '#64abd4',
-        size: '1rem'
-      },
       separator: {
         border: '1px solid',
         borderColor: '#555'
@@ -55,13 +51,9 @@ const reactTreeBuiltInThemes: ThemeSettings = {
         hoverBgColor: '#ccc'
       },
       leaf: {
-        bgColor: '#2d3439',
-        selectedBgColor: '#3f464e',
-        hoverBgColor: '#505a63'
-      },
-      indicator: {
-        bgColor: '#64abd4',
-        size: '1rem'
+        bgColor: '#fff',
+        selectedBgColor: '#eee',
+        hoverBgColor: '#ccc'
       },
       separator: {
         border: '1px solid',
