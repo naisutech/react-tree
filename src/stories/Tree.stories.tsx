@@ -37,8 +37,8 @@ Basic.args = {
   loading: false,
   theme: 'light',
   themes: storyCustomTheme,
-  defaultOpenNodes: [],
-  defaultSelectedNodes: [],
+  defaultOpenNodes: undefined,
+  defaultSelectedNodes: undefined,
   messages: {
     loading: 'Loading...',
     noData: 'No data to render 😔',
@@ -51,5 +51,7 @@ Basic.args = {
   truncateLongText: false,
   containerStyles: {},
   RenderNode: '',
-  RenderIcon: ''
+  RenderIcon: '',
+  selectedNodes: undefined,
+  openNodes: undefined
 }
