@@ -51,7 +51,7 @@ const data = ... // fetch data
   - `parentId`
 - optional properties:
   - `items`
-- id is typed to be `number` or `string`
+- `id` is typed to be `number` or `string`
 - root nodes should have `parentId` property set to `null`
 - files/leaf items should be a flat list of node objects on `items` property inside a node.
 - files do not require an `items` property (this should be obvious)
