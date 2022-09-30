@@ -303,7 +303,7 @@ type TreeRenderFn = ({
 - `context: TReactTreeContext` - the entire _React Tree_ context including the state, and API methods
 
 
-### Nodes
+### Nodes
 
 _ReactTree_ will call (if provided) the `RenderNode` icon with the API for TreeRenderFn. This should be enough information to render any customization you need.
 
