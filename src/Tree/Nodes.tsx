@@ -153,7 +153,7 @@ export const AnyNode = ({
                       <NodeIcon
                         node={n}
                         type="node"
-                        icon={Icons.node}
+                        Icon={Icons.node}
                         context={treeContext}
                         open={isOpen}
                         selected={isSelected}
@@ -265,7 +265,7 @@ export const AnyNode = ({
                               <LeafIcon
                                 node={item}
                                 type="leaf"
-                                icon={Icons.node}
+                                Icon={Icons.node}
                                 context={treeContext}
                                 selected={isSelected}
                               />

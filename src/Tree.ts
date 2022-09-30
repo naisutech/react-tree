@@ -1,3 +1,4 @@
+import React from 'react'
 import { TReactTreeContext } from 'Tree/Context'
 
 /**
@@ -28,10 +29,10 @@ export declare type TreeRenderFn = ({
   context
 }: {
   node: TreeNode
-  type: 'leaf' | 'node' | 'loader' | 'empty'
+  type: 'leaf' | 'node' | 'loader'
   selected: boolean
   open?: boolean
-  icon?: string
+  Icon?: React.ReactNode
   context: TReactTreeContext
 }) => React.ReactNode
 

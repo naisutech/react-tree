@@ -22,7 +22,7 @@ a hierarchical tree component for React in Typescript
 - Multi-select API! hold your OS's `meta` key or `ctrl` key to be able to select/deselect multiple-nodes
 - **NEW in v3** imperative API via export `useReactTreeApi` hook. Pass the ref to the componenta (see **Imperative API** below
 - **NEW in v3** new context-based state management for better maintainability and handling of business logic
-- **NEW in v3** moved react and styled components to `peerDependencies`
+- **NEW in v3** moved `react-dom` and `styled-components` to `peerDependencies`
 - **NEW in v3** Custom render functions for nodes and icons (full node context passed to render function with open/selected status)
 
 ## Add to a project
@@ -79,7 +79,7 @@ const data = ... // fetch data
 ]
 ```
 
-## Full API
+## Component API
 
 There are a number of optional properties which
 can be used to customise the UX of your _React Tree_ component. You can explore the full interactive docs [here](https://naisutech.github.io/react-tree/) or you can refer to the sample code below:
@@ -105,6 +105,7 @@ can be used to customise the UX of your _React Tree_ component. You can explore 
   openNodes?: TreeNodeId[]
   onToggleSelectedNodes?: (nodes: TreeNodeId[]) => void
   onToggleOpenNodes?: (nodes: TreeNodeId[]) => void
+  ref: React.MutableRef<ReactTreeApi>
 />
 ```
 
@@ -137,116 +138,188 @@ can be used to customise the UX of your _React Tree_ component. You can explore 
 
 _React Tree_ is written in typescript and is fully typescript compatible. All type definitions are exported directly from the library. See `src/types` in the repo for extensive definitions
 
-## Adding controls
+## Imperative API
 
-[Interactive docs](https://naisutech.github.io/react-tree/?path=/story/reacttree-tree--with-controls)
+_React Tree_ exposes a hook `useReactTreeApi` which you can use to imperatively control the tree component. The hook returns a `React.MutableRef<ReactTreeApi>` type object. All you have to do is pass the returned object to the `ref` props on the _React Tree_ component. The `.current` property on the ref object will be populated with the API functions you need to fully control the component.
 
-_React Tree_ uses the render props pattern to provide extensibility options and publish internal data & callbacks which developers can use to add extra functionality. Using the render props pattern, you could add a control bar to the tree, or display information about the selected / open nodes. The render prop function is called when you pass children to the _ReactTree_ component. The render prop function is passed an render props object:
+### Usage
 
-API:
+```tsx
+import ReactTree, { useReactTreeApi } from "@naisutech/react-tree"
+const App = () => {
+  const treeApi = useReactTreeApi()
 
-```js
-{
-  toggleNodeSelection: ToggleFunction,
-  toggleSelectAllNodes: ToggleFunction,
-  toggleOpenCloseNode: ToggleFunction,
-  toggleOpenCloseAllNodes: ToggleFunction,
-  selectedNodeIds: Node[],
-  openNodeIds: Node[]
+  return <div>
+    <button onClick={() => { treeApi.current.toggleAllNodesOpenState("open") }}>Expand all</button>
+    <ReactTree
+      nodes={[]}
+      ref={treeApi}
+    />
+  </div>
 }
 ```
 
-Usage:
+### Docs
 
-```jsx
+Full details of the _React Tree_ API:
 
-// example using toggle open/close all nodes
-<Tree nodes={[...]}>
-  {(controls) => {
-    return <button onClick={() => controls.toggleOpenCloseAllNodes()}>Open/close all nodes</button>
-  }}
-</Tree>
-```
-
-### Programatically selecting multiple elements
-
-You can use multi-select out of the box by holding a modifier key (`meta` or `ctrl`) to select multiple elements (leaves or nodes), but there is an additional API for selecting elements available via the render props pattern:
-
-Usage:
-
-```jsx
-
-/*
-* Example using toggleNodeSelection
-*/
-<Tree nodes={[...]}>
-  {(controls) => {
-    const multiSelect = true // selected node will APPEND to list of already selected nodes, not replace
-    return <button onClick={() => controls.toggleNodeSelection(nodeId, multiSelect)}>Open/close all nodes</button>
-  }}
-</Tree>
+```ts
+interface ReactTreeApi {
+  getOpenNodes: () => (number | string)[]  // get a list of all open nodes
+  getSelectedNodes: () => (number | string)[] // get a list of all selected nodes
+  toggleNodeSelectedState: (node: string | number) => void // toggle a node selected/unselected. This is an inclusive operation (all other selected nodes are retained)
+  toggleNodeOpenState: (node: string | number) => void // toggle a node open. This is an inclusive operation (all other open nodes are retained)
+  toggleAllNodesOpenState: (state: 'open' | 'closed') => void // open or close all nodes
+  toggleAllNodesSelectedState: (state: 'selected' | 'unselected') => void // select or deselect all nodes
+  toggleOpenNodes: (nodes: (number | string)[]) => void // toggle a set of nodes open. This is an additive operation (it's a union of already open and newly open nodes)
+  toggleClosedNodes: (nodes: (number | string)[]) => void // toggle a set of nodes closed. This is an subtractive operation (it's a difference of already open and newly closed nodes)
+  toggleOpenClosedNodes: (nodes: (number | string)[]) => void // toggle a set of nodes open. This is an exclusive operation (all other open nodes are closed)
+  selectNodes: (nodes: (number | string)[]) => void // toggle a set of nodes selected. This is an additive operation (it's a union of already selected and newly selected nodes)
+  deselectNodes: (nodes: (number | string)[]) => void // toggle a set of nodes deselected. This is an subtractive operation (it's a difference of already selected and newly deselected nodes)
+  toggleSelectedNodes: (nodes: (number | string)[]) => void // toggle a set of nodes selected. This is an exclusive operation (all other selected nodes are deselected)
+}
 ```
 
 ## Theming
 
-`react-tree` supports custom theming. All values are CSS colours or hexes (.e.g. `#000`, `hotpink`, or even `transparent`). Provide the theme object to the `customTheme` prop (with a property matching your theme name) and provide your theme name to the `theme` prop. You can also specify a change in overall text size via a custom theme, which accepts one of 5 values: `'xsmall' (10px) | 'small' (13px) | 'default' (17px) | 'large' (20px) | 'xlarge' (34px)`
+_ReactTree_ supports custom theming. All values are CSS compatible properties. Provide the custom theme object to the `themes` prop (with a key matching your theme name) and provide your theme name to the `theme` prop.
 
-```js
-const myThemes = {
-  modifiedDarkLarge: {
-    text: '#fafafa', // text color
-    bg: '#2d3439', // background color of whole tree
-    indicator: 'gold', // open folder indicator color
-    separator: 'gold', // row seperator color
-    icon: 'gold', // fill & stroke color of default icons - has no effect when using custom icons
-    selectedBg: '#3f464e', // background of selected element
-    selectedText: '#fafafa', // text color of selected element
-    hoverBg: '#505a63', // background of hovered element
-    hoverText: '#fafafa', // text color of hovered element
-    accentBg: '#2d3439', // background of empty folder element
-    accentText: '#999', // text color of empty folder element
-    textSize: 'large' // preferred text size
+### Theme API:
+
+Note all props are optional. Any props not provided will use `initial` settings (e.g. `background-color: initial;`)
+
+```ts
+interface ReactTreeTheme {
+  text?: {
+    fontSize?: SizeUnit | CSSUnit
+    fontFamily?: string
+    color?: string
+    selectedColor?: string
+    hoverColor?: string
+  }
+  nodes?: {
+    height?: CSSUnit
+    folder?: {
+      bgColor?: string
+      selectedBgColor?: string
+      hoverBgColor?: string
+    }
+    leaf?: {
+      bgColor?: string
+      selectedBgColor?: string
+      hoverBgColor?: string
+    }
+    separator?: {
+      border?: string
+      borderColor?: string
+    }
+    icons?: {
+      size?: CSSUnit
+      folderColor?: string
+      leafColor?: string
+    }
   }
 }
 ```
 
+### Usage:
+
+```ts
+const myThemes: ThemeSettings = {
+  {
+  "exampleCustomTheme": {
+    "text": {
+      "fontSize": "xl",
+      "fontFamily": "cursive",
+      "color": "#fafafa",
+      "selectedColor": "#fafafa",
+      "hoverColor": "#fafafa"
+    },
+    "nodes": {
+      "height": "3.5rem",
+      "folder": {
+        "bgColor": "gold",
+        "selectedBgColor": "goldenrod",
+        "hoverBgColor": "yellow"
+      },
+      "leaf": {
+        "bgColor": "magenta",
+        "selectedBgColor": "blueviolet",
+        "hoverBgColor": "violet"
+      },
+      "separator": {
+        "border": "3px solid",
+        "borderColor": "transparent"
+      },
+      "icons": {
+        "size": "1rem",
+        "folderColor": "crimson",
+        "leafColor": "white"
+      }
+    }
+  }
+}
+}
+```
+
 ```jsx
-<Tree nodes={data} theme="modifiedDarkLarge" customTheme={myThemes} />
+<Tree nodes={data} theme="exampleCustomTheme" themes={myThemes} />
 ```
 
 > Result
 
 ![result](./.docs/modified_theme.png)
 
-## Icons
+## Custom render functions
 
-`react-tree` comes with a pretty solid set of default icons for showing node elements, leaf elements, and a loading indicator. However, if you want to hide the icons, pass the `noIcons` prop
+_React Tree_ includes two props `RenderNode` and `RenderIcon` which can be used to fully customize the appearance and behaviour of the component
+
+### API 
+
+Icons and nodes both use the same API, `TreeRenderFn`:
+
+```tsx
+type TreeRenderFn = ({
+  node,
+  type,
+  selected = false,
+  open = false,
+  context
+}: {
+  node: TreeNode
+  type: 'leaf' | 'node' | 'loader'
+  selected: boolean
+  open?: boolean
+  Icon?: React.ReactNode
+  context: TReactTreeContext
+}) => React.ReactNode
+```
+
+- `node: TreeNode` - the node data
+- `type: 'leaf' | 'node' | 'loader'` - the type of this node
+- `selected: boolean` - indicates whether node is selected or not
+- `open: boolean` - use only for node, indicates whether node is open or not
+- `icon: React.ReactNode` - the SVG component of the original _React Tree_ icon if you want to use it
+- `context: TReactTreeContext` - the entire _React Tree_ context including the state, and API methods
+
+
+### Nodes
+
+_ReactTree_ will call (if provided) the `RenderNode` icon with the API for TreeRenderFn. This should be enough information to render any customization you need.
+
+**N.B.** if you use the prop `truncateLongText` you'll notice that unless you properly style your custom node elements, it will take no effect. As explained elsewhere, you'll need to make sure that a) the container is styled to have a fixed width and b) that the custom node is styled `overflow-x: hidden;` and `text-overflow: ellipsis` to be rendered correctly. 
+
+### Icons
+
+_ReactTree_ comes with a pretty solid set of default icons for showing node elements and leaf elements. However, if you want to hide the icons, pass the `noIcons` prop.
 
 If you want to customize the icons, you can! Some conditions:
 
-- the icons are set to a default square dimensions and will force whatever icons you provide into a `20px` square container using the `object-fit: contain` method
-- overflow out of the box is hidden
+- the icon is rendered inside a container which whose size is determined by theme property `icons.size`. It will render any child SVG or `img` element as `100%` height and width within that container
 
-
-You can customize the icons by providing a render function to the props `IconRenderer` which _must_ return a _valid react element/component_. The icon renderer will be passed three props:
-
-
-- `type : 'node' | 'leaf' | 'loader'`: use to conditionally render the correct icon.
-- `data: Node`: the content of the node/leaf
-- `isOpen: boolean`: use only for node, indicates whether node is open or not
-
-```jsx
-IconRender={({type}) => {
-  return type === 'leaf | node' ? <...> : ...
-}}
-```
-
-If `null` is returned by the rendering function, the appropriate default icon will be used instead.
-
-## TODO in v3 and beyond
+## TODO in v4 and beyond
 
 - add drag and drop support
-- any other requested features..
 
 ## Contributing
 
