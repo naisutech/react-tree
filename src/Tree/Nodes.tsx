@@ -30,10 +30,14 @@ export const AnyNode = ({
     nodes,
     openNodes,
     selectedNodes,
+    controlledOpen,
+    controlledSelected,
     theme,
     options: appOptions,
     toggleNodeOpenState,
-    toggleSelectedNodes
+    toggleSelectedNodes,
+    onToggleOpenNodes,
+    onToggleSelectedNodes
   } = treeContext
 
   // each node will calculate it's own set of open and selected nodes and children
@@ -72,6 +76,10 @@ export const AnyNode = ({
   }, [RenderIcon])
 
   const handleToggleOpenNode = React.useCallback((nodeId: TreeNodeId) => {
+    if (controlledOpen) {
+      if (onToggleOpenNodes) onToggleOpenNodes([nodeId])
+      return
+    }
     toggleNodeOpenState(nodeId)
   }, [])
 
@@ -91,6 +99,12 @@ export const AnyNode = ({
 
       // exclude already selected for toggle purposes
       if (!selectedNodes.includes(nodeId)) nodeSet.push(nodeId)
+
+      // handle unique case when component is in controlled mode
+      if (controlledSelected) {
+        if (onToggleSelectedNodes) onToggleSelectedNodes(nodeSet)
+        return
+      }
 
       toggleSelectedNodes(nodeSet)
     },

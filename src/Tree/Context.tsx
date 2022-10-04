@@ -17,12 +17,16 @@ export declare interface ReactTreeApi {
   selectNodes: (nodes: (number | string)[]) => void
   deselectNodes: (nodes: (number | string)[]) => void
   toggleSelectedNodes: (nodes: (number | string)[]) => void
+  onToggleOpenNodes?: (nodes: TreeNodeId[]) => void
+  onToggleSelectedNodes?: (nodes: TreeNodeId[]) => void
 }
 
 export interface ReactTreeState {
   nodes: TreeNodeList
   selectedNodes: TreeNodeId[]
   openNodes: TreeNodeId[]
+  controlledOpen: boolean
+  controlledSelected: boolean
   options: {
     folderAnimations: boolean
     indicatorAnimations: boolean
@@ -45,6 +49,8 @@ const _ReactTreeContext = React.createContext<TReactTreeContext>({
   nodes: [],
   selectedNodes: [],
   openNodes: [],
+  controlledOpen: false,
+  controlledSelected: false,
   options: {
     folderAnimations: false,
     indicatorAnimations: false,
@@ -70,7 +76,9 @@ const _ReactTreeContext = React.createContext<TReactTreeContext>({
   toggleOpenClosedNodes: () => {},
   selectNodes: () => {},
   deselectNodes: () => {},
-  toggleSelectedNodes: () => {}
+  toggleSelectedNodes: () => {},
+  onToggleOpenNodes: () => {},
+  onToggleSelectedNodes: () => {}
 })
 
 const ReactTreeContextProvider = ({
@@ -128,6 +136,19 @@ const ReactTreeContextProvider = ({
   const [_openNodes, setOpenNodes] = React.useState<TreeNodeId[]>(
     defaultOpenNodes || openNodes || []
   )
+
+  const [controlledOpen] = React.useState(() => {
+    if (defaultOpenNodes) return false
+    if (openNodes) return true
+    return false
+  })
+
+  const [controlledSelected] = React.useState(() => {
+    if (defaultSelectedNodes) return false
+    if (selectedNodes) return true
+    return false
+  })
+
   const [treeConfig, setTreeConfig] = React.useState<{
     folderAnimations: boolean
     indicatorAnimations: boolean
@@ -273,11 +294,27 @@ const ReactTreeContextProvider = ({
       nodes: nodeList,
       selectedNodes: _selectedNodes,
       openNodes: _openNodes,
+      controlledOpen,
+      controlledSelected,
       options: treeConfig,
       theme,
-      ...treeApi
+      ...treeApi,
+      onToggleOpenNodes,
+      onToggleSelectedNodes
     }
-  }, [nodes, _selectedNodes, openNodes, theme, treeApi])
+  }, [
+    nodes,
+    _selectedNodes,
+    _openNodes,
+    controlledOpen,
+    controlledSelected,
+    theme,
+    treeApi,
+    onToggleOpenNodes,
+    onToggleSelectedNodes
+  ])
+
+  console.log({ value })
 
   return (
     <_ReactTreeContext.Provider value={value}>
