@@ -106,5 +106,5 @@ ControlledOpenNodes.args = {
   RenderNode: '',
   RenderIcon: '',
   selectedNodes: undefined,
-  openNodes: ['NodeTest']
+  openNodes: ['NodeTest1']
 }
