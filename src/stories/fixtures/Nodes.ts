@@ -5,17 +5,17 @@ const nanoid = customAlphabet('0123456789', 3)
 
 const rootNodes: TreeNodeList = [
   {
-    id: nanoid(),
+    id: 'NodeTest1',
     parentId: null,
     label: 'Root 1'
   },
   {
-    id: nanoid(),
+    id: '2',
     parentId: null,
     label: 'Root 2'
   },
   {
-    id: nanoid(),
+    id: '3',
     parentId: null,
     label: 'Root 3'
   }
@@ -23,7 +23,7 @@ const rootNodes: TreeNodeList = [
 
 const childNodes: TreeNodeList = [
   {
-    id: nanoid(),
+    id: 'NodeTest1-1',
     parentId: rootNodes[0].id,
     label: 'Child 1',
     items: []
@@ -85,6 +85,14 @@ for (let i = 0; i < 3; i++) {
       label: 'File ' + (i + 3)
     })
   }
+}
+
+if (childNodes[0].items) {
+  childNodes[0].items.push({
+    id: 'FTest',
+    parentId: childNodes[0].id,
+    label: 'File Test'
+  })
 }
 
 export const storyNodes: TreeNodeList = [
