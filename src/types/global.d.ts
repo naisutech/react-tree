@@ -7,21 +7,20 @@ declare module 'styled-components' {
       fontSize?: SizeUnit | CSSUnit
       fontFamily?: string
       color?: string
-      selectedColor?: string
-      hoverColor?: string
-      accentColor?: string
+      selectedColor?: string | null
+      hoverColor?: string | null
     }
     nodes?: {
       height?: CSSUnit
       folder?: {
         bgColor?: string
         selectedBgColor?: string
-        hoverBgColor?: string
+        hoverBgColor?: string | null
       }
       leaf?: {
         bgColor?: string
         selectedBgColor?: string
-        hoverBgColor?: string
+        hoverBgColor?: string | null
       }
       indicator?: {
         bgColor?: string
