@@ -187,6 +187,8 @@ export const AnyNode = ({
                   <RowBlock $truncateLongText={appOptions.truncateLongText}>
                     <TextBlock
                       title={n.label}
+                      $color={currentTheme.text?.color}
+                      $hoverColor={currentTheme.text?.hoverColor}
                       $selected={isSelected}
                       $selectedColor={currentTheme.text?.selectedColor}
                       $truncateLongText={appOptions.truncateLongText}
@@ -236,6 +238,8 @@ export const AnyNode = ({
                       <RowBlock>
                         <TextBlock
                           title="[No items]"
+                          $color={currentTheme.text?.color}
+                          $hoverColor={currentTheme.text?.hoverColor}
                           $truncateLongText={appOptions.truncateLongText}
                         >
                           {appOptions.messages.emptyItems}
@@ -298,6 +302,8 @@ export const AnyNode = ({
                             >
                               <TextBlock
                                 title={item.label}
+                                $color={currentTheme.text?.color}
+                                $hoverColor={currentTheme.text?.hoverColor}
                                 $selected={isSelected}
                                 $selectedColor={
                                   currentTheme.text?.selectedColor

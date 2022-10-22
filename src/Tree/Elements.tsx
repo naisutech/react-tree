@@ -31,9 +31,9 @@ export const UniversalNode = styled(UniversalNodeContainer)<{
   $border?: string
   $borderColor?: string
   $backgroundColor?: string
-  $selected?: boolean
+  $selected?: boolean | null
   $selectedBgColor?: string
-  $hoverColor?: string
+  $hoverColor?: string | null
 }>`
   flex-direction: row;
   align-items: center;
@@ -44,15 +44,21 @@ export const UniversalNode = styled(UniversalNodeContainer)<{
   border-top: ${({ $border }) => $border || '1px solid'};
   border-top-color: ${({ $borderColor }) => $borderColor || 'transparent'};
   ${({ $selected, $selectedBgColor }) => {
-    return $selected ? `background-color: ${$selectedBgColor || 'initial'}` : ''
+    return $selected && $selectedBgColor
+      ? `background-color: ${$selectedBgColor || 'initial'}`
+      : ''
   }};
 
-  &:hover {
-    cursor: pointer;
-    ${({ $hoverColor }) => {
-      return `background-color: ${$hoverColor || 'initial'};`
-    }}
-  }
+  ${({ $hoverColor }) => {
+    return $hoverColor
+      ? `
+      &:hover {
+        cursor: pointer;
+        background-color: ${$hoverColor || 'initial'};
+      }
+    `
+      : ``
+  }}
 `
 
 export const RowBlock = styled(motion.div)<{
@@ -66,13 +72,21 @@ export const RowBlock = styled(motion.div)<{
 export const ColumnBlock = styled(RowBlock)(() => [`flex-direction: column;`])
 
 export const TextBlock = styled(motion.p)<{
+  $color?: string
   $selected?: boolean
-  $selectedColor?: string
+  $selectedColor?: string | null
+  $hoverColor?: string | null
   $truncateLongText?: boolean
-}>(({ $selected, $selectedColor, $truncateLongText }) => [
+}>(({ $color, $hoverColor, $selected, $selectedColor, $truncateLongText }) => [
   `padding: 0;`,
   `margin: 0;`,
-  $selected ? `color: ${$selectedColor || 'initial'};` : ``,
+  `color: ${$color || 'initial'};`,
+  $selected && $selectedColor ? `color: ${$selectedColor || 'initial'};` : ``,
+  $hoverColor
+    ? `&:hover {
+    color: ${$hoverColor};
+  }`
+    : ``,
   $truncateLongText
     ? `
     overflow-x: hidden;
