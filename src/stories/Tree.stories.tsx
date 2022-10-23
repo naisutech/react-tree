@@ -84,6 +84,7 @@ Basic.args = {
   showEmptyItems: true,
   noIcons: false,
   truncateLongText: false,
+  multiSelect: false,
   containerStyles: {},
   RenderNode: '',
   RenderIcon: '',

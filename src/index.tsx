@@ -37,6 +37,7 @@ export declare interface ReactTreeProps {
   showEmptyItems?: boolean
   noIcons?: boolean
   truncateLongText?: boolean
+  multiSelect?: boolean
   containerStyles?: React.CSSProperties
   RenderNode?: TreeRenderFn
   RenderIcon?: TreeRenderFn
@@ -67,6 +68,7 @@ export const ReactTree = React.forwardRef(
       showEmptyItems = false,
       noIcons = false,
       truncateLongText = false,
+      multiSelect = false,
       containerStyles,
       RenderNode,
       RenderIcon,
@@ -102,6 +104,7 @@ export const ReactTree = React.forwardRef(
               showEmptyItems,
               noIcons,
               truncateLongText,
+              multiSelect,
               messages
             }}
             theme={theme}

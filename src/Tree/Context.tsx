@@ -34,6 +34,7 @@ export interface ReactTreeState {
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
+    multiSelect: boolean
     messages: {
       noData?: React.ReactNode
       loading?: React.ReactNode
@@ -58,6 +59,7 @@ const _ReactTreeContext = React.createContext<TReactTreeContext>({
     noIcons: false,
     lazy: false,
     truncateLongText: false,
+    multiSelect: false,
     messages: {
       loading: 'Loading...',
       noData: 'No data to render 😔',
@@ -118,6 +120,7 @@ const ReactTreeContextProvider = ({
     showEmptyItems?: boolean
     noIcons?: boolean
     truncateLongText?: boolean
+    multiSelect?: boolean
     messages?: {
       noData?: React.ReactNode
       loading?: React.ReactNode
@@ -156,6 +159,7 @@ const ReactTreeContextProvider = ({
     showEmptyItems: boolean
     noIcons: boolean
     truncateLongText: boolean
+    multiSelect: boolean
     messages: {
       noData: React.ReactNode
       loading: React.ReactNode
@@ -168,6 +172,7 @@ const ReactTreeContextProvider = ({
     showEmptyItems: options.showEmptyItems || false,
     noIcons: options.noIcons || false,
     truncateLongText: options.truncateLongText || false,
+    multiSelect: options.multiSelect || false,
     messages: {
       loading: options.messages?.loading || 'Loading...',
       noData: options.messages?.noData || 'No data to render 😔',
@@ -281,6 +286,7 @@ const ReactTreeContextProvider = ({
       showEmptyItems: options.showEmptyItems || false,
       noIcons: options.noIcons || false,
       truncateLongText: options.truncateLongText || false,
+      multiSelect: options.multiSelect || false,
       messages: {
         loading: options.messages?.loading || 'Loading...',
         noData: options.messages?.noData || 'No data to render 😔',

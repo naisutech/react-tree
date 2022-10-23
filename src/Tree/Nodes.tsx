@@ -92,15 +92,16 @@ export const AnyNode = ({
     ) => {
       let nodeSet: TreeNodeId[] = []
 
-      // include already selected if modified key pressed
-      if (event.ctrlKey || event.metaKey) {
+      // include already selected if modified key pressed (multiselect)
+      if (appOptions.multiSelect && (event.ctrlKey || event.metaKey)) {
         nodeSet.push(...selectedNodes.filter(n => n !== nodeId))
       }
 
-      // exclude already selected for toggle purposes
+      // exclude already selected (toggle)
       if (!selectedNodes.includes(nodeId)) nodeSet.push(nodeId)
 
       // handle unique case when component is in controlled mode
+      // fire external event listeners instead of internal state management
       if (controlledSelected) {
         if (onToggleSelectedNodes) onToggleSelectedNodes(nodeSet)
         return
@@ -108,7 +109,7 @@ export const AnyNode = ({
 
       toggleSelectedNodes(nodeSet)
     },
-    [selectedNodes]
+    [selectedNodes, toggleSelectedNodes, onToggleSelectedNodes, appOptions]
   )
 
   // get current theme out of the theme list
