@@ -26,6 +26,7 @@ export declare type TreeRenderFn = ({
   type,
   selected = false,
   open = false,
+  Icon,
   context
 }: {
   node: TreeNode

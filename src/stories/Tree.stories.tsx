@@ -2,10 +2,29 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ReactTree, TreeNodeId } from '..'
+import { ReactTree, TreeRenderFn } from '..'
 
 import { storyNodes } from './fixtures/Nodes'
 import { storyCustomTheme } from './fixtures/Theme'
+
+const CustomNode: TreeRenderFn = ({ node }) => {
+  return <div title="UGH">{node.label}</div>
+}
+
+const CustomIcon: TreeRenderFn = () => {
+  return (
+    <div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={16}
+        height={16}
+        viewBox="0 0 16 16"
+      >
+        <rect width="100%" height="100%" fill="black" />
+      </svg>
+    </div>
+  )
+}
 
 export default {
   title: '@naisutech/react-tree',
@@ -22,8 +41,23 @@ export default {
         type: 'object'
       }
     },
-    RenderNode: { control: 'text' },
-    RenderIcon: { control: 'text' }
+    RenderNode: {
+      defaultValue: 'None',
+      options: ['None', 'Custom'],
+      mapping: {
+        None: undefined,
+        Custom: CustomNode
+      }
+    },
+
+    RenderIcon: {
+      defaultValue: 'None',
+      options: ['None', 'Custom'],
+      mapping: {
+        None: undefined,
+        Custom: CustomIcon
+      }
+    }
   }
 } as ComponentMeta<typeof ReactTree>
 

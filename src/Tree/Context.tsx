@@ -314,8 +314,6 @@ const ReactTreeContextProvider = ({
     onToggleSelectedNodes
   ])
 
-  console.log({ value })
-
   return (
     <_ReactTreeContext.Provider value={value}>
       {children}
