@@ -164,14 +164,24 @@ export const AnyNode = ({
                           : {}
                       }
                     >
-                      <NodeIcon
-                        node={n}
-                        type="node"
-                        Icon={Icons.node}
-                        context={treeContext}
-                        open={isOpen}
-                        selected={isSelected}
-                      />
+                      {RenderIcon ? (
+                        <NodeIcon
+                          node={n}
+                          type="node"
+                          Icon={Icons.node}
+                          context={treeContext}
+                          open={isOpen}
+                          selected={isSelected}
+                        />
+                      ) : (
+                        <NodeIcon
+                          node={n}
+                          type="node"
+                          context={treeContext}
+                          open={isOpen}
+                          selected={isSelected}
+                        />
+                      )}
                     </IconBlock>
                   </RowBlock>
                 )}
@@ -280,13 +290,22 @@ export const AnyNode = ({
                               $size={currentTheme.nodes?.icons?.size}
                               style={{ paddingRight: '.25rem' }}
                             >
-                              <LeafIcon
-                                node={item}
-                                type="leaf"
-                                Icon={Icons.node}
-                                context={treeContext}
-                                selected={isSelected}
-                              />
+                              {RenderIcon ? (
+                                <LeafIcon
+                                  node={item}
+                                  type="leaf"
+                                  Icon={Icons.file}
+                                  context={treeContext}
+                                  selected={isSelected}
+                                />
+                              ) : (
+                                <LeafIcon
+                                  node={item}
+                                  type="leaf"
+                                  context={treeContext}
+                                  selected={isSelected}
+                                />
+                              )}
                             </IconBlock>
                           )}
                           {typeof RenderNode === 'function' ? (

@@ -34,13 +34,13 @@ a hierarchical tree component for React in Typescript
 There is only one required prop: `nodes` (see **Data format**)
 
 ```jsx
-import Tree from '@naisutech/react-tree'
+import { ReactTree } from '@naisutech/react-tree'
 
 // component code
 
 const data = ... // fetch data
 
-<Tree nodes={data}  />
+<ReactTree nodes={data}  />
 ```
 
 ## Data format
@@ -85,7 +85,7 @@ There are a number of optional properties which
 can be used to customise the UX of your _React Tree_ component. You can explore the full interactive docs [here](https://naisutech.github.io/react-tree/) or you can refer to the sample code below:
 
 ```tsx
-<Tree
+<ReactTree
   nodes: TreeNodeList
   defaultOpenNodes?: TreeNodeId[]
   defaultSelectedNodes?: TreeNodeId[]
