@@ -42,7 +42,6 @@ export default {
       }
     },
     RenderNode: {
-      defaultValue: 'None',
       options: ['None', 'Custom'],
       mapping: {
         None: undefined,
@@ -51,7 +50,6 @@ export default {
     },
 
     RenderIcon: {
-      defaultValue: 'None',
       options: ['None', 'Custom'],
       mapping: {
         None: undefined,
@@ -86,8 +84,8 @@ Basic.args = {
   truncateLongText: false,
   multiSelect: false,
   containerStyles: {},
-  RenderNode: '',
-  RenderIcon: '',
+  RenderNode: 'None',
+  RenderIcon: 'None',
   selectedNodes: undefined,
   openNodes: undefined
 }
