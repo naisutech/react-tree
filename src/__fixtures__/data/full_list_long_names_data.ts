@@ -1,5 +1,5 @@
 import { nanoid as uid } from 'nanoid'
-import type { TreeNodeList } from '../../Tree'
+import type { TreeNodeList } from '../../tree'
 
 const rootNodes: TreeNodeList = [
   {

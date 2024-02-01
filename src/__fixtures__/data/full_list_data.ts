@@ -1,21 +1,19 @@
-import { customAlphabet } from 'nanoid'
-import { TreeNodeList } from 'Tree'
-
-const nanoid = customAlphabet('0123456789', 3)
+import { nanoid } from 'nanoid'
+import type { TreeNodeList } from '../../tree'
 
 const rootNodes: TreeNodeList = [
   {
-    id: 'NodeTest1',
+    id: nanoid(),
     parentId: null,
     label: 'Root 1'
   },
   {
-    id: '2',
+    id: nanoid(),
     parentId: null,
     label: 'Root 2'
   },
   {
-    id: '3',
+    id: nanoid(),
     parentId: null,
     label: 'Root 3'
   }
@@ -23,7 +21,7 @@ const rootNodes: TreeNodeList = [
 
 const childNodes: TreeNodeList = [
   {
-    id: 'NodeTest1-1',
+    id: nanoid(),
     parentId: rootNodes[0].id,
     label: 'Child 1',
     items: []
@@ -49,23 +47,18 @@ const childChildNodes: TreeNodeList = [
   {
     id: nanoid(),
     parentId: childNodes[0].id,
-    label: 'Child 1 Child 1'
+    label: 'Child Child 1'
   },
   {
     id: nanoid(),
     parentId: childNodes[1].id,
-    label: 'Child 2 Child 1',
+    label: 'Child Child 2',
     items: []
   },
   {
     id: nanoid(),
     parentId: childNodes[2].id,
-    label: 'Child 3 Child 1'
-  },
-  {
-    id: nanoid(),
-    parentId: childNodes[2].id,
-    label: 'Child 3 Child 2'
+    label: 'Child Child 3'
   }
 ]
 
@@ -87,15 +80,7 @@ for (let i = 0; i < 3; i++) {
   }
 }
 
-if (childNodes[0].items) {
-  childNodes[0].items.push({
-    id: 'FTest',
-    parentId: childNodes[0].id,
-    label: 'File Test'
-  })
-}
-
-export const storyNodes: TreeNodeList = [
+export const nodes: TreeNodeList = [
   ...rootNodes,
   ...childNodes,
   ...childChildNodes

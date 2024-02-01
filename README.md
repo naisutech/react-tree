@@ -16,7 +16,7 @@ a hierarchical tree component for React in Typescript
 - Toggle support for long-object labels with `truncateLongText` prop
 - Title attributes on hover for truncated labels that are too long for container
 - Toggle support for empty folders with `displayEmpty` prop
-- Customizable component message strings with `messages` prop (no data, empty folders, loading) 
+- Customizable component message strings with `messages` prop (no data, empty folders, loading)
 - Display a loading indicator and nothing when in loading state with `loading` prop
 - Opt-in animated micro-interactions for opening/closing folders
 - Multi-select API! hold your OS's `meta` key or `ctrl` key to be able to select/deselect multiple-nodes
@@ -24,7 +24,6 @@ a hierarchical tree component for React in Typescript
 - **NEW in v3** new context-based state management for better maintainability and handling of business logic
 - **NEW in v3** moved `react-dom` and `styled-components` to `peerDependencies`
 - **NEW in v3** Custom render functions for nodes and icons (full node context passed to render function with open/selected status)
-
 
 ## Add to a project
 
@@ -113,10 +112,10 @@ can be used to customise the UX of your _React Tree_ component. You can explore 
 ### Props list
 
 | **Prop name**               | **Prop type**                                                                           | **Default**                                                                       | **Required** | **Description**                                                                                                                                          |
-|-----------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `nodes`                     | `TreeNodeList`                                                                          | `[]`                                                                              | Y            | The data set for react tree to render                                                                                                                    |
 | `defaultOpenNodes`          | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The default set of open nodes. Specify when you intend to use the component in uncontrolled mode                                                         |
-| `defaultSelectedNodes`     | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The default set of selected nodes. Specify when you intend to use the component in uncontrolled mode                                                     |
+| `defaultSelectedNodes`      | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The default set of selected nodes. Specify when you intend to use the component in uncontrolled mode                                                     |
 | `openNodes`                 | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The currently open nodes. Specify when you intend to use the component in controlled mode.                                                               |
 | `selectedNodes`             | `TreeNodeId[]`                                                                          | `undefined`                                                                       | N            | The currently selected nodes. Specify when you intend to use the component in controlled mode.                                                           |
 | `theme`                     | `string`                                                                                | `light`                                                                           | N            | The curently selected theme (built-in themes are `light`, and `dark`)                                                                                    |
@@ -146,17 +145,22 @@ _React Tree_ exposes a hook `useReactTreeApi` which you can use to imperatively 
 ### Usage
 
 ```tsx
-import ReactTree, { useReactTreeApi } from "@naisutech/react-tree"
+import ReactTree, { useReactTreeApi } from '@naisutech/react-tree'
 const App = () => {
   const treeApi = useReactTreeApi()
 
-  return <div>
-    <button onClick={() => { treeApi.current.toggleAllNodesOpenState("open") }}>Expand all</button>
-    <ReactTree
-      nodes={[]}
-      ref={treeApi}
-    />
-  </div>
+  return (
+    <div>
+      <button
+        onClick={() => {
+          treeApi.current.toggleAllNodesOpenState('open')
+        }}
+      >
+        Expand all
+      </button>
+      <ReactTree nodes={[]} ref={treeApi} />
+    </div>
+  )
 }
 ```
 
@@ -166,7 +170,7 @@ Full details of the _React Tree_ API:
 
 ```ts
 interface ReactTreeApi {
-  getOpenNodes: () => (number | string)[]  // get a list of all open nodes
+  getOpenNodes: () => (number | string)[] // get a list of all open nodes
   getSelectedNodes: () => (number | string)[] // get a list of all selected nodes
   toggleNodeSelectedState: (node: string | number) => void // toggle a node selected/unselected. This is an inclusive operation (all other selected nodes are retained)
   toggleNodeOpenState: (node: string | number) => void // toggle a node open. This is an inclusive operation (all other open nodes are retained)
@@ -275,7 +279,7 @@ const myThemes: ThemeSettings = {
 
 _React Tree_ includes two props `RenderNode` and `RenderIcon` which can be used to fully customize the appearance and behaviour of the component
 
-### API 
+### API
 
 Icons and nodes both use the same API, `TreeRenderFn`:
 
@@ -303,12 +307,11 @@ type TreeRenderFn = ({
 - `icon: React.ReactNode` - the SVG component of the original _React Tree_ icon if you want to use it
 - `context: TReactTreeContext` - the entire _React Tree_ context including the state, and API methods
 
-
 ### Nodes
 
 _ReactTree_ will call (if provided) the `RenderNode` icon with the API for TreeRenderFn. This should be enough information to render any customization you need.
 
-**N.B.** if you use the prop `truncateLongText` you'll notice that unless you properly style your custom node elements, it will take no effect. As explained elsewhere, you'll need to make sure that a) the container is styled to have a fixed width and b) that the custom node is styled `overflow-x: hidden;` and `text-overflow: ellipsis` to be rendered correctly. 
+**N.B.** if you use the prop `truncateLongText` you'll notice that unless you properly style your custom node elements, it will take no effect. As explained elsewhere, you'll need to make sure that a) the container is styled to have a fixed width and b) that the custom node is styled `overflow-x: hidden;` and `text-overflow: ellipsis` to be rendered correctly.
 
 ### Icons
 
